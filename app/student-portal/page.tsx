@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Header from '@/components/header'
 import { ProtectedRoute } from '@/components/protected-route'
 import { useAuth } from '@/context/auth-context'
-import { BookOpen, Clock, CheckCircle, AlertCircle, Download, Award, TrendingUp, Bell } from 'lucide-react'
+import { BookOpen, Clock, CheckCircle, AlertCircle, Download, Award, TrendingUp, Bell, User, Megaphone, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 
 function StudentPortalContent() {
@@ -147,7 +147,7 @@ function StudentPortalContent() {
                     <div className="flex justify-between items-start mb-6">
                       <div className="flex-1">
                         <h3 className="text-2xl font-bold text-slate-900 group-hover:text-blue-600 transition mb-2">{course.name}</h3>
-                        <p className="text-slate-600 text-base">👨‍🏫 {course.instructor}</p>
+<p className="text-slate-600 text-base inline-flex items-center gap-1.5"><User size={16} className="text-blue-600" /> {course.instructor}</p>
                       </div>
                       <span className={`bg-gradient-to-r ${gradeColors[course.grade]} text-white text-base font-bold px-5 py-3 rounded-xl shadow-lg`}>
                         {course.grade}
@@ -238,7 +238,7 @@ function StudentPortalContent() {
                           </div>
                           <h4 className="text-2xl font-bold text-slate-900 mb-2">{notice.title}</h4>
                           <p className="text-slate-700 mb-3 leading-relaxed">{notice.content}</p>
-                          <p className="text-sm text-slate-600">📢 By {notice.createdBy}</p>
+<p className="text-sm text-slate-600 inline-flex items-center gap-1.5"><Megaphone size={14} className="text-blue-600" /> By {notice.createdBy}</p>
                         </div>
                       </div>
                     </div>
@@ -250,8 +250,9 @@ function StudentPortalContent() {
         </div>
 
         {/* Back Link */}
-        <Link href="/" className="inline-block mt-8 text-blue-600 hover:text-blue-700 font-semibold flex items-center gap-2 group">
-          <span className="group-hover:-translate-x-1 transition">←</span> Back to Home
+<Link href="/" className="inline-block mt-8 text-blue-600 hover:text-blue-700 font-semibold flex items-center gap-2 group">
+          <ArrowLeft size={20} className="group-hover:-translate-x-1 transition" />
+          Back to Home
         </Link>
       </div>
     </main>

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Header from '@/components/header'
-import { Calendar, MapPin, Users, ChevronRight, Filter, Bell } from 'lucide-react'
+import { Calendar, MapPin, Users, ArrowLeft, Filter, Image as ImageIcon } from 'lucide-react'
 import Link from 'next/link'
 
 export default function EventsPage() {
@@ -18,7 +18,8 @@ export default function EventsPage() {
       category: 'sports',
       attendees: 500,
       description: 'Experience an exciting day of athletic competitions and team sports.',
-      color: 'from-orange-500 to-orange-600'
+      color: 'from-orange-500 to-orange-600',
+      image: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=800&q=80'
     },
     {
       id: 2,
@@ -29,7 +30,8 @@ export default function EventsPage() {
       category: 'academic',
       attendees: 350,
       description: 'Showcase innovative science projects and experiments.',
-      color: 'from-blue-500 to-blue-600'
+      color: 'from-blue-500 to-blue-600',
+      image: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=800&q=80'
     },
     {
       id: 3,
@@ -40,7 +42,8 @@ export default function EventsPage() {
       category: 'cultural',
       attendees: 1000,
       description: 'Join us for an evening of cultural performances and awards.',
-      color: 'from-pink-500 to-pink-600'
+      color: 'from-pink-500 to-pink-600',
+      image: 'https://images.unsplash.com/photo-1511578314322-379afb476865?w=800&q=80'
     },
     {
       id: 4,
@@ -51,7 +54,8 @@ export default function EventsPage() {
       category: 'academic',
       attendees: 600,
       description: 'Meet leading companies and explore career opportunities.',
-      color: 'from-emerald-500 to-emerald-600'
+      color: 'from-emerald-500 to-emerald-600',
+      image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80'
     },
     {
       id: 5,
@@ -62,7 +66,8 @@ export default function EventsPage() {
       category: 'competition',
       attendees: 200,
       description: 'Watch talented debaters compete in national championship.',
-      color: 'from-purple-500 to-purple-600'
+      color: 'from-purple-500 to-purple-600',
+      image: 'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=800&q=80'
     },
     {
       id: 6,
@@ -72,8 +77,9 @@ export default function EventsPage() {
       location: 'School Grounds',
       category: 'social',
       attendees: 800,
-      description: 'Reconnect with alumni and celebrate school\'s legacy.',
-      color: 'from-indigo-500 to-indigo-600'
+      description: "Reconnect with alumni and celebrate school's legacy.",
+      color: 'from-indigo-500 to-indigo-600',
+      image: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&q=80'
     },
   ]
 
@@ -122,8 +128,19 @@ export default function EventsPage() {
               key={event.id}
               className="group relative bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-2xl hover:border-slate-300 transition-all duration-300 transform hover:-translate-y-2"
             >
-              {/* Gradient Header */}
-              <div className={`h-24 bg-gradient-to-r ${event.color} opacity-90`}></div>
+              {/* Event Image */}
+              <div className="relative h-48 overflow-hidden">
+                <img
+                  src={event.image}
+                  alt={event.title}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+                <div className={`absolute inset-0 bg-gradient-to-t ${event.color} opacity-30`}></div>
+                <span className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm text-slate-900 text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5">
+                  <ImageIcon size={14} className="text-pink-600" />
+                  Gallery
+                </span>
+              </div>
 
               {/* Content */}
               <div className="p-6">
@@ -146,39 +163,19 @@ export default function EventsPage() {
                   </div>
                 </div>
 
-                {/* Register Button */}
-                <button className="w-full bg-gradient-to-r from-pink-600 to-rose-600 text-white py-3 rounded-lg font-bold hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 group">
-                  Register Now
-                  <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                {/* View Details Button (view-only, no registration) */}
+                <button className="w-full bg-gradient-to-r from-pink-600 to-rose-600 text-white py-3 rounded-lg font-bold hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2">
+                  View Photos & Details
+                  <ArrowLeft size={20} className="rotate-180 group-hover:translate-x-1 transition-transform" />
                 </button>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Newsletter Section */}
-        <div className="bg-gradient-to-r from-blue-600 to-cyan-600 rounded-2xl p-8 text-white">
-          <div className="flex items-start gap-4">
-            <Bell size={32} className="mt-1 flex-shrink-0" />
-            <div className="flex-1">
-              <h2 className="text-2xl font-bold mb-2">Never Miss an Event</h2>
-              <p className="text-blue-100 mb-4">Subscribe to get instant notifications about all upcoming school events</p>
-              <div className="flex gap-3 flex-col sm:flex-row">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="flex-1 px-4 py-3 rounded-lg text-slate-900 focus:outline-none"
-                />
-                <button className="bg-white text-blue-600 px-8 py-3 rounded-lg font-bold hover:bg-blue-50 transition whitespace-nowrap">
-                  Subscribe
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <Link href="/" className="inline-block mt-12 text-pink-600 hover:text-pink-700 font-semibold flex items-center gap-2 group">
-          <span className="group-hover:-translate-x-1 transition">←</span> Back to Home
+          <ArrowLeft size={20} className="group-hover:-translate-x-1 transition" />
+          Back to Home
         </Link>
       </div>
     </main>

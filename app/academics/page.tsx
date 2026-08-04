@@ -1,7 +1,7 @@
 'use client'
 
 import Header from '@/components/header'
-import { BookOpen, Users, Award, Sparkles, ArrowRight } from 'lucide-react'
+import { BookOpen, Users, Award, Sparkles, ArrowRight, Target, Star, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 
 export default function AcademicsPage() {
@@ -97,7 +97,7 @@ export default function AcademicsPage() {
                 <h3 className="text-2xl font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition">{program.name}</h3>
                 <p className="text-slate-600 mb-4">{program.focus}</p>
                 <div className="flex items-center justify-between pt-4 border-t border-slate-200">
-                  <span className="text-sm font-semibold text-slate-600">👥 {program.students} Students</span>
+                  <span className="text-sm font-semibold text-slate-600 inline-flex items-center gap-1.5"><Users size={15} className="text-blue-600" /> {program.students} Students</span>
                   <ArrowRight size={20} className="text-blue-600 group-hover:translate-x-2 transition-transform" />
                 </div>
               </div>
@@ -126,17 +126,17 @@ export default function AcademicsPage() {
           <h2 className="text-4xl font-bold mb-12 text-center">Our Teaching Approach</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-white/10 backdrop-blur-sm border border-white/20 p-8 rounded-2xl hover:bg-white/20 transition-all">
-              <div className="text-4xl mb-4">🎯</div>
+<div className="mb-4 flex justify-center"><Target size={40} className="text-white" /></div>
               <h3 className="text-xl font-bold mb-3">Interactive Learning</h3>
               <p className="text-blue-100">Blend traditional methods with technology for engaging experiences</p>
             </div>
             <div className="bg-white/10 backdrop-blur-sm border border-white/20 p-8 rounded-2xl hover:bg-white/20 transition-all">
-              <div className="text-4xl mb-4">👥</div>
+<div className="mb-4 flex justify-center"><Users size={40} className="text-white" /></div>
               <h3 className="text-xl font-bold mb-3">Personalized Attention</h3>
               <p className="text-blue-100">Small classes ensure individual focus and tailored guidance</p>
             </div>
             <div className="bg-white/10 backdrop-blur-sm border border-white/20 p-8 rounded-2xl hover:bg-white/20 transition-all">
-              <div className="text-4xl mb-4">🌟</div>
+<div className="mb-4 flex justify-center"><Star size={40} className="text-white" /></div>
               <h3 className="text-xl font-bold mb-3">Holistic Development</h3>
               <p className="text-blue-100">Character building and overall personality growth</p>
             </div>

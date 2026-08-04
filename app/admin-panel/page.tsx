@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Header from '@/components/header'
-import { BarChart3, Users, TrendingUp, PieChart } from 'lucide-react'
+import { BarChart3, Users, TrendingUp, PieChart, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 
 export default function AdminPanel() {
@@ -235,8 +235,9 @@ export default function AdminPanel() {
           </div>
         </div>
 
-        <Link href="/" className="text-blue-600 hover:text-blue-700 font-medium">
-          ← Back to Home
+<Link href="/" className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium">
+          <ArrowLeft size={16} />
+          Back to Home
         </Link>
       </div>
     </main>

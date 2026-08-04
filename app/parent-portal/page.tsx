@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Header from '@/components/header'
 import { ProtectedRoute } from '@/components/protected-route'
 import { useAuth } from '@/context/auth-context'
-import { BookOpen, TrendingUp, AlertCircle, CheckCircle, Clock, CreditCard, AlertTriangle, Bell, X } from 'lucide-react'
+import { BookOpen, TrendingUp, AlertCircle, CheckCircle, Clock, CreditCard, AlertTriangle, Bell, X, Megaphone, ShieldCheck, Smartphone, Landmark, ArrowLeft, Check } from 'lucide-react'
 import Link from 'next/link'
 
 function ParentPortalContent() {
@@ -283,7 +283,7 @@ function ParentPortalContent() {
                           </div>
                           <h4 className="text-2xl font-bold text-slate-900 mb-2">{notice.title}</h4>
                           <p className="text-slate-700 mb-3 leading-relaxed">{notice.content}</p>
-                          <p className="text-sm text-slate-600">📢 By {notice.createdBy}</p>
+<p className="text-sm text-slate-600 inline-flex items-center gap-1.5"><Megaphone size={14} className="text-blue-600" /> By {notice.createdBy}</p>
                         </div>
                       </div>
                     </div>
@@ -306,23 +306,32 @@ function ParentPortalContent() {
               <p className="text-sm text-slate-600 mt-2">Student: {child.name} • Class: {child.class}</p>
             </div>
 
-            <div className="space-y-3 mb-6">
-              <div className="p-4 border-2 border-slate-200 rounded-xl cursor-pointer hover:border-purple-500 transition">
-                <p className="font-bold text-slate-900">💳 Credit/Debit Card</p>
-                <p className="text-sm text-slate-600">Visa, Mastercard, RuPay</p>
+<div className="space-y-3 mb-6">
+              <div className="flex items-center gap-3 p-4 border-2 border-slate-200 rounded-xl cursor-pointer hover:border-purple-500 transition">
+                <CreditCard size={24} className="text-purple-500 flex-shrink-0" />
+                <div>
+                  <p className="font-bold text-slate-900">Credit/Debit Card</p>
+                  <p className="text-sm text-slate-600">Visa, Mastercard, RuPay</p>
+                </div>
               </div>
-              <div className="p-4 border-2 border-slate-200 rounded-xl cursor-pointer hover:border-purple-500 transition">
-                <p className="font-bold text-slate-900">📱 UPI Payment</p>
-                <p className="text-sm text-slate-600">Google Pay, PhonePe, Paytm</p>
+              <div className="flex items-center gap-3 p-4 border-2 border-slate-200 rounded-xl cursor-pointer hover:border-purple-500 transition">
+                <Smartphone size={24} className="text-purple-500 flex-shrink-0" />
+                <div>
+                  <p className="font-bold text-slate-900">UPI Payment</p>
+                  <p className="text-sm text-slate-600">Google Pay, PhonePe, Paytm</p>
+                </div>
               </div>
-              <div className="p-4 border-2 border-slate-200 rounded-xl cursor-pointer hover:border-purple-500 transition">
-                <p className="font-bold text-slate-900">🏦 Bank Transfer</p>
-                <p className="text-sm text-slate-600">Direct NEFT/RTGS Transfer</p>
+              <div className="flex items-center gap-3 p-4 border-2 border-slate-200 rounded-xl cursor-pointer hover:border-purple-500 transition">
+                <Landmark size={24} className="text-purple-500 flex-shrink-0" />
+                <div>
+                  <p className="font-bold text-slate-900">Bank Transfer</p>
+                  <p className="text-sm text-slate-600">Direct NEFT/RTGS Transfer</p>
+                </div>
               </div>
             </div>
 
             <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded mb-6">
-              <p className="text-sm text-slate-700">✓ Secure Payment • 100% Safe • No Hidden Charges</p>
+<p className="text-sm text-slate-700 inline-flex items-center gap-2"><ShieldCheck size={16} className="text-blue-600 flex-shrink-0" /> Secure Payment • 100% Safe • No Hidden Charges</p>
             </div>
 
             <div className="flex gap-4">
@@ -346,8 +355,9 @@ function ParentPortalContent() {
         </div>
       )}
 
-      <Link href="/" className="inline-block mt-12 text-blue-600 hover:text-blue-700 font-semibold flex items-center gap-2 group m-8">
-        <span className="group-hover:-translate-x-1 transition">←</span> Back to Home
+<Link href="/" className="inline-block mt-12 text-blue-600 hover:text-blue-700 font-semibold flex items-center gap-2 group m-8">
+        <ArrowLeft size={20} className="group-hover:-translate-x-1 transition" />
+        Back to Home
       </Link>
     </main>
   )

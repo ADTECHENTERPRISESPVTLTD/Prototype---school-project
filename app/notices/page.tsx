@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Header from '@/components/header'
-import { Bell, AlertCircle, Info, CheckCircle, Calendar, Star, ArrowRight, Clock } from 'lucide-react'
+import { Bell, AlertCircle, Info, CheckCircle, Calendar, Star, ArrowRight, Clock, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 
 export default function NoticesPage() {
@@ -189,7 +189,8 @@ export default function NoticesPage() {
         </div>
 
         <Link href="/" className="inline-block mt-12 text-indigo-600 hover:text-indigo-700 font-semibold flex items-center gap-2 group">
-          <span className="group-hover:-translate-x-1 transition">←</span> Back to Home
+          <ArrowLeft size={20} className="group-hover:-translate-x-1 transition" />
+          Back to Home
         </Link>
       </div>
     </main>
