@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Header from '@/components/header'
-import { Users, Calendar, MessageSquare, Award, Network } from 'lucide-react'
+import { Users, Calendar, MessageSquare, Award, Network, ArrowLeft, MapPin } from 'lucide-react'
 import Link from 'next/link'
 
 export default function AlumniPortal() {
@@ -103,10 +103,10 @@ export default function AlumniPortal() {
                   <div key={event.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition">
                     <div className="flex justify-between items-start">
                       <div>
-                        <h3 className="font-semibold text-gray-900">{event.name}</h3>
+<h3 className="font-semibold text-gray-900">{event.name}</h3>
                         <div className="flex gap-4 mt-2 text-sm text-gray-600">
-                          <span>📅 {event.date}</span>
-                          <span>📍 {event.location}</span>
+                          <span className="inline-flex items-center gap-1"><Calendar size={14} /> {event.date}</span>
+                          <span className="inline-flex items-center gap-1"><MapPin size={14} /> {event.location}</span>
                         </div>
                       </div>
                       <div className="text-right">
@@ -116,7 +116,7 @@ export default function AlumniPortal() {
                     </div>
                     <div className="flex gap-3 mt-4">
                       <button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition text-sm">
-                        Register Now
+                        View Details
                       </button>
                       <button className="border border-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-50 transition text-sm">
                         Share Event
@@ -174,8 +174,9 @@ export default function AlumniPortal() {
           </div>
         </div>
 
-        <Link href="/" className="text-blue-600 hover:text-blue-700 font-medium">
-          ← Back to Home
+<Link href="/" className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium">
+          <ArrowLeft size={18} />
+          Back to Home
         </Link>
       </div>
     </main>

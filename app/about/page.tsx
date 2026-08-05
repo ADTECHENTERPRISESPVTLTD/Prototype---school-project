@@ -1,7 +1,7 @@
 'use client'
 
 import Header from '@/components/header'
-import { Heart, Target, Zap, Users, Award, ArrowRight } from 'lucide-react'
+import { Heart, Target, Zap, Users, Award, ArrowRight, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 
 export default function AboutPage() {
@@ -138,7 +138,8 @@ export default function AboutPage() {
 
       <div className="max-w-7xl mx-auto px-4 py-12">
         <Link href="/" className="text-blue-600 hover:text-blue-700 font-semibold flex items-center gap-2 group">
-          <span className="group-hover:-translate-x-1 transition">←</span> Back to Home
+          <ArrowLeft size={20} className="group-hover:-translate-x-1 transition" />
+          Back to Home
         </Link>
       </div>
     </main>

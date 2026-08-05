@@ -2,6 +2,7 @@ import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import { AuthProvider } from '@/context/auth-context'
+import ScrollReveal from '@/components/scroll-reveal'
 
 export const metadata: Metadata = {
   title: 'EduPro Admin - School Management',
@@ -42,7 +43,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased bg-white">
-        <AuthProvider>
+<AuthProvider>
+          <ScrollReveal />
           {children}
           {process.env.NODE_ENV === 'production' && <Analytics />}
         </AuthProvider>

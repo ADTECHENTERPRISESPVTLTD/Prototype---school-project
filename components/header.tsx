@@ -32,7 +32,9 @@ export default function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 border-b-2 border-blue-500 shadow-lg">
+    <header className="relative sticky top-0 z-50 bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 shadow-lg">
+      {/* Animated gradient top border */}
+      <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-blue-500 via-cyan-400 to-purple-500 animate-gradient"></div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
@@ -52,21 +54,23 @@ export default function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-white text-sm font-medium px-3 py-2 rounded-lg hover:bg-blue-700/50 transition-all duration-200"
+                className="relative text-white text-sm font-medium px-3 py-2 rounded-lg hover:bg-blue-700/50 transition-all duration-200 group"
               >
                 {link.label}
+                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-blue-400 rounded-full transition-all duration-300 group-hover:w-2/3"></span>
               </Link>
             ))}
           </nav>
 
           {/* Right Side Icons */}
           <div className="flex items-center gap-2 sm:gap-4">
-            <button className="p-2 hover:bg-blue-700/50 rounded-lg transition hidden sm:flex">
+            <button className="p-2 hover:bg-blue-700/50 hover:scale-110 rounded-lg transition-all duration-200 hidden sm:flex">
               <Search size={20} className="text-white" />
             </button>
-            <button className="p-2 hover:bg-blue-700/50 rounded-lg transition relative hidden sm:flex">
+            <button className="p-2 hover:bg-blue-700/50 hover:scale-110 rounded-lg transition-all duration-200 relative hidden sm:flex">
               <Bell size={20} className="text-white" />
-              <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+              <span className="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full animate-ping"></span>
+              <span className="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full"></span>
             </button>
             
             {/* User Menu */}

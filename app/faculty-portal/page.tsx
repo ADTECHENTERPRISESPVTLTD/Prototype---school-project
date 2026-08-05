@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Header from '@/components/header'
 import { ProtectedRoute } from '@/components/protected-route'
 import { useAuth } from '@/context/auth-context'
-import { Users, BookOpen, BarChart3, Clock, Plus, CheckCircle, AlertCircle, X, Save, Bell, Trash2 } from 'lucide-react'
+import { Users, BookOpen, BarChart3, Clock, Plus, CheckCircle, AlertCircle, X, Save, Bell, Trash2, Edit3, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 
 function FacultyPortalContent() {
@@ -400,7 +400,7 @@ function FacultyPortalContent() {
                           </div>
                           <h4 className="text-2xl font-bold text-slate-900 mb-2">{notice.title}</h4>
                           <p className="text-slate-700 mb-3 leading-relaxed">{notice.content}</p>
-                          <p className="text-sm text-slate-600">📝 By {notice.createdBy}</p>
+<p className="text-sm text-slate-600 inline-flex items-center gap-1.5"><Edit3 size={14} className="text-slate-500" /> By {notice.createdBy}</p>
                         </div>
                         <button
                           onClick={() => handleDeleteNotice(notice.id)}
@@ -478,8 +478,9 @@ function FacultyPortalContent() {
         )}
       </div>
 
-      <Link href="/" className="inline-block mt-12 ml-4 text-slate-700 hover:text-slate-900 font-semibold flex items-center gap-2 group">
-        <span className="group-hover:-translate-x-1 transition">←</span> Back to Home
+<Link href="/" className="inline-block mt-12 ml-4 text-slate-700 hover:text-slate-900 font-semibold flex items-center gap-2 group">
+        <ArrowLeft size={20} className="group-hover:-translate-x-1 transition" />
+        Back to Home
       </Link>
     </main>
   )

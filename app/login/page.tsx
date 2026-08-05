@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth, UserRole } from '@/context/auth-context'
 import Link from 'next/link'
-import { BookOpen, Mail, Lock, AlertCircle } from 'lucide-react'
+import { BookOpen, Mail, Lock, AlertCircle, GraduationCap, BookOpenCheck, Users, Briefcase, ArrowLeft } from 'lucide-react'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
@@ -15,29 +15,29 @@ export default function LoginPage() {
   const { login } = useAuth()
   const router = useRouter()
 
-  const roles: { value: UserRole; label: string; icon: string; description: string }[] = [
+  const roles: { value: UserRole; label: string; Icon: any; description: string }[] = [
     {
       value: 'student',
       label: 'Student',
-      icon: '👨‍🎓',
+      Icon: GraduationCap,
       description: 'View courses & grades',
     },
     {
       value: 'teacher',
       label: 'Teacher',
-      icon: '👩‍🏫',
+      Icon: BookOpenCheck,
       description: 'Manage classes',
     },
     {
       value: 'parent',
       label: 'Parent',
-      icon: '👨‍👩‍👧',
+      Icon: Users,
       description: 'Monitor child',
     },
     {
       value: 'principal',
       label: 'Principal',
-      icon: '👔',
+      Icon: Briefcase,
       description: 'View all data',
     },
   ]
@@ -112,21 +112,24 @@ export default function LoginPage() {
             <div className="mb-8">
               <label className="block text-slate-700 font-bold text-sm mb-4">Select Your Role</label>
               <div className="grid grid-cols-2 gap-3">
-                {roles.map((role) => (
-                  <button
-                    key={role.value}
-                    onClick={() => setSelectedRole(role.value)}
-                    className={`p-4 rounded-lg border-2 transition-all duration-200 text-center ${
-                      selectedRole === role.value
-                        ? 'border-blue-600 bg-blue-50'
-                        : 'border-slate-200 bg-white hover:border-slate-300'
-                    }`}
-                  >
-                    <div className="text-3xl mb-2">{role.icon}</div>
-                    <div className="font-bold text-slate-900">{role.label}</div>
-                    <div className="text-xs text-slate-600">{role.description}</div>
-                  </button>
-                ))}
+{roles.map((role) => {
+                  const Icon = role.Icon
+                  return (
+                    <button
+                      key={role.value}
+                      onClick={() => setSelectedRole(role.value)}
+                      className={`p-4 rounded-lg border-2 transition-all duration-200 text-center ${
+                        selectedRole === role.value
+                          ? 'border-blue-600 bg-blue-50'
+                          : 'border-slate-200 bg-white hover:border-slate-300'
+                      }`}
+                    >
+                      <Icon size={32} className="mx-auto mb-2 text-blue-600" />
+                      <div className="font-bold text-slate-900">{role.label}</div>
+                      <div className="text-xs text-slate-600">{role.description}</div>
+                    </button>
+                  )
+                })}
               </div>
             </div>
 
@@ -211,8 +214,9 @@ export default function LoginPage() {
 
         {/* Back to Home */}
         <div className="text-center mt-6">
-          <Link href="/" className="text-white hover:text-blue-200 text-sm font-medium">
-            ← Back to Home
+<Link href="/" className="inline-flex items-center gap-2 text-white hover:text-blue-200 text-sm font-medium">
+            <ArrowLeft size={16} />
+            Back to Home
           </Link>
         </div>
       </div>
