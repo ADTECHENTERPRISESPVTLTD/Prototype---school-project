@@ -23,7 +23,7 @@ export default function Header() {
   const getPortalRoute = (role: string) => {
     const roleRoutes: { [key: string]: string } = {
       student: '/student-portal',
-      teacher: '/faculty-portal',
+      teacher: '/teacher-portal',
       principal: '/principal-portal',
       parent: '/parent-portal',
       admin: '/admin-portal',
