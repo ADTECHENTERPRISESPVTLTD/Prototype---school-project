@@ -61,79 +61,79 @@ function StudentPortalContent() {
 
       <div className="max-w-7xl mx-auto px-4 py-16">
         {/* Quick Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-14">
-          <div className="group relative bg-gradient-to-br from-blue-500 to-blue-600 text-white p-8 rounded-3xl hover:shadow-2xl transition-all duration-400 transform hover:-translate-y-3 overflow-hidden">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-14">
+          <div className="group relative bg-gradient-to-br from-blue-500 to-blue-600 text-white p-4 sm:p-8 rounded-2xl sm:rounded-3xl hover:shadow-2xl transition-all duration-400 transform hover:-translate-y-3 overflow-hidden">
             <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity"></div>
-            <Award size={36} className="mb-4 opacity-90" />
-            <p className="text-blue-100 text-sm font-bold uppercase tracking-wide">Percentage</p>
-            <p className="text-5xl font-bold mt-3">96.25%</p>
+            <Award className="w-6 h-6 sm:w-9 sm:h-9 mb-2 sm:mb-4 opacity-90" />
+            <p className="text-blue-100 text-xs sm:text-sm font-bold uppercase tracking-wide">Percentage</p>
+            <p className="text-xl sm:text-3xl md:text-5xl font-bold mt-2 sm:mt-3 break-all">96.25%</p>
           </div>
-          <div className="group relative bg-gradient-to-br from-emerald-500 to-emerald-600 text-white p-8 rounded-3xl hover:shadow-2xl transition-all duration-400 transform hover:-translate-y-3 overflow-hidden">
+          <div className="group relative bg-gradient-to-br from-emerald-500 to-emerald-600 text-white p-4 sm:p-8 rounded-2xl sm:rounded-3xl hover:shadow-2xl transition-all duration-400 transform hover:-translate-y-3 overflow-hidden">
             <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity"></div>
-            <BookOpen size={36} className="mb-4 opacity-90" />
-            <p className="text-emerald-100 text-sm font-bold uppercase tracking-wide">Courses</p>
-            <p className="text-5xl font-bold mt-3">4</p>
+            <BookOpen className="w-6 h-6 sm:w-9 sm:h-9 mb-2 sm:mb-4 opacity-90" />
+            <p className="text-emerald-100 text-xs sm:text-sm font-bold uppercase tracking-wide">Courses</p>
+            <p className="text-xl sm:text-3xl md:text-5xl font-bold mt-2 sm:mt-3 break-all">4</p>
           </div>
-          <div className="group relative bg-gradient-to-br from-orange-500 to-orange-600 text-white p-8 rounded-3xl hover:shadow-2xl transition-all duration-400 transform hover:-translate-y-3 overflow-hidden">
+          <div className="group relative bg-gradient-to-br from-orange-500 to-orange-600 text-white p-4 sm:p-8 rounded-2xl sm:rounded-3xl hover:shadow-2xl transition-all duration-400 transform hover:-translate-y-3 overflow-hidden">
             <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity"></div>
-            <Clock size={36} className="mb-4 opacity-90" />
-            <p className="text-orange-100 text-sm font-bold uppercase tracking-wide">Pending</p>
-            <p className="text-5xl font-bold mt-3">2</p>
+            <Clock className="w-6 h-6 sm:w-9 sm:h-9 mb-2 sm:mb-4 opacity-90" />
+            <p className="text-orange-100 text-xs sm:text-sm font-bold uppercase tracking-wide">Pending</p>
+            <p className="text-xl sm:text-3xl md:text-5xl font-bold mt-2 sm:mt-3 break-all">2</p>
           </div>
-          <div className="group relative bg-gradient-to-br from-purple-500 to-purple-600 text-white p-8 rounded-3xl hover:shadow-2xl transition-all duration-400 transform hover:-translate-y-3 overflow-hidden">
+          <div className="group relative bg-gradient-to-br from-purple-500 to-purple-600 text-white p-4 sm:p-8 rounded-2xl sm:rounded-3xl hover:shadow-2xl transition-all duration-400 transform hover:-translate-y-3 overflow-hidden">
             <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity"></div>
-            <TrendingUp size={36} className="mb-4 opacity-90" />
-            <p className="text-purple-100 text-sm font-bold uppercase tracking-wide">Attendance</p>
-            <p className="text-5xl font-bold mt-3">94%</p>
+            <TrendingUp className="w-6 h-6 sm:w-9 sm:h-9 mb-2 sm:mb-4 opacity-90" />
+            <p className="text-purple-100 text-xs sm:text-sm font-bold uppercase tracking-wide">Attendance</p>
+            <p className="text-xl sm:text-3xl md:text-5xl font-bold mt-2 sm:mt-3 break-all">94%</p>
           </div>
         </div>
 
         {/* Tabs Section */}
         <div className="bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden">
           {/* Tab Buttons */}
-          <div className="flex border-b-2 border-slate-200 bg-gradient-to-r from-slate-50 to-slate-100 p-2">
+          <div className="flex border-b-2 border-slate-200 bg-gradient-to-r from-slate-50 to-slate-100 p-2 overflow-x-auto">
             <button
               onClick={() => setActiveTab('courses')}
-              className={`flex-1 px-6 py-4 font-bold text-center transition-all duration-300 flex items-center justify-center gap-2 rounded-xl ${
+              className={`flex-1 px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-base font-bold text-center transition-all duration-300 flex items-center justify-center gap-1 sm:gap-2 rounded-xl whitespace-nowrap ${
                 activeTab === 'courses'
                   ? 'bg-gradient-to-r from-slate-700 to-slate-800 text-white shadow-lg transform scale-105'
                   : 'text-slate-600 hover:bg-white/50'
               }`}
             >
-              <BookOpen size={20} />
+              <BookOpen size={16} className="sm:w-5 sm:h-5" />
               Courses
             </button>
             <button
               onClick={() => setActiveTab('assignments')}
-              className={`flex-1 px-6 py-4 font-bold text-center transition-all duration-300 flex items-center justify-center gap-2 rounded-xl ${
+              className={`flex-1 px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-base font-bold text-center transition-all duration-300 flex items-center justify-center gap-1 sm:gap-2 rounded-xl whitespace-nowrap ${
                 activeTab === 'assignments'
                   ? 'bg-gradient-to-r from-slate-700 to-slate-800 text-white shadow-lg transform scale-105'
                   : 'text-slate-600 hover:bg-white/50'
               }`}
             >
-              <Clock size={20} />
+              <Clock size={16} className="sm:w-5 sm:h-5" />
               Assignments
             </button>
             <button
               onClick={() => setActiveTab('grades')}
-              className={`flex-1 px-6 py-4 font-bold text-center transition-all duration-300 flex items-center justify-center gap-2 rounded-xl ${
+              className={`flex-1 px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-base font-bold text-center transition-all duration-300 flex items-center justify-center gap-1 sm:gap-2 rounded-xl whitespace-nowrap ${
                 activeTab === 'grades'
                   ? 'bg-gradient-to-r from-slate-700 to-slate-800 text-white shadow-lg transform scale-105'
                   : 'text-slate-600 hover:bg-white/50'
               }`}
             >
-              <CheckCircle size={20} />
+              <CheckCircle size={16} className="sm:w-5 sm:h-5" />
               Grades
             </button>
             <button
               onClick={() => setActiveTab('notices')}
-              className={`flex-1 px-6 py-4 font-bold text-center transition-all duration-300 flex items-center justify-center gap-2 rounded-xl ${
+              className={`flex-1 px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-base font-bold text-center transition-all duration-300 flex items-center justify-center gap-1 sm:gap-2 rounded-xl whitespace-nowrap ${
                 activeTab === 'notices'
                   ? 'bg-gradient-to-r from-slate-700 to-slate-800 text-white shadow-lg transform scale-105'
                   : 'text-slate-600 hover:bg-white/50'
               }`}
             >
-              <Bell size={20} />
+              <Bell size={16} className="sm:w-5 sm:h-5" />
               Notices
             </button>
           </div>

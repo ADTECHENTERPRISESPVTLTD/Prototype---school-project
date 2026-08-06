@@ -92,30 +92,30 @@ function ParentPortalContent() {
         </div>
 
         {/* Quick Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-14">
-          <div className="group relative bg-gradient-to-br from-blue-500 to-blue-600 text-white p-8 rounded-3xl hover:shadow-2xl transition-all duration-400 transform hover:-translate-y-3 overflow-hidden">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-14">
+          <div className="group relative bg-gradient-to-br from-blue-500 to-blue-600 text-white p-4 sm:p-8 rounded-2xl sm:rounded-3xl hover:shadow-2xl transition-all duration-400 transform hover:-translate-y-3 overflow-hidden">
             <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity"></div>
-            <BookOpen size={36} className="mb-4 opacity-90" />
-            <p className="text-blue-100 text-sm font-bold uppercase tracking-wide">Courses</p>
-            <p className="text-5xl font-bold mt-3">{courses.length}</p>
+            <BookOpen className="w-6 h-6 sm:w-9 sm:h-9 mb-2 sm:mb-4 opacity-90" />
+            <p className="text-blue-100 text-xs sm:text-sm font-bold uppercase tracking-wide">Courses</p>
+            <p className="text-xl sm:text-3xl md:text-5xl font-bold mt-2 sm:mt-3 break-all">{courses.length}</p>
           </div>
-          <div className="group relative bg-gradient-to-br from-slate-600 to-slate-700 text-white p-8 rounded-3xl hover:shadow-2xl transition-all duration-400 transform hover:-translate-y-3 overflow-hidden">
+          <div className="group relative bg-gradient-to-br from-slate-600 to-slate-700 text-white p-4 sm:p-8 rounded-2xl sm:rounded-3xl hover:shadow-2xl transition-all duration-400 transform hover:-translate-y-3 overflow-hidden">
             <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity"></div>
-            <CheckCircle size={36} className="mb-4 opacity-90" />
-            <p className="text-slate-300 text-sm font-bold uppercase tracking-wide">Avg Grade</p>
-            <p className="text-5xl font-bold mt-3">A</p>
+            <CheckCircle className="w-6 h-6 sm:w-9 sm:h-9 mb-2 sm:mb-4 opacity-90" />
+            <p className="text-slate-300 text-xs sm:text-sm font-bold uppercase tracking-wide">Avg Grade</p>
+            <p className="text-xl sm:text-3xl md:text-5xl font-bold mt-2 sm:mt-3 break-all">A</p>
           </div>
-          <div className="group relative bg-gradient-to-br from-slate-700 to-slate-800 text-white p-8 rounded-3xl hover:shadow-2xl transition-all duration-400 transform hover:-translate-y-3 overflow-hidden">
+          <div className="group relative bg-gradient-to-br from-slate-700 to-slate-800 text-white p-4 sm:p-8 rounded-2xl sm:rounded-3xl hover:shadow-2xl transition-all duration-400 transform hover:-translate-y-3 overflow-hidden">
             <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity"></div>
-            <TrendingUp size={36} className="mb-4 opacity-90" />
-            <p className="text-slate-300 text-sm font-bold uppercase tracking-wide">Attendance</p>
-            <p className="text-5xl font-bold mt-3">{child.attendance}%</p>
+            <TrendingUp className="w-6 h-6 sm:w-9 sm:h-9 mb-2 sm:mb-4 opacity-90" />
+            <p className="text-slate-300 text-xs sm:text-sm font-bold uppercase tracking-wide">Attendance</p>
+            <p className="text-xl sm:text-3xl md:text-5xl font-bold mt-2 sm:mt-3 break-all">{child.attendance}%</p>
           </div>
-          <div className="group relative bg-gradient-to-br from-slate-600 to-slate-700 text-white p-8 rounded-3xl hover:shadow-2xl transition-all duration-400 transform hover:-translate-y-3 overflow-hidden">
+          <div className="group relative bg-gradient-to-br from-slate-600 to-slate-700 text-white p-4 sm:p-8 rounded-2xl sm:rounded-3xl hover:shadow-2xl transition-all duration-400 transform hover:-translate-y-3 overflow-hidden">
             <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity"></div>
-            <CreditCard size={36} className="mb-4 opacity-90" />
-            <p className="text-slate-300 text-sm font-bold uppercase tracking-wide">Pending Fees</p>
-            <p className="text-4xl font-bold mt-3">₹{pendingFees.toLocaleString()}</p>
+            <CreditCard className="w-6 h-6 sm:w-9 sm:h-9 mb-2 sm:mb-4 opacity-90" />
+            <p className="text-slate-300 text-xs sm:text-sm font-bold uppercase tracking-wide">Pending Fees</p>
+            <p className="text-lg sm:text-2xl md:text-4xl font-bold mt-2 sm:mt-3 break-all">₹{pendingFees.toLocaleString()}</p>
           </div>
         </div>
 
@@ -124,35 +124,35 @@ function ParentPortalContent() {
           <div className="flex border-b-2 border-slate-200 bg-gradient-to-r from-slate-50 to-slate-100 p-2 overflow-x-auto">
             <button
               onClick={() => setActiveTab('overview')}
-              className={`px-6 py-4 font-bold text-center transition-all duration-300 flex items-center justify-center gap-2 rounded-xl whitespace-nowrap ${
+              className={`px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-base font-bold text-center transition-all duration-300 flex items-center justify-center gap-1 sm:gap-2 rounded-xl whitespace-nowrap ${
                 activeTab === 'overview'
                   ? 'bg-gradient-to-r from-slate-700 to-slate-800 text-white shadow-lg transform scale-105'
                   : 'text-slate-600 hover:bg-white/50'
               }`}
             >
-              <BookOpen size={20} />
+              <BookOpen size={16} className="sm:w-5 sm:h-5" />
               Overview
             </button>
             <button
               onClick={() => setActiveTab('fees')}
-              className={`px-6 py-4 font-bold text-center transition-all duration-300 flex items-center justify-center gap-2 rounded-xl whitespace-nowrap ${
+              className={`px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-base font-bold text-center transition-all duration-300 flex items-center justify-center gap-1 sm:gap-2 rounded-xl whitespace-nowrap ${
                 activeTab === 'fees'
                   ? 'bg-gradient-to-r from-slate-700 to-slate-800 text-white shadow-lg transform scale-105'
                   : 'text-slate-600 hover:bg-white/50'
               }`}
             >
-              <CreditCard size={20} />
+              <CreditCard size={16} className="sm:w-5 sm:h-5" />
               Fees
             </button>
             <button
               onClick={() => setActiveTab('notices')}
-              className={`px-6 py-4 font-bold text-center transition-all duration-300 flex items-center justify-center gap-2 rounded-xl whitespace-nowrap ${
+              className={`px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-base font-bold text-center transition-all duration-300 flex items-center justify-center gap-1 sm:gap-2 rounded-xl whitespace-nowrap ${
                 activeTab === 'notices'
                   ? 'bg-gradient-to-r from-slate-700 to-slate-800 text-white shadow-lg transform scale-105'
                   : 'text-slate-600 hover:bg-white/50'
               }`}
             >
-              <Bell size={20} />
+              <Bell size={16} className="sm:w-5 sm:h-5" />
               Notices
             </button>
           </div>
