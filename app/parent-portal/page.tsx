@@ -4,13 +4,15 @@ import { useState } from 'react'
 import Header from '@/components/header'
 import { ProtectedRoute } from '@/components/protected-route'
 import { useAuth } from '@/context/auth-context'
-import { BookOpen, TrendingUp, AlertCircle, CheckCircle, Clock, CreditCard, AlertTriangle, Bell, X, Megaphone, ShieldCheck, Smartphone, Landmark, ArrowLeft, Check } from 'lucide-react'
+import { BookOpen, TrendingUp, AlertCircle, CheckCircle, Clock, CreditCard, AlertTriangle, Bell, X, Megaphone, ShieldCheck, Smartphone, Landmark, ArrowLeft, Check, Loader2 } from 'lucide-react'
 import Link from 'next/link'
 
 function ParentPortalContent() {
   const { user } = useAuth()
   const [activeTab, setActiveTab] = useState('overview')
   const [showPaymentModal, setShowPaymentModal] = useState(false)
+  const [paymentStep, setPaymentStep] = useState<'select' | 'qr' | 'processing' | 'success'>('select')
+  const [selectedMethod, setSelectedMethod] = useState<'card' | 'upi' | 'bank'>('upi')
 
   const child = {
     name: 'Alex Johnson',
@@ -33,17 +35,26 @@ function ParentPortalContent() {
     { id: 3, title: 'Annual Sports Day', content: 'Sports day on 25th March. Students should wear their house colors.', priority: 'low', date: '2024-02-10', createdBy: 'Sports Dept' },
   ]
 
-  const totalFees = 50000
-  const paidFees = 10000
+  const [totalFees, setTotalFees] = useState(50000)
+  const [paidFees, setPaidFees] = useState(10000)
   const pendingFees = totalFees - paidFees
   const paidPercentage = (paidFees / totalFees) * 100
 
-  const paymentHistory = [
+  const [paymentHistory, setPaymentHistory] = useState([
     { id: 1, month: 'January', amount: 5000, date: '2024-01-05', status: 'Paid' },
     { id: 2, month: 'February', amount: 5000, date: '2024-02-07', status: 'Paid' },
     { id: 3, month: 'March', amount: 5000, date: 'Pending', status: 'Pending' },
     { id: 4, month: 'April', amount: 5000, date: 'Pending', status: 'Pending' },
-  ]
+  ])
+
+  const handlePaymentSuccess = () => {
+    setPaidFees(totalFees)
+    setPaymentHistory(prev => prev.map(item => ({
+      ...item,
+      status: 'Paid',
+      date: item.date === 'Pending' ? new Date().toISOString().split('T')[0] : item.date
+    })))
+  }
 
   const getPriorityColor = (priority: string) => {
     if (priority === 'high') return 'from-red-500 to-red-600'
@@ -234,11 +245,21 @@ function ParentPortalContent() {
                   <h4 className="text-2xl font-bold text-slate-900 mb-4">Pay Your Fees Online</h4>
                   <p className="text-slate-700 mb-6">Secure online payment with multiple payment methods</p>
                   <button
-                    onClick={() => setShowPaymentModal(true)}
-                    className="bg-gradient-to-r from-purple-500 to-purple-600 text-white px-8 py-4 rounded-xl font-bold hover:shadow-2xl transition-all transform hover:scale-105 flex items-center justify-center gap-2 mx-auto"
+                    onClick={() => {
+                      if (pendingFees > 0) {
+                        setPaymentStep('select');
+                        setShowPaymentModal(true);
+                      }
+                    }}
+                    disabled={pendingFees === 0}
+                    className={`px-8 py-4 rounded-xl font-bold hover:shadow-2xl transition-all transform hover:scale-105 flex items-center justify-center gap-2 mx-auto ${
+                      pendingFees === 0 
+                        ? 'bg-slate-300 text-slate-500 cursor-not-allowed transform hover:scale-100 hover:shadow-none' 
+                        : 'bg-gradient-to-r from-purple-500 to-purple-600 text-white'
+                    }`}
                   >
                     <CreditCard size={24} />
-                    Pay ₹{pendingFees.toLocaleString()} Now
+                    {pendingFees === 0 ? 'Fees Fully Paid' : `Pay ₹${pendingFees.toLocaleString()} Now`}
                   </button>
                 </div>
 
@@ -297,60 +318,182 @@ function ParentPortalContent() {
 
       {/* Payment Modal */}
       {showPaymentModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl p-8 w-full max-w-md shadow-2xl">
-            <h3 className="text-2xl font-bold text-slate-900 mb-6">Online Payment</h3>
-            <div className="bg-gradient-to-r from-purple-50 to-blue-50 p-6 rounded-xl mb-6 border-2 border-purple-200">
-              <p className="text-sm text-slate-600 font-semibold mb-2">Amount to Pay</p>
-              <p className="text-4xl font-bold text-slate-900">₹{pendingFees.toLocaleString()}</p>
-              <p className="text-sm text-slate-600 mt-2">Student: {child.name} • Class: {child.class}</p>
-            </div>
-
-<div className="space-y-3 mb-6">
-              <div className="flex items-center gap-3 p-4 border-2 border-slate-200 rounded-xl cursor-pointer hover:border-purple-500 transition">
-                <CreditCard size={24} className="text-purple-500 flex-shrink-0" />
-                <div>
-                  <p className="font-bold text-slate-900">Credit/Debit Card</p>
-                  <p className="text-sm text-slate-600">Visa, Mastercard, RuPay</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3 p-4 border-2 border-slate-200 rounded-xl cursor-pointer hover:border-purple-500 transition">
-                <Smartphone size={24} className="text-purple-500 flex-shrink-0" />
-                <div>
-                  <p className="font-bold text-slate-900">UPI Payment</p>
-                  <p className="text-sm text-slate-600">Google Pay, PhonePe, Paytm</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3 p-4 border-2 border-slate-200 rounded-xl cursor-pointer hover:border-purple-500 transition">
-                <Landmark size={24} className="text-purple-500 flex-shrink-0" />
-                <div>
-                  <p className="font-bold text-slate-900">Bank Transfer</p>
-                  <p className="text-sm text-slate-600">Direct NEFT/RTGS Transfer</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded mb-6">
-<p className="text-sm text-slate-700 inline-flex items-center gap-2"><ShieldCheck size={16} className="text-blue-600 flex-shrink-0" /> Secure Payment • 100% Safe • No Hidden Charges</p>
-            </div>
-
-            <div className="flex gap-4">
-              <button
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 animate-fadeIn">
+          <div className="bg-white rounded-2xl p-8 w-full max-w-md shadow-2xl relative overflow-hidden transition-all duration-300">
+            {/* Modal Close Button for non-processing states */}
+            {paymentStep !== 'processing' && (
+              <button 
                 onClick={() => setShowPaymentModal(false)}
-                className="flex-1 bg-slate-300 text-slate-700 px-6 py-3 rounded-xl font-bold hover:bg-slate-400 transition-all"
+                className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition"
               >
-                Cancel
+                <X size={24} />
               </button>
-              <button
-                onClick={() => {
-                  alert(`Payment processing for ₹${pendingFees.toLocaleString()} (Demo Mode)`);
-                  setShowPaymentModal(false);
-                }}
-                className="flex-1 bg-gradient-to-r from-purple-500 to-purple-600 text-white px-6 py-3 rounded-xl font-bold hover:shadow-lg transition-all"
-              >
-                Pay Now
-              </button>
-            </div>
+            )}
+
+            {paymentStep === 'select' && (
+              <div>
+                <h3 className="text-2xl font-bold text-slate-900 mb-6">Online Payment</h3>
+                <div className="bg-gradient-to-r from-purple-50 to-blue-50 p-6 rounded-xl mb-6 border-2 border-purple-200">
+                  <p className="text-sm text-slate-600 font-semibold mb-2">Amount to Pay</p>
+                  <p className="text-4xl font-bold text-slate-900">₹{pendingFees.toLocaleString()}</p>
+                  <p className="text-sm text-slate-600 mt-2">Student: {child.name} • Class: {child.class}</p>
+                </div>
+
+                <div className="space-y-3 mb-6">
+                  <div 
+                    onClick={() => setSelectedMethod('card')}
+                    className={`flex items-center gap-3 p-4 border-2 rounded-xl cursor-pointer hover:border-purple-500 transition ${
+                      selectedMethod === 'card' ? 'border-purple-500 bg-purple-50/30' : 'border-slate-200'
+                    }`}
+                  >
+                    <CreditCard size={24} className="text-purple-500 flex-shrink-0" />
+                    <div>
+                      <p className="font-bold text-slate-900">Credit/Debit Card</p>
+                      <p className="text-sm text-slate-600">Visa, Mastercard, RuPay</p>
+                    </div>
+                  </div>
+                  <div 
+                    onClick={() => setSelectedMethod('upi')}
+                    className={`flex items-center gap-3 p-4 border-2 rounded-xl cursor-pointer hover:border-purple-500 transition ${
+                      selectedMethod === 'upi' ? 'border-purple-500 bg-purple-50/30' : 'border-slate-200'
+                    }`}
+                  >
+                    <Smartphone size={24} className="text-purple-500 flex-shrink-0" />
+                    <div>
+                      <p className="font-bold text-slate-900">UPI Payment</p>
+                      <p className="text-sm text-slate-600">Google Pay, PhonePe, Paytm</p>
+                    </div>
+                  </div>
+                  <div 
+                    onClick={() => setSelectedMethod('bank')}
+                    className={`flex items-center gap-3 p-4 border-2 rounded-xl cursor-pointer hover:border-purple-500 transition ${
+                      selectedMethod === 'bank' ? 'border-purple-500 bg-purple-50/30' : 'border-slate-200'
+                    }`}
+                  >
+                    <Landmark size={24} className="text-purple-500 flex-shrink-0" />
+                    <div>
+                      <p className="font-bold text-slate-900">Bank Transfer</p>
+                      <p className="text-sm text-slate-600">Direct NEFT/RTGS Transfer</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded mb-6">
+                  <p className="text-sm text-slate-700 inline-flex items-center gap-2"><ShieldCheck size={16} className="text-blue-600 flex-shrink-0" /> Secure Payment • 100% Safe • No Hidden Charges</p>
+                </div>
+
+                <div className="flex gap-4">
+                  <button
+                    onClick={() => setShowPaymentModal(false)}
+                    className="flex-1 bg-slate-100 text-slate-700 px-6 py-3 rounded-xl font-bold hover:bg-slate-200 transition-all border border-slate-200"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={() => setPaymentStep('qr')}
+                    className="flex-1 bg-gradient-to-r from-purple-500 to-purple-600 text-white px-6 py-3 rounded-xl font-bold hover:shadow-lg transition-all"
+                  >
+                    Proceed to Pay
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {paymentStep === 'qr' && (
+              <div className="text-center animate-fadeIn">
+                <h3 className="text-2xl font-bold text-slate-900 mb-1">Pay Here</h3>
+                <p className="text-slate-500 text-sm">Scan the QR code below using any UPI app</p>
+                
+                <div className="relative my-6 mx-auto w-64 h-64 bg-slate-950 rounded-2xl flex items-center justify-center border-4 border-slate-900 p-4 overflow-hidden shadow-2xl">
+                  {/* Pulse scan line effect */}
+                  <div className="absolute inset-x-0 h-1 bg-purple-500 opacity-60 animate-pulse top-4 shadow-[0_0_10px_#a855f7]"></div>
+                  
+                  <img 
+                    src="/payment-qr.png" 
+                    alt="PhonePe QR Code" 
+                    className="w-full h-full object-contain rounded-lg"
+                  />
+                </div>
+
+                <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 mb-6">
+                  <p className="text-xs text-slate-500 uppercase tracking-wider font-bold">Amount to Pay</p>
+                  <p className="text-3xl font-extrabold text-slate-900">₹{pendingFees.toLocaleString()}</p>
+                  <p className="text-xs text-slate-500 mt-1">Merchant: AD Tech School Portal</p>
+                </div>
+
+                <div className="flex gap-4">
+                  <button
+                    onClick={() => setPaymentStep('select')}
+                    className="flex-1 bg-slate-100 text-slate-700 px-6 py-3 rounded-xl font-bold hover:bg-slate-200 transition-all border border-slate-200"
+                  >
+                    Back
+                  </button>
+                  <button
+                    onClick={() => {
+                      setPaymentStep('processing');
+                      setTimeout(() => {
+                        handlePaymentSuccess();
+                        setPaymentStep('success');
+                      }, 2500);
+                    }}
+                    className="flex-1 bg-gradient-to-r from-purple-500 to-purple-600 text-white px-6 py-3 rounded-xl font-bold hover:shadow-lg transition-all"
+                  >
+                    I Have Paid
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {paymentStep === 'processing' && (
+              <div className="flex flex-col items-center justify-center py-12 text-center animate-fadeIn">
+                <Loader2 className="w-16 h-16 text-purple-600 animate-spin mb-4" />
+                <h3 className="text-xl font-bold text-slate-900 mb-2">Verifying Payment</h3>
+                <p className="text-slate-600 text-sm max-w-xs">
+                  Please wait while we verify your transaction with the bank. Do not close or refresh this window.
+                </p>
+              </div>
+            )}
+
+            {paymentStep === 'success' && (
+              <div className="text-center animate-fadeIn">
+                <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6 border-2 border-emerald-200 shadow-lg shadow-emerald-100/50">
+                  <Check className="w-10 h-10 text-emerald-600" strokeWidth={3} />
+                </div>
+                <h3 className="text-2xl font-bold text-slate-900 mb-2">Payment Successful!</h3>
+                <p className="text-slate-600 text-sm mb-6">
+                  Thank you. Your fee payment has been successfully recorded.
+                </p>
+                
+                <div className="w-full bg-slate-50 border border-slate-200 rounded-xl p-5 mb-6 text-left space-y-2 text-sm text-slate-700">
+                  <div className="flex justify-between">
+                    <span className="font-semibold text-slate-500">Transaction ID:</span> 
+                    <span className="font-mono font-bold text-slate-900">TXN{Math.floor(1000000000 + Math.random() * 9000000000)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="font-semibold text-slate-500">Paid Amount:</span> 
+                    <span className="font-extrabold text-emerald-600">₹{pendingFees.toLocaleString()}.00</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="font-semibold text-slate-500">Payment Mode:</span> 
+                    <span>UPI / PhonePe</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="font-semibold text-slate-500">Date & Time:</span> 
+                    <span>{new Date().toLocaleString()}</span>
+                  </div>
+                </div>
+
+                <button
+                  onClick={() => {
+                    setShowPaymentModal(false);
+                    setPaymentStep('select');
+                  }}
+                  className="w-full bg-gradient-to-r from-emerald-50 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white py-3 rounded-xl font-bold hover:shadow-lg transition-all"
+                >
+                  Close & Return
+                </button>
+              </div>
+            )}
           </div>
         </div>
       )}
