@@ -75,17 +75,17 @@ function TeacherPortalContent() {
   const [activeTab, setActiveTab] = useState<PortalTab>('dashboard')
 
   const [students, setStudents] = useState<Student[]>([
-    { id: 1, name: 'John Smith', rollNo: '10A-01', parentName: 'Anna Smith', parentPhone: '+1 555 1101', attendance: 96, average: 84, present: true },
-    { id: 2, name: 'Emma Wilson', rollNo: '10A-02', parentName: 'Laura Wilson', parentPhone: '+1 555 1102', attendance: 98, average: 92, present: true },
-    { id: 3, name: 'Michael Brown', rollNo: '10A-03', parentName: 'David Brown', parentPhone: '+1 555 1103', attendance: 89, average: 79, present: false },
-    { id: 4, name: 'Sarah Davis', rollNo: '10A-04', parentName: 'Maria Davis', parentPhone: '+1 555 1104', attendance: 93, average: 87, present: true },
-    { id: 5, name: 'James Miller', rollNo: '10A-05', parentName: 'Robert Miller', parentPhone: '+1 555 1105', attendance: 95, average: 89, present: true },
-    { id: 6, name: 'Lisa Anderson', rollNo: '10A-06', parentName: 'Monica Anderson', parentPhone: '+1 555 1106', attendance: 91, average: 81, present: false },
+    { id: 1, name: 'John Smith', rollNo: '10A-01', parentName: 'Anna Smith', parentPhone: '+1 555 1101', attendance: 96, average: 95, present: true },
+    { id: 2, name: 'Emma Wilson', rollNo: '10A-02', parentName: 'Laura Wilson', parentPhone: '+1 555 1102', attendance: 98, average: 98, present: true },
+    { id: 3, name: 'Michael Brown', rollNo: '10A-03', parentName: 'David Brown', parentPhone: '+1 555 1103', attendance: 89, average: 95, present: false },
+    { id: 4, name: 'Sarah Davis', rollNo: '10A-04', parentName: 'Maria Davis', parentPhone: '+1 555 1104', attendance: 93, average: 94, present: true },
+    { id: 5, name: 'James Miller', rollNo: '10A-05', parentName: 'Robert Miller', parentPhone: '+1 555 1105', attendance: 95, average: 96, present: true },
+    { id: 6, name: 'Lisa Anderson', rollNo: '10A-06', parentName: 'Monica Anderson', parentPhone: '+1 555 1106', attendance: 91, average: 95, present: false },
   ])
 
   const [results, setResults] = useState<UploadRecord[]>([
-    { id: 1, student: 'Emma Wilson', subject: 'Mathematics', marks: 96, term: 'Mid-Term' },
-    { id: 2, student: 'Sarah Davis', subject: 'Science', marks: 88, term: 'Mid-Term' },
+    { id: 1, student: 'Emma Wilson', subject: 'Mathematics', marks: 98, term: 'Mid-Term' },
+    { id: 2, student: 'Sarah Davis', subject: 'Science', marks: 94, term: 'Mid-Term' },
   ])
 
   const [homework, setHomework] = useState<HomeworkItem[]>([

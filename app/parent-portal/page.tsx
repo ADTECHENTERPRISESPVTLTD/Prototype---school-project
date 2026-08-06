@@ -16,15 +16,15 @@ function ParentPortalContent() {
     name: 'Alex Johnson',
     class: '10A',
     rollNo: '12',
-    gpa: 3.85,
+    percentage: 96.25,
     attendance: 94,
   }
 
   const courses = [
-    { name: 'Mathematics', grade: 'A', marks: 92 },
-    { name: 'Physics', grade: 'A', marks: 90 },
-    { name: 'Chemistry', grade: 'A+', marks: 95 },
-    { name: 'English', grade: 'A', marks: 88 }
+    { name: 'Mathematics', grade: 'A', marks: 96 },
+    { name: 'Physics', grade: 'A', marks: 95 },
+    { name: 'Chemistry', grade: 'A+', marks: 98 },
+    { name: 'English', grade: 'A', marks: 96 }
   ]
 
   const notices = [
@@ -85,8 +85,8 @@ function ParentPortalContent() {
               <p className="text-2xl font-bold text-slate-900">{child.rollNo}</p>
             </div>
             <div>
-              <p className="text-sm font-bold text-slate-600 uppercase tracking-wide mb-2">GPA</p>
-              <p className="text-2xl font-bold text-emerald-600">{child.gpa}</p>
+              <p className="text-sm font-bold text-slate-600 uppercase tracking-wide mb-2">Percentage</p>
+              <p className="text-2xl font-bold text-emerald-600">{child.percentage}%</p>
             </div>
           </div>
         </div>

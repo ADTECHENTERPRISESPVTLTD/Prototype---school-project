@@ -15,7 +15,7 @@ A comprehensive, modern school management system built with Next.js, featuring r
 #### Student Portal (`/student-portal`)
 - View enrolled courses with progress tracking
 - Track assignments and submission status
-- Check grades and GPA
+- Check grades and percentages
 - View attendance records
 - Manage coursework
 
@@ -32,7 +32,7 @@ A comprehensive, modern school management system built with Next.js, featuring r
 - Check assignment status and due dates
 - See attendance records
 - Receive school announcements
-- Track GPA and overall performance
+- Track percentages and overall performance
 
 #### Principal Portal (`/principal-portal`) - NEW
 - Complete school analytics dashboard

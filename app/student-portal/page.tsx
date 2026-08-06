@@ -17,10 +17,10 @@ function StudentPortalContent() {
   ]
 
   const courses = [
-    { id: 1, name: 'Mathematics - Calculus', instructor: 'Dr. Sarah Johnson', progress: 85, grade: 'A-' },
-    { id: 2, name: 'English Literature', instructor: 'Prof. Michael Brown', progress: 92, grade: 'A' },
-    { id: 3, name: 'Physics - Quantum Mechanics', instructor: 'Dr. James Wilson', progress: 78, grade: 'B+' },
-    { id: 4, name: 'History - World Civilizations', instructor: 'Prof. Emma Davis', progress: 88, grade: 'A-' },
+    { id: 1, name: 'Mathematics - Calculus', instructor: 'Dr. Sarah Johnson', progress: 95, grade: 'A' },
+    { id: 2, name: 'English Literature', instructor: 'Prof. Michael Brown', progress: 98, grade: 'A' },
+    { id: 3, name: 'Physics - Quantum Mechanics', instructor: 'Dr. James Wilson', progress: 94, grade: 'A-' },
+    { id: 4, name: 'History - World Civilizations', instructor: 'Prof. Emma Davis', progress: 98, grade: 'A' },
   ]
 
   const assignments = [
@@ -65,8 +65,8 @@ function StudentPortalContent() {
           <div className="group relative bg-gradient-to-br from-blue-500 to-blue-600 text-white p-8 rounded-3xl hover:shadow-2xl transition-all duration-400 transform hover:-translate-y-3 overflow-hidden">
             <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity"></div>
             <Award size={36} className="mb-4 opacity-90" />
-            <p className="text-blue-100 text-sm font-bold uppercase tracking-wide">GPA</p>
-            <p className="text-5xl font-bold mt-3">3.85</p>
+            <p className="text-blue-100 text-sm font-bold uppercase tracking-wide">Percentage</p>
+            <p className="text-5xl font-bold mt-3">96.25%</p>
           </div>
           <div className="group relative bg-gradient-to-br from-emerald-500 to-emerald-600 text-white p-8 rounded-3xl hover:shadow-2xl transition-all duration-400 transform hover:-translate-y-3 overflow-hidden">
             <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity"></div>

@@ -47,26 +47,26 @@ function PrincipalPortalContent() {
 
   const [allStudents, setAllStudents] = useState([
     // Class 10A
-    { id: 1, name: 'John Smith', class: '10A', marks: 82, attendance: 94, status: 'Active' },
-    { id: 2, name: 'Emma Wilson', class: '10A', marks: 91, attendance: 98, status: 'Active' },
-    { id: 3, name: 'Michael Brown', class: '10A', marks: 78, attendance: 88, status: 'Active' },
+    { id: 1, name: 'John Smith', class: '10A', marks: 95, attendance: 94, status: 'Active' },
+    { id: 2, name: 'Emma Wilson', class: '10A', marks: 98, attendance: 98, status: 'Active' },
+    { id: 3, name: 'Michael Brown', class: '10A', marks: 95, attendance: 88, status: 'Active' },
     // Class 10B
-    { id: 4, name: 'Sarah Davis', class: '10B', marks: 85, attendance: 92, status: 'Active' },
-    { id: 5, name: 'James Miller', class: '10B', marks: 88, attendance: 96, status: 'Active' },
-    { id: 6, name: 'Lisa Anderson', class: '10B', marks: 79, attendance: 90, status: 'Active' },
+    { id: 4, name: 'Sarah Davis', class: '10B', marks: 94, attendance: 92, status: 'Active' },
+    { id: 5, name: 'James Miller', class: '10B', marks: 96, attendance: 96, status: 'Active' },
+    { id: 6, name: 'Lisa Anderson', class: '10B', marks: 95, attendance: 90, status: 'Active' },
     // Class 11A
-    { id: 7, name: 'David Taylor', class: '11A', marks: 89, attendance: 95, status: 'Active' },
-    { id: 8, name: 'Sophie Martin', class: '11A', marks: 92, attendance: 99, status: 'Active' },
+    { id: 7, name: 'David Taylor', class: '11A', marks: 96, attendance: 95, status: 'Active' },
+    { id: 8, name: 'Sophie Martin', class: '11A', marks: 98, attendance: 99, status: 'Active' },
     // Class 11B
-    { id: 9, name: 'Oliver Johnson', class: '11B', marks: 75, attendance: 85, status: 'Active' },
-    { id: 10, name: 'Ava Thompson', class: '11B', marks: 84, attendance: 91, status: 'Active' },
+    { id: 9, name: 'Oliver Johnson', class: '11B', marks: 94, attendance: 85, status: 'Active' },
+    { id: 10, name: 'Ava Thompson', class: '11B', marks: 96, attendance: 91, status: 'Active' },
   ])
 
   const stats = [
     { label: 'Total Students', value: allStudents.length, icon: Users, color: 'from-blue-500 to-blue-600' },
     { label: 'Faculty Members', value: '125+', icon: BookOpen, color: 'from-purple-500 to-purple-600' },
     { label: 'Pass Rate', value: '98%', icon: Award, color: 'from-emerald-500 to-emerald-600' },
-    { label: 'Average GPA', value: '3.82', icon: TrendingUp, color: 'from-orange-500 to-orange-600' },
+    { label: 'Average Percentage', value: '95.2%', icon: TrendingUp, color: 'from-orange-500 to-orange-600' },
   ]
 
   const departments = [
@@ -79,11 +79,11 @@ function PrincipalPortalContent() {
   ]
 
   const classData = [
-    { class: '10A', students: 45, avgGPA: 3.85, attendance: 94 },
-    { class: '10B', students: 42, avgGPA: 3.78, attendance: 92 },
-    { class: '10C', students: 48, avgGPA: 3.72, attendance: 90 },
-    { class: '11A', students: 40, avgGPA: 3.88, attendance: 95 },
-    { class: '11B', students: 43, avgGPA: 3.81, attendance: 93 },
+    { class: '10A', students: 45, avgPercentage: 96, attendance: 94 },
+    { class: '10B', students: 42, avgPercentage: 95, attendance: 92 },
+    { class: '10C', students: 48, avgPercentage: 93, attendance: 90 },
+    { class: '11A', students: 40, avgPercentage: 97, attendance: 95 },
+    { class: '11B', students: 43, avgPercentage: 95, attendance: 93 },
   ]
 
   const filteredStudents = filterClass === 'All' 
@@ -218,8 +218,8 @@ function PrincipalPortalContent() {
                           <span className="text-2xl font-bold text-blue-600">{cls.students}</span>
                         </div>
                         <div className="flex justify-between items-center p-4 bg-emerald-50 rounded-xl">
-                          <span className="font-semibold text-slate-700">Average GPA</span>
-                          <span className="text-2xl font-bold text-emerald-600">{cls.avgGPA}</span>
+                          <span className="font-semibold text-slate-700">Average Percentage</span>
+                          <span className="text-2xl font-bold text-emerald-600">{cls.avgPercentage}%</span>
                         </div>
                         <div className="flex justify-between items-center p-4 bg-orange-50 rounded-xl">
                           <span className="font-semibold text-slate-700">Attendance</span>

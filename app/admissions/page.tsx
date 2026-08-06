@@ -81,7 +81,7 @@ export default function AdmissionsPage() {
       
       <div className="max-w-6xl mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Admissions 2024-25</h1>
+          <h1 className="text-3xl font-bold text-gray-900">Admissions 2026-27</h1>
           <p className="text-gray-600 mt-2">Join Stellar Academy and Start Your Journey</p>
         </div>
 
@@ -89,19 +89,19 @@ export default function AdmissionsPage() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
           <div className="bg-white p-6 rounded-lg border border-gray-200">
             <p className="text-gray-600 text-sm font-medium">Last Date to Apply</p>
-            <p className="text-2xl font-bold text-blue-600 mt-2">March 15, 2024</p>
+            <p className="text-2xl font-bold text-blue-600 mt-2">March 15, 2026</p>
           </div>
           <div className="bg-white p-6 rounded-lg border border-gray-200">
             <p className="text-gray-600 text-sm font-medium">Entrance Exam Date</p>
-            <p className="text-2xl font-bold text-blue-600 mt-2">March 25, 2024</p>
+            <p className="text-2xl font-bold text-blue-600 mt-2">March 25, 2026</p>
           </div>
           <div className="bg-white p-6 rounded-lg border border-gray-200">
             <p className="text-gray-600 text-sm font-medium">Result Declaration</p>
-            <p className="text-2xl font-bold text-blue-600 mt-2">April 10, 2024</p>
+            <p className="text-2xl font-bold text-blue-600 mt-2">April 10, 2026</p>
           </div>
           <div className="bg-white p-6 rounded-lg border border-gray-200">
             <p className="text-gray-600 text-sm font-medium">Classes Begin</p>
-            <p className="text-2xl font-bold text-blue-600 mt-2">May 1, 2024</p>
+            <p className="text-2xl font-bold text-blue-600 mt-2">May 1, 2026</p>
           </div>
         </div>
 

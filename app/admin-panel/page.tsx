@@ -11,7 +11,7 @@ export default function AdminPanel() {
   const analyticsData = [
     { label: 'Total Enrollment', value: 1250, change: '+5%' },
     { label: 'Pass Rate', value: '92%', change: '+2%' },
-    { label: 'Average GPA', value: '3.65', change: '+0.1' },
+    { label: 'Average Percentage', value: '91%', change: '+2.5%' },
     { label: 'Faculty Count', value: 125, change: '+3' },
   ]
 
