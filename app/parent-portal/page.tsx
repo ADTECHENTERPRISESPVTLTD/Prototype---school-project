@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Header from '@/components/header'
 import { ProtectedRoute } from '@/components/protected-route'
 import { useAuth } from '@/context/auth-context'
-import { BookOpen, TrendingUp, AlertCircle, CheckCircle, Clock, CreditCard, AlertTriangle, Bell, X, Megaphone, ShieldCheck, Smartphone, Landmark, ArrowLeft, Check, Loader2 } from 'lucide-react'
+import { BookOpen, TrendingUp, AlertCircle, CheckCircle, Clock, CreditCard, AlertTriangle, Bell, X, Megaphone, ShieldCheck, Smartphone, Landmark, ArrowLeft, Check, Loader2, Printer, Download, GraduationCap } from 'lucide-react'
 import Link from 'next/link'
 
 function ParentPortalContent() {
@@ -23,10 +23,10 @@ function ParentPortalContent() {
   }
 
   const courses = [
-    { name: 'Mathematics', grade: 'A', marks: 96 },
-    { name: 'Physics', grade: 'A', marks: 95 },
-    { name: 'Chemistry', grade: 'A+', marks: 98 },
-    { name: 'English', grade: 'A', marks: 96 }
+    { name: 'Mathematics', grade: 'A', marks: 96, remarks: 'Excellent analytical and problem-solving skills.' },
+    { name: 'Physics', grade: 'A', marks: 95, remarks: 'Outstanding comprehension of complex physics concepts.' },
+    { name: 'Chemistry', grade: 'A+', marks: 98, remarks: 'Exceptional performance in laboratory work and exams.' },
+    { name: 'English', grade: 'A', marks: 96, remarks: 'Strong essay writing and literature interpretation.' }
   ]
 
   const notices = [
@@ -102,34 +102,6 @@ function ParentPortalContent() {
           </div>
         </div>
 
-        {/* Quick Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-14">
-          <div className="group relative bg-gradient-to-br from-blue-500 to-blue-600 text-white p-4 sm:p-8 rounded-2xl sm:rounded-3xl hover:shadow-2xl transition-all duration-400 transform hover:-translate-y-3 overflow-hidden">
-            <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity"></div>
-            <BookOpen className="w-6 h-6 sm:w-9 sm:h-9 mb-2 sm:mb-4 opacity-90" />
-            <p className="text-blue-100 text-xs sm:text-sm font-bold uppercase tracking-wide">Courses</p>
-            <p className="text-xl sm:text-3xl md:text-5xl font-bold mt-2 sm:mt-3 break-all">{courses.length}</p>
-          </div>
-          <div className="group relative bg-gradient-to-br from-slate-600 to-slate-700 text-white p-4 sm:p-8 rounded-2xl sm:rounded-3xl hover:shadow-2xl transition-all duration-400 transform hover:-translate-y-3 overflow-hidden">
-            <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity"></div>
-            <CheckCircle className="w-6 h-6 sm:w-9 sm:h-9 mb-2 sm:mb-4 opacity-90" />
-            <p className="text-slate-300 text-xs sm:text-sm font-bold uppercase tracking-wide">Avg Grade</p>
-            <p className="text-xl sm:text-3xl md:text-5xl font-bold mt-2 sm:mt-3 break-all">A</p>
-          </div>
-          <div className="group relative bg-gradient-to-br from-slate-700 to-slate-800 text-white p-4 sm:p-8 rounded-2xl sm:rounded-3xl hover:shadow-2xl transition-all duration-400 transform hover:-translate-y-3 overflow-hidden">
-            <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity"></div>
-            <TrendingUp className="w-6 h-6 sm:w-9 sm:h-9 mb-2 sm:mb-4 opacity-90" />
-            <p className="text-slate-300 text-xs sm:text-sm font-bold uppercase tracking-wide">Attendance</p>
-            <p className="text-xl sm:text-3xl md:text-5xl font-bold mt-2 sm:mt-3 break-all">{child.attendance}%</p>
-          </div>
-          <div className="group relative bg-gradient-to-br from-slate-600 to-slate-700 text-white p-4 sm:p-8 rounded-2xl sm:rounded-3xl hover:shadow-2xl transition-all duration-400 transform hover:-translate-y-3 overflow-hidden">
-            <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity"></div>
-            <CreditCard className="w-6 h-6 sm:w-9 sm:h-9 mb-2 sm:mb-4 opacity-90" />
-            <p className="text-slate-300 text-xs sm:text-sm font-bold uppercase tracking-wide">Pending Fees</p>
-            <p className="text-lg sm:text-2xl md:text-4xl font-bold mt-2 sm:mt-3 break-all">₹{pendingFees.toLocaleString()}</p>
-          </div>
-        </div>
-
         {/* Tabs */}
         <div className="bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden mb-8">
           <div className="flex border-b-2 border-slate-200 bg-gradient-to-r from-slate-50 to-slate-100 p-2 overflow-x-auto">
@@ -143,6 +115,17 @@ function ParentPortalContent() {
             >
               <BookOpen size={16} className="sm:w-5 sm:h-5" />
               Overview
+            </button>
+            <button
+              onClick={() => setActiveTab('reportcard')}
+              className={`px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-base font-bold text-center transition-all duration-300 flex items-center justify-center gap-1 sm:gap-2 rounded-xl whitespace-nowrap ${
+                activeTab === 'reportcard'
+                  ? 'bg-gradient-to-r from-slate-700 to-slate-800 text-white shadow-lg transform scale-105'
+                  : 'text-slate-600 hover:bg-white/50'
+              }`}
+            >
+              <CheckCircle size={16} className="sm:w-5 sm:h-5" />
+              Report Card
             </button>
             <button
               onClick={() => setActiveTab('fees')}
@@ -201,6 +184,805 @@ function ParentPortalContent() {
                       </div>
                     </div>
                   ))}
+                </div>
+              </div>
+            )}
+
+            {/* Report Card Tab */}
+            {activeTab === 'reportcard' && (
+              <div className="space-y-8 animate-fadeIn">
+                <div className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-lg relative max-w-4xl mx-auto">
+                  {/* School Header */}
+                  <div className="bg-slate-900 text-white p-6 sm:p-8 flex flex-col md:flex-row justify-between items-center gap-4 relative overflow-hidden">
+                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-900/50 via-transparent to-transparent"></div>
+                    <div className="flex items-center gap-4 relative z-10">
+                      <div className="bg-blue-600/20 p-3.5 rounded-2xl border border-blue-500/30">
+                        <GraduationCap className="w-8 h-8 text-blue-400" />
+                      </div>
+                      <div>
+                        <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">EDUPRO HIGH SCHOOL</h2>
+                        <p className="text-slate-400 text-xs sm:text-sm tracking-widest uppercase mt-0.5">Academic Performance Report Card</p>
+                      </div>
+                    </div>
+                    <div className="text-center md:text-right relative z-10">
+                      <p className="text-sm font-bold text-blue-400">Academic Year: 2025-2026</p>
+                      <p className="text-xs text-slate-400 mt-0.5">Term: Mid-Term Examination</p>
+                    </div>
+                  </div>
+
+                  {/* Student Details Info Bar */}
+                  <div className="bg-slate-50 border-b border-slate-200 p-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-sm">
+                    <div>
+                      <p className="text-slate-500 font-bold uppercase tracking-wider text-[10px] mb-1">Student Name</p>
+                      <p className="font-extrabold text-slate-800 text-base">{child.name}</p>
+                    </div>
+                    <div>
+                      <p className="text-slate-500 font-bold uppercase tracking-wider text-[10px] mb-1">Class / Section</p>
+                      <p className="font-extrabold text-slate-800 text-base">{child.class}</p>
+                    </div>
+                    <div>
+                      <p className="text-slate-500 font-bold uppercase tracking-wider text-[10px] mb-1">Roll Number</p>
+                      <p className="font-extrabold text-slate-800 text-base">{child.rollNo}</p>
+                    </div>
+                    <div>
+                      <p className="text-slate-500 font-bold uppercase tracking-wider text-[10px] mb-1">Student ID</p>
+                      <p className="font-extrabold text-slate-800 text-base">STU2025-012</p>
+                    </div>
+                  </div>
+
+                  {/* Subjects Grades Table (Tablet/Desktop) */}
+                  <div className="hidden sm:block p-6 sm:p-8 overflow-x-auto">
+                    <table className="w-full min-w-[600px] border-collapse">
+                      <thead>
+                        <tr className="border-b-2 border-slate-200">
+                          <th className="py-4 text-left font-bold text-slate-500 uppercase tracking-wider text-xs">Subject</th>
+                          <th className="py-4 text-center font-bold text-slate-500 uppercase tracking-wider text-xs">Max Marks</th>
+                          <th className="py-4 text-center font-bold text-slate-500 uppercase tracking-wider text-xs">Marks Obtained</th>
+                          <th className="py-4 text-center font-bold text-slate-500 uppercase tracking-wider text-xs">Grade</th>
+                          <th className="py-4 text-left font-bold text-slate-500 uppercase tracking-wider text-xs pl-6">Remarks</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100">
+                        {courses.map((subj, idx) => (
+                          <tr key={idx} className="hover:bg-slate-50/50 transition-colors">
+                            <td className="py-4 font-bold text-slate-900">{subj.name}</td>
+                            <td className="py-4 text-center text-slate-600 font-semibold">100</td>
+                            <td className="py-4 text-center">
+                              <span className="inline-flex items-center justify-center font-bold text-slate-900 bg-slate-100 px-3 py-1 rounded-full text-sm">
+                                {subj.marks}
+                              </span>
+                            </td>
+                            <td className="py-4 text-center">
+                              <span className={`inline-flex items-center justify-center font-extrabold text-white text-xs px-2.5 py-1 rounded-md shadow-sm bg-gradient-to-r ${
+                                subj.grade === 'A+' ? 'from-emerald-500 to-emerald-600' :
+                                subj.grade === 'A' ? 'from-green-500 to-green-600' :
+                                subj.grade === 'A-' ? 'from-teal-500 to-teal-600' :
+                                'from-blue-500 to-blue-600'
+                              }`}>
+                                {subj.grade}
+                              </span>
+                            </td>
+                            <td className="py-4 text-slate-600 text-sm pl-6 italic">{subj.remarks}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+
+                  {/* Mobile Subjects Grades Cards (Mobile Only) */}
+                  <div className="block sm:hidden p-4 border-t border-slate-100">
+                    <h3 className="font-bold text-slate-800 text-xs uppercase tracking-wider mb-4">Subject Grades</h3>
+                    <div className="space-y-4">
+                      {courses.map((subj, idx) => (
+                        <div key={idx} className="bg-slate-50 border border-slate-200/60 rounded-2xl p-4 space-y-3 animate-fadeIn">
+                          <div className="flex justify-between items-start">
+                            <div>
+                              <h4 className="font-extrabold text-slate-900 text-sm leading-tight">{subj.name}</h4>
+                            </div>
+                            <span className={`inline-flex items-center justify-center font-extrabold text-white text-[10px] px-2.5 py-0.5 rounded shadow-sm bg-gradient-to-r ${
+                              subj.grade === 'A+' ? 'from-emerald-500 to-emerald-600' :
+                              subj.grade === 'A' ? 'from-green-500 to-green-600' :
+                              subj.grade === 'A-' ? 'from-teal-500 to-teal-600' :
+                              'from-blue-500 to-blue-600'
+                            }`}>
+                              {subj.grade}
+                            </span>
+                          </div>
+                          
+                          <div className="flex items-center gap-6 text-xs text-slate-700 font-semibold bg-white border border-slate-200/40 rounded-xl p-2.5">
+                            <div>
+                              <span className="text-slate-400 font-medium block text-[9px] uppercase tracking-wider">Score</span>
+                              <span className="text-slate-900 font-bold">{subj.marks} <span className="text-slate-400 font-normal">/ 100</span></span>
+                            </div>
+                            <div className="h-6 w-[1px] bg-slate-200"></div>
+                            <div>
+                              <span className="text-slate-400 font-medium block text-[9px] uppercase tracking-wider">Status</span>
+                              <span className="text-emerald-600 font-bold">Passed</span>
+                            </div>
+                          </div>
+                          
+                          <div>
+                            <span className="text-slate-400 font-medium block text-[9px] uppercase tracking-wider mb-1">Remarks</span>
+                            <p className="text-slate-600 text-xs italic bg-white border border-slate-200/40 rounded-xl p-3 leading-relaxed">
+                              "{subj.remarks}"
+                            </p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Summary Section */}
+                  <div className="border-t border-slate-200 bg-slate-50/50 p-6 sm:p-8 grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+                    {/* Performance Summary Indicators */}
+                    <div className="space-y-4">
+                      <h3 className="font-bold text-slate-800 text-sm uppercase tracking-wider">Performance Metrics</h3>
+                      <div className="grid grid-cols-1 min-[450px]:grid-cols-2 gap-3 sm:gap-4">
+                        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-4 shadow-sm">
+                          <p className="text-slate-500 font-bold uppercase tracking-wider text-[9px] sm:text-[10px] mb-1 leading-normal">Cumulative Percentage</p>
+                          <div className="flex items-baseline gap-1 flex-wrap">
+                            <span className="text-xl sm:text-2xl font-extrabold text-blue-600">{child.percentage}%</span>
+                            <span className="text-slate-400 text-xs font-semibold">/ 100%</span>
+                          </div>
+                        </div>
+                        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-4 shadow-sm">
+                          <p className="text-slate-500 font-bold uppercase tracking-wider text-[9px] sm:text-[10px] mb-1 leading-normal">Attendance Rate</p>
+                          <div className="flex items-baseline gap-1 flex-wrap">
+                            <span className="text-xl sm:text-2xl font-extrabold text-emerald-600">{child.attendance}%</span>
+                            <span className="text-slate-400 text-xs font-semibold">/ 100%</span>
+                          </div>
+                        </div>
+                        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-4 shadow-sm">
+                          <p className="text-slate-500 font-bold uppercase tracking-wider text-[9px] sm:text-[10px] mb-1 leading-normal">Total Score</p>
+                          <div className="flex items-baseline gap-1 flex-wrap">
+                            <span className="text-xl sm:text-2xl font-extrabold text-slate-800">
+                              {courses.reduce((sum, c) => sum + (c.marks || 0), 0)}
+                            </span>
+                            <span className="text-slate-400 text-xs font-semibold">/ {courses.length * 100}</span>
+                          </div>
+                        </div>
+                        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-4 shadow-sm flex flex-col justify-center">
+                          <p className="text-slate-500 font-bold uppercase tracking-wider text-[9px] sm:text-[10px] mb-1 leading-normal">Result Status</p>
+                          <span className="text-xs sm:text-base font-extrabold text-emerald-600 flex items-center gap-1 mt-0.5">
+                            <CheckCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> Passed
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* School Remarks & Seals */}
+                    <div className="space-y-4 flex flex-col justify-between">
+                      <div>
+                        <h3 className="font-bold text-slate-800 text-sm uppercase tracking-wider mb-2">Teacher Remarks</h3>
+                        <p className="text-slate-600 text-sm italic leading-relaxed bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+                          "Alex has consistently demonstrated academic excellence and active participation in class discussions. Keep up the high standards!"
+                        </p>
+                      </div>
+                      
+                      {/* Buttons to print / download */}
+                      <div className="flex flex-col sm:flex-row gap-3 pt-2 w-full">
+                        <button
+                          onClick={() => {
+                            const printWindow = window.open('', '_blank')
+                            if (!printWindow) return
+
+                            const studentName = child.name
+                            const className = child.class
+                            const rollNo = child.rollNo
+                            const attendance = child.attendance.toString()
+                            const percentage = child.percentage.toString()
+                            const totalObtained = courses.reduce((sum, c) => sum + (c.marks || 0), 0)
+                            const totalMax = courses.length * 100
+                            const remarks = 'Alex has consistently demonstrated academic excellence and active participation in class discussions. Keep up the high standards!'
+
+                            const tableRows = courses.map(c => `
+                              <tr>
+                                <td style="font-weight: bold; padding: 12px 10px; border: 1px solid #cbd5e1;">${c.name}</td>
+                                <td style="text-align: center; padding: 12px 10px; border: 1px solid #cbd5e1;">100</td>
+                                <td style="text-align: center; font-weight: bold; padding: 12px 10px; border: 1px solid #cbd5e1;">${c.marks}</td>
+                                <td style="text-align: center; font-weight: bold; color: #1e3a8a; padding: 12px 10px; border: 1px solid #cbd5e1;">${c.grade}</td>
+                                <td style="font-style: italic; color: #475569; padding: 12px 10px; border: 1px solid #cbd5e1;">${c.remarks}</td>
+                              </tr>
+                            `).join('')
+
+                            const htmlContent = `
+                              <html>
+                                <head>
+                                  <title>Report Card - ${studentName}</title>
+                                  <style>
+                                    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+                                    body {
+                                      font-family: 'Inter', sans-serif;
+                                      color: #1e293b;
+                                      padding: 40px;
+                                      margin: 0;
+                                      background-color: white;
+                                    }
+                                    .report-card {
+                                      border: 4px double #1e3a8a;
+                                      padding: 35px;
+                                      border-radius: 12px;
+                                      max-width: 850px;
+                                      margin: 0 auto;
+                                      position: relative;
+                                      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+                                    }
+                                    .watermark {
+                                      position: absolute;
+                                      top: 50%;
+                                      left: 50%;
+                                      transform: translate(-50%, -50%) rotate(-30deg);
+                                      font-size: 80px;
+                                      color: rgba(30, 58, 138, 0.03);
+                                      font-weight: 800;
+                                      pointer-events: none;
+                                      white-space: nowrap;
+                                      z-index: 0;
+                                    }
+                                    .header {
+                                      text-align: center;
+                                      border-bottom: 3px double #e2e8f0;
+                                      padding-bottom: 20px;
+                                      margin-bottom: 25px;
+                                    }
+                                    .school-name {
+                                      font-size: 32px;
+                                      font-weight: 800;
+                                      color: #1e3a8a;
+                                      margin: 0;
+                                      letter-spacing: 1.5px;
+                                    }
+                                    .school-subtitle {
+                                      font-size: 13px;
+                                      color: #64748b;
+                                      margin: 6px 0 0 0;
+                                      text-transform: uppercase;
+                                      letter-spacing: 2px;
+                                    }
+                                    .title {
+                                      font-size: 20px;
+                                      font-weight: 800;
+                                      margin: 20px 0 0 0;
+                                      color: #0f172a;
+                                      text-transform: uppercase;
+                                      letter-spacing: 1.5px;
+                                    }
+                                    .info-grid {
+                                      display: grid;
+                                      grid-template-cols: 1fr 1fr;
+                                      gap: 15px;
+                                      margin-bottom: 30px;
+                                      font-size: 14px;
+                                    }
+                                    .info-item {
+                                      display: flex;
+                                      border-bottom: 1px dashed #cbd5e1;
+                                      padding-bottom: 5px;
+                                    }
+                                    .info-label {
+                                      font-weight: 700;
+                                      color: #475569;
+                                      width: 140px;
+                                    }
+                                    .info-value {
+                                      color: #0f172a;
+                                      font-weight: 600;
+                                    }
+                                    table {
+                                      width: 100%;
+                                      border-collapse: collapse;
+                                      margin-bottom: 30px;
+                                      z-index: 1;
+                                      position: relative;
+                                    }
+                                    th {
+                                      background-color: #f8fafc;
+                                      color: #1e3a8a;
+                                      font-weight: 800;
+                                      text-transform: uppercase;
+                                      font-size: 12px;
+                                      letter-spacing: 0.5px;
+                                      border: 1px solid #cbd5e1;
+                                      padding: 12px 10px;
+                                      text-align: left;
+                                    }
+                                    .summary-section {
+                                      display: grid;
+                                      grid-template-cols: 1.2fr 1fr;
+                                      gap: 20px;
+                                      margin-bottom: 40px;
+                                      border: 1px solid #cbd5e1;
+                                      border-radius: 8px;
+                                      padding: 20px;
+                                      background-color: #f8fafc;
+                                    }
+                                    .summary-title {
+                                      font-weight: 800;
+                                      margin-bottom: 12px;
+                                      font-size: 13px;
+                                      color: #1e3a8a;
+                                      text-transform: uppercase;
+                                      letter-spacing: 0.5px;
+                                    }
+                                    .summary-row {
+                                      display: flex;
+                                      justify-content: space-between;
+                                      margin-bottom: 8px;
+                                      font-size: 14px;
+                                      border-bottom: 1px solid #e2e8f0;
+                                      padding-bottom: 4px;
+                                    }
+                                    .summary-row:last-child {
+                                      border-bottom: none;
+                                    }
+                                    .remarks-box {
+                                      font-style: italic;
+                                      color: #334155;
+                                      font-size: 13px;
+                                      line-height: 1.6;
+                                      background: white;
+                                      padding: 12px;
+                                      border-radius: 6px;
+                                      border: 1px solid #e2e8f0;
+                                    }
+                                    .signatures {
+                                      display: flex;
+                                      justify-content: space-between;
+                                      margin-top: 60px;
+                                      padding-top: 20px;
+                                    }
+                                    .sig-block {
+                                      text-align: center;
+                                      width: 30%;
+                                    }
+                                    .sig-line {
+                                      border-top: 1px solid #94a3b8;
+                                      margin-bottom: 8px;
+                                    }
+                                    .sig-title {
+                                      font-size: 12px;
+                                      font-weight: 600;
+                                      color: #64748b;
+                                    }
+                                    .sig-name {
+                                      font-size: 13px;
+                                      font-weight: 700;
+                                      color: #1e293b;
+                                    }
+                                    @media print {
+                                      body {
+                                        padding: 0;
+                                      }
+                                      .report-card {
+                                        border: 4px double #1e3a8a;
+                                        box-shadow: none;
+                                        page-break-inside: avoid;
+                                      }
+                                    }
+                                  </style>
+                                </head>
+                                <body>
+                                  <div class="report-card">
+                                    <div class="watermark">EDUPRO HIGH</div>
+                                    <div class="header">
+                                      <h1 class="school-name">EDUPRO HIGH SCHOOL</h1>
+                                      <p class="school-subtitle">100 Education Blvd, Science City • Tel: (555) 0199</p>
+                                      <h2 class="title">Academic Performance Report Card</h2>
+                                      <p style="margin: 6px 0 0 0; font-size: 12px; font-weight: 600; color: #475569;">ACADEMIC YEAR: 2025-2026 • TERM: MID-TERM</p>
+                                    </div>
+                                    
+                                    <div class="info-grid">
+                                      <div class="info-item">
+                                        <span class="info-label">Student Name:</span>
+                                        <span class="info-value">${studentName}</span>
+                                      </div>
+                                      <div class="info-item">
+                                        <span class="info-label">Class / Section:</span>
+                                        <span class="info-value">${className}</span>
+                                      </div>
+                                      <div class="info-item">
+                                        <span class="info-label">Roll Number:</span>
+                                        <span class="info-value">${rollNo}</span>
+                                      </div>
+                                      <div class="info-item">
+                                        <span class="info-label">Student ID:</span>
+                                        <span class="info-value">STU2025-${rollNo.padStart(3, '0')}</span>
+                                      </div>
+                                    </div>
+                                    
+                                    <table>
+                                      <thead>
+                                        <tr>
+                                          <th>Subject Name</th>
+                                          <th style="text-align: center; width: 100px;">Max Marks</th>
+                                          <th style="text-align: center; width: 120px;">Marks Obtained</th>
+                                          <th style="text-align: center; width: 80px;">Grade</th>
+                                          <th>Remarks</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        ${tableRows}
+                                      </tbody>
+                                    </table>
+                                    
+                                    <div class="summary-section">
+                                      <div>
+                                        <div class="summary-title">Academic Summary</div>
+                                        <div class="summary-row">
+                                          <span>Total Marks Obtained:</span>
+                                          <strong>${totalObtained} / ${totalMax}</strong>
+                                        </div>
+                                        <div class="summary-row">
+                                          <span>Overall Percentage:</span>
+                                          <strong>${percentage}%</strong>
+                                        </div>
+                                        <div class="summary-row">
+                                          <span>Attendance Rate:</span>
+                                          <strong>${attendance}%</strong>
+                                        </div>
+                                        <div class="summary-row">
+                                          <span>Result Status:</span>
+                                          <strong style="color: #10b981;">PASSED (PROMOTED)</strong>
+                                        </div>
+                                      </div>
+                                      <div>
+                                        <div class="summary-title">Class Teacher Remarks</div>
+                                        <div class="remarks-box font-style: italic;">
+                                          "${remarks}"
+                                        </div>
+                                      </div>
+                                    </div>
+                                    
+                                    <div class="signatures">
+                                      <div class="sig-block">
+                                        <div class="sig-line" style="margin-top: 25px;"></div>
+                                        <div class="sig-name">Dr. Sarah Johnson</div>
+                                        <div class="sig-title">Class Teacher</div>
+                                      </div>
+                                      <div class="sig-block">
+                                        <div class="sig-line" style="margin-top: 25px;"></div>
+                                        <div class="sig-name">Dr. Arthur Pendelton</div>
+                                        <div class="sig-title">Principal</div>
+                                      </div>
+                                      <div class="sig-block">
+                                        <div class="sig-line" style="margin-top: 25px;"></div>
+                                        <div class="sig-name"></div>
+                                        <div class="sig-title">Parent Signature</div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <script>
+                                    window.onload = function() {
+                                      window.print();
+                                      setTimeout(function() {
+                                        window.close();
+                                      }, 500);
+                                    }
+                                  </script>
+                                </body>
+                              </html>
+                            `
+
+                            printWindow.document.open()
+                            printWindow.document.write(htmlContent)
+                            printWindow.document.close()
+                          }}
+                          className="flex-1 min-w-[150px] bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white px-6 py-3 rounded-xl font-bold hover:shadow-lg hover:shadow-blue-600/25 transition-all duration-300 flex items-center justify-center gap-2"
+                        >
+                          <Printer size={18} /> Print Report
+                        </button>
+                        <button
+                          onClick={() => {
+                            const printWindow = window.open('', '_blank')
+                            if (!printWindow) return
+
+                            const studentName = child.name
+                            const className = child.class
+                            const rollNo = child.rollNo
+                            const attendance = child.attendance.toString()
+                            const percentage = child.percentage.toString()
+                            const totalObtained = courses.reduce((sum, c) => sum + (c.marks || 0), 0)
+                            const totalMax = courses.length * 100
+                            const remarks = 'Alex has consistently demonstrated academic excellence and active participation in class discussions. Keep up the high standards!'
+
+                            const tableRows = courses.map(c => `
+                              <tr>
+                                <td style="font-weight: bold; padding: 12px 10px; border: 1px solid #cbd5e1;">${c.name}</td>
+                                <td style="text-align: center; padding: 12px 10px; border: 1px solid #cbd5e1;">100</td>
+                                <td style="text-align: center; font-weight: bold; padding: 12px 10px; border: 1px solid #cbd5e1;">${c.marks}</td>
+                                <td style="text-align: center; font-weight: bold; color: #1e3a8a; padding: 12px 10px; border: 1px solid #cbd5e1;">${c.grade}</td>
+                                <td style="font-style: italic; color: #475569; padding: 12px 10px; border: 1px solid #cbd5e1;">${c.remarks}</td>
+                              </tr>
+                            `).join('')
+
+                            const htmlContent = `
+                              <html>
+                                <head>
+                                  <title>Report Card - ${studentName}</title>
+                                  <style>
+                                    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+                                    body {
+                                      font-family: 'Inter', sans-serif;
+                                      color: #1e293b;
+                                      padding: 40px;
+                                      margin: 0;
+                                      background-color: white;
+                                    }
+                                    .report-card {
+                                      border: 4px double #1e3a8a;
+                                      padding: 35px;
+                                      border-radius: 12px;
+                                      max-width: 850px;
+                                      margin: 0 auto;
+                                      position: relative;
+                                      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+                                    }
+                                    .watermark {
+                                      position: absolute;
+                                      top: 50%;
+                                      left: 50%;
+                                      transform: translate(-50%, -50%) rotate(-30deg);
+                                      font-size: 80px;
+                                      color: rgba(30, 58, 138, 0.03);
+                                      font-weight: 800;
+                                      pointer-events: none;
+                                      white-space: nowrap;
+                                      z-index: 0;
+                                    }
+                                    .header {
+                                      text-align: center;
+                                      border-bottom: 3px double #e2e8f0;
+                                      padding-bottom: 20px;
+                                      margin-bottom: 25px;
+                                    }
+                                    .school-name {
+                                      font-size: 32px;
+                                      font-weight: 800;
+                                      color: #1e3a8a;
+                                      margin: 0;
+                                      letter-spacing: 1.5px;
+                                    }
+                                    .school-subtitle {
+                                      font-size: 13px;
+                                      color: #64748b;
+                                      margin: 6px 0 0 0;
+                                      text-transform: uppercase;
+                                      letter-spacing: 2px;
+                                    }
+                                    .title {
+                                      font-size: 20px;
+                                      font-weight: 800;
+                                      margin: 20px 0 0 0;
+                                      color: #0f172a;
+                                      text-transform: uppercase;
+                                      letter-spacing: 1.5px;
+                                    }
+                                    .info-grid {
+                                      display: grid;
+                                      grid-template-cols: 1fr 1fr;
+                                      gap: 15px;
+                                      margin-bottom: 30px;
+                                      font-size: 14px;
+                                    }
+                                    .info-item {
+                                      display: flex;
+                                      border-bottom: 1px dashed #cbd5e1;
+                                      padding-bottom: 5px;
+                                    }
+                                    .info-label {
+                                      font-weight: 700;
+                                      color: #475569;
+                                      width: 140px;
+                                    }
+                                    .info-value {
+                                      color: #0f172a;
+                                      font-weight: 600;
+                                    }
+                                    table {
+                                      width: 100%;
+                                      border-collapse: collapse;
+                                      margin-bottom: 30px;
+                                      z-index: 1;
+                                      position: relative;
+                                    }
+                                    th {
+                                      background-color: #f8fafc;
+                                      color: #1e3a8a;
+                                      font-weight: 800;
+                                      text-transform: uppercase;
+                                      font-size: 12px;
+                                      letter-spacing: 0.5px;
+                                      border: 1px solid #cbd5e1;
+                                      padding: 12px 10px;
+                                      text-align: left;
+                                    }
+                                    .summary-section {
+                                      display: grid;
+                                      grid-template-cols: 1.2fr 1fr;
+                                      gap: 20px;
+                                      margin-bottom: 40px;
+                                      border: 1px solid #cbd5e1;
+                                      border-radius: 8px;
+                                      padding: 20px;
+                                      background-color: #f8fafc;
+                                    }
+                                    .summary-title {
+                                      font-weight: 800;
+                                      margin-bottom: 12px;
+                                      font-size: 13px;
+                                      color: #1e3a8a;
+                                      text-transform: uppercase;
+                                      letter-spacing: 0.5px;
+                                    }
+                                    .summary-row {
+                                      display: flex;
+                                      justify-content: space-between;
+                                      margin-bottom: 8px;
+                                      font-size: 14px;
+                                      border-bottom: 1px solid #e2e8f0;
+                                      padding-bottom: 4px;
+                                    }
+                                    .summary-row:last-child {
+                                      border-bottom: none;
+                                    }
+                                    .remarks-box {
+                                      font-style: italic;
+                                      color: #334155;
+                                      font-size: 13px;
+                                      line-height: 1.6;
+                                      background: white;
+                                      padding: 12px;
+                                      border-radius: 6px;
+                                      border: 1px solid #e2e8f0;
+                                    }
+                                    .signatures {
+                                      display: flex;
+                                      justify-content: space-between;
+                                      margin-top: 60px;
+                                      padding-top: 20px;
+                                    }
+                                    .sig-block {
+                                      text-align: center;
+                                      width: 30%;
+                                    }
+                                    .sig-line {
+                                      border-top: 1px solid #94a3b8;
+                                      margin-bottom: 8px;
+                                    }
+                                    .sig-title {
+                                      font-size: 12px;
+                                      font-weight: 600;
+                                      color: #64748b;
+                                    }
+                                    .sig-name {
+                                      font-size: 13px;
+                                      font-weight: 700;
+                                      color: #1e293b;
+                                    }
+                                    @media print {
+                                      body {
+                                        padding: 0;
+                                      }
+                                      .report-card {
+                                        border: 4px double #1e3a8a;
+                                        box-shadow: none;
+                                        page-break-inside: avoid;
+                                      }
+                                    }
+                                  </style>
+                                </head>
+                                <body>
+                                  <div class="report-card">
+                                    <div class="watermark">EDUPRO HIGH</div>
+                                    <div class="header">
+                                      <h1 class="school-name">EDUPRO HIGH SCHOOL</h1>
+                                      <p class="school-subtitle">100 Education Blvd, Science City • Tel: (555) 0199</p>
+                                      <h2 class="title">Academic Performance Report Card</h2>
+                                      <p style="margin: 6px 0 0 0; font-size: 12px; font-weight: 600; color: #475569;">ACADEMIC YEAR: 2025-2026 • TERM: MID-TERM</p>
+                                    </div>
+                                    
+                                    <div class="info-grid">
+                                      <div class="info-item">
+                                        <span class="info-label">Student Name:</span>
+                                        <span class="info-value">${studentName}</span>
+                                      </div>
+                                      <div class="info-item">
+                                        <span class="info-label">Class / Section:</span>
+                                        <span class="info-value">${className}</span>
+                                      </div>
+                                      <div class="info-item">
+                                        <span class="info-label">Roll Number:</span>
+                                        <span class="info-value">${rollNo}</span>
+                                      </div>
+                                      <div class="info-item">
+                                        <span class="info-label">Student ID:</span>
+                                        <span class="info-value">STU2025-${rollNo.padStart(3, '0')}</span>
+                                      </div>
+                                    </div>
+                                    
+                                    <table>
+                                      <thead>
+                                        <tr>
+                                          <th>Subject Name</th>
+                                          <th style="text-align: center; width: 100px;">Max Marks</th>
+                                          <th style="text-align: center; width: 120px;">Marks Obtained</th>
+                                          <th style="text-align: center; width: 80px;">Grade</th>
+                                          <th>Remarks</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        ${tableRows}
+                                      </tbody>
+                                    </table>
+                                    
+                                    <div class="summary-section">
+                                      <div>
+                                        <div class="summary-title">Academic Summary</div>
+                                        <div class="summary-row">
+                                          <span>Total Marks Obtained:</span>
+                                          <strong>${totalObtained} / ${totalMax}</strong>
+                                        </div>
+                                        <div class="summary-row">
+                                          <span>Overall Percentage:</span>
+                                          <strong>${percentage}%</strong>
+                                        </div>
+                                        <div class="summary-row">
+                                          <span>Attendance Rate:</span>
+                                          <strong>${attendance}%</strong>
+                                        </div>
+                                        <div class="summary-row">
+                                          <span>Result Status:</span>
+                                          <strong style="color: #10b981;">PASSED (PROMOTED)</strong>
+                                        </div>
+                                      </div>
+                                      <div>
+                                        <div class="summary-title">Class Teacher Remarks</div>
+                                        <div class="remarks-box font-style: italic;">
+                                          "${remarks}"
+                                        </div>
+                                      </div>
+                                    </div>
+                                    
+                                    <div class="signatures">
+                                      <div class="sig-block">
+                                        <div class="sig-line" style="margin-top: 25px;"></div>
+                                        <div class="sig-name">Dr. Sarah Johnson</div>
+                                        <div class="sig-title">Class Teacher</div>
+                                      </div>
+                                      <div class="sig-block">
+                                        <div class="sig-line" style="margin-top: 25px;"></div>
+                                        <div class="sig-name">Dr. Arthur Pendelton</div>
+                                        <div class="sig-title">Principal</div>
+                                      </div>
+                                      <div class="sig-block">
+                                        <div class="sig-line" style="margin-top: 25px;"></div>
+                                        <div class="sig-name"></div>
+                                        <div class="sig-title">Parent Signature</div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <script>
+                                    window.onload = function() {
+                                      window.print();
+                                      setTimeout(function() {
+                                        window.close();
+                                      }, 500);
+                                    }
+                                  </script>
+                                </body>
+                              </html>
+                            `
+                            printWindow.document.open()
+                            printWindow.document.write(htmlContent)
+                            printWindow.document.close()
+                          }}
+                          className="flex-1 min-w-[150px] bg-white hover:bg-slate-50 text-slate-700 border-2 border-slate-200 px-6 py-3 rounded-xl font-bold transition-all duration-300 flex items-center justify-center gap-2"
+                        >
+                          <Download size={18} /> Save as PDF
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             )}
