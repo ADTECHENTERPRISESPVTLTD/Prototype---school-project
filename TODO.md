@@ -1,8 +1,10 @@
-# TODO - Add Document Attachments to Teacher Portal + New Student Sections (on main branch)
+# Task: Change to frontend branch and push code
 
 ## Steps
-- [x] 1. Add file/document attachment upload option in teacher portal (homework, notes, questions, papers)
-- [x] 2. Add Important Questions, Question Papers tabs to student portal (keeping Report Card feature)
-- [x] 3. Add Homework & Notes tabs to student portal
-- [x] 4. Make new sections mobile responsive
-- [x] 5. Verify build on main branch
+- [x] Analyze git repository state (branches, remotes, uncommitted changes)
+- [ ] Commit uncommitted changes (TODO.md, app/student-portal/page.tsx) on main
+- [ ] Switch to frontend branch
+- [ ] Fast-forward frontend to match main
+- [ ] Push frontend to remote (origin/frontend)
+- [ ] Verify branch state and remote status
+
