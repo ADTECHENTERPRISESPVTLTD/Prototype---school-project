@@ -392,7 +392,7 @@ function TeacherPortalContent() {
       </section>
 
       <div className="mx-auto max-w-7xl px-4 py-10">
-        <div className="mb-8 grid gap-4 rounded-3xl border border-slate-200 bg-white p-2 shadow-xl grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-10">
+<div className="mb-8 flex gap-2 overflow-x-auto rounded-3xl border border-slate-200 bg-white p-2 shadow-xl">
           {tabs.map((tab) => {
             const Icon = tab.icon
             const active = activeTab === tab.id
@@ -401,7 +401,7 @@ function TeacherPortalContent() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center justify-center gap-2 rounded-2xl px-3 py-4 text-xs sm:text-sm font-bold transition-all ${active
+                className={`flex min-w-fit flex-1 items-center justify-center gap-2 whitespace-nowrap rounded-2xl px-3 py-4 text-xs sm:px-6 sm:py-4 sm:text-sm font-bold transition-all ${active
                   ? 'bg-gradient-to-r from-slate-800 to-blue-900 text-white shadow-lg'
                   : 'text-slate-600 hover:bg-slate-100'
                 }`}
