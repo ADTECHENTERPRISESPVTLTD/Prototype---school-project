@@ -7,17 +7,19 @@ import {
   BarChart3,
   BellRing,
   BookOpenCheck,
-  CalendarDays,
   CheckCircle2,
   ClipboardCheck,
   FileText,
+  HelpCircle,
   MessageCircle,
   NotebookPen,
+  Paperclip,
   Send,
   TrendingUp,
   Upload,
   Users,
   Clock3,
+  X,
 } from 'lucide-react'
 
 type PortalTab =
@@ -27,6 +29,8 @@ type PortalTab =
   | 'results'
   | 'homework'
   | 'notes'
+  | 'questions'
+  | 'papers'
   | 'communication'
   | 'statistics'
 
@@ -49,11 +53,17 @@ type UploadRecord = {
   term: string
 }
 
+type Attachment = {
+  name: string
+  size: string
+}
+
 type HomeworkItem = {
   id: number
   title: string
   subject: string
   dueDate: string
+  attachment?: Attachment
 }
 
 type NoteItem = {
@@ -61,6 +71,27 @@ type NoteItem = {
   title: string
   subject: string
   postedOn: string
+  attachment?: Attachment
+}
+
+type QuestionItem = {
+  id: number
+  subject: string
+  chapter: string
+  questions: string[]
+  difficulty: string
+  marks: number
+  attachment?: Attachment
+}
+
+type PaperItem = {
+  id: number
+  subject: string
+  exam: string
+  year: string
+  marks: string
+  duration: string
+  attachment?: Attachment
 }
 
 type MessageItem = {
@@ -68,6 +99,48 @@ type MessageItem = {
   parent: string
   message: string
   time: string
+}
+
+function AttachmentPicker({
+  label,
+  attachment,
+  onFile,
+  onClear,
+}: {
+  label: string
+  attachment: Attachment | null
+  onFile: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onClear: () => void
+}) {
+  return (
+    <div>
+      <label className="flex cursor-pointer flex-col items-start gap-2 rounded-2xl border-2 border-dashed border-slate-300 bg-slate-50 p-4 transition hover:border-slate-400 hover:bg-slate-100">
+        <span className="inline-flex items-center gap-2 text-sm font-semibold text-slate-700">
+          <Paperclip size={16} className="text-slate-500" />
+          {label}
+        </span>
+        {attachment ? (
+          <span className="inline-flex items-center gap-2 rounded-lg bg-emerald-100 px-3 py-1.5 text-xs font-bold text-emerald-700">
+            <FileText size={14} />
+            {attachment.name} ({attachment.size})
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault()
+                onClear()
+              }}
+              className="text-emerald-600 transition hover:text-red-600"
+            >
+              <X size={14} />
+            </button>
+          </span>
+        ) : (
+          <span className="text-xs font-medium text-slate-500">Attach a document (PDF, DOC, image, etc.)</span>
+        )}
+        <input type="file" onChange={onFile} className="hidden" />
+      </label>
+    </div>
+  )
 }
 
 function TeacherPortalContent() {
@@ -98,6 +171,16 @@ function TeacherPortalContent() {
     { id: 2, title: 'History worksheet', subject: 'Social Studies', postedOn: '2026-08-03' },
   ])
 
+  const [questions, setQuestions] = useState<QuestionItem[]>([
+    { id: 1, subject: 'Mathematics', chapter: 'Calculus - Differentiation', questions: ['Derive the chain rule', 'Solve maxima and minima problems'], difficulty: 'Hard', marks: 8 },
+    { id: 2, subject: 'Physics', chapter: 'Quantum Mechanics', questions: ['Explain wave-particle duality', 'State Heisenberg uncertainty principle'], difficulty: 'Hard', marks: 10 },
+  ])
+
+  const [papers, setPapers] = useState<PaperItem[]>([
+    { id: 1, subject: 'Mathematics', exam: 'Mid-Term Exam', year: '2024', marks: '100 Marks', duration: '3 Hours' },
+    { id: 2, subject: 'Physics', exam: 'Final Exam', year: '2023', marks: '100 Marks', duration: '3 Hours' },
+  ])
+
   const [messages, setMessages] = useState<MessageItem[]>([
     { id: 1, parent: 'Anna Smith', message: 'Thanks for the progress update. We will work on homework this week.', time: '10 mins ago' },
     { id: 2, parent: 'Laura Wilson', message: 'Please share extra practice material for the next test.', time: '1 hour ago' },
@@ -106,7 +189,20 @@ function TeacherPortalContent() {
   const [resultForm, setResultForm] = useState({ student: '', subject: '', marks: '', term: 'Mid-Term' })
   const [homeworkForm, setHomeworkForm] = useState({ title: '', subject: '', dueDate: '' })
   const [noteForm, setNoteForm] = useState({ title: '', subject: '', summary: '' })
+  const [questionForm, setQuestionForm] = useState({ subject: '', chapter: '', questions: '', difficulty: 'Medium', marks: '' })
+  const [paperForm, setPaperForm] = useState({ subject: '', exam: '', year: '', marks: '', duration: '' })
   const [messageForm, setMessageForm] = useState({ parent: '', message: '' })
+
+  const [homeworkAttachment, setHomeworkAttachment] = useState<Attachment | null>(null)
+  const [noteAttachment, setNoteAttachment] = useState<Attachment | null>(null)
+  const [questionAttachment, setQuestionAttachment] = useState<Attachment | null>(null)
+  const [paperAttachment, setPaperAttachment] = useState<Attachment | null>(null)
+
+  const readAttachment = (e: React.ChangeEvent<HTMLInputElement>): Attachment | null => {
+    const file = e.target.files?.[0]
+    if (!file) return null
+    return { name: file.name, size: `${(file.size / 1024).toFixed(1)} KB` }
+  }
 
   const classAverage = useMemo(
     () => Math.round(students.reduce((sum, student) => sum + student.average, 0) / students.length),
@@ -128,6 +224,8 @@ function TeacherPortalContent() {
     { id: 'results', label: 'Upload Results', icon: Upload },
     { id: 'homework', label: 'Homework', icon: BookOpenCheck },
     { id: 'notes', label: 'Upload Notes', icon: NotebookPen },
+    { id: 'questions', label: 'Important Questions', icon: HelpCircle },
+    { id: 'papers', label: 'Question Papers', icon: FileText },
     { id: 'communication', label: 'Parent Communication', icon: MessageCircle },
     { id: 'statistics', label: 'Statistics', icon: TrendingUp },
   ]
@@ -167,10 +265,12 @@ function TeacherPortalContent() {
         title: homeworkForm.title,
         subject: homeworkForm.subject,
         dueDate: homeworkForm.dueDate,
+        attachment: homeworkAttachment || undefined,
       },
       ...currentHomework,
     ])
     setHomeworkForm({ title: '', subject: '', dueDate: '' })
+    setHomeworkAttachment(null)
   }
 
   const handleNoteSubmit = () => {
@@ -182,10 +282,50 @@ function TeacherPortalContent() {
         title: noteForm.title,
         subject: noteForm.subject,
         postedOn: new Date().toISOString().split('T')[0],
+        attachment: noteAttachment || undefined,
       },
       ...currentNotes,
     ])
     setNoteForm({ title: '', subject: '', summary: '' })
+    setNoteAttachment(null)
+  }
+
+  const handleQuestionSubmit = () => {
+    if (!questionForm.subject || !questionForm.chapter || !questionForm.questions || !questionForm.marks) return
+
+    setQuestions((currentQuestions) => [
+      {
+        id: currentQuestions.length + 1,
+        subject: questionForm.subject,
+        chapter: questionForm.chapter,
+        questions: questionForm.questions.split('\n').map((q) => q.trim()).filter(Boolean),
+        difficulty: questionForm.difficulty,
+        marks: Number(questionForm.marks),
+        attachment: questionAttachment || undefined,
+      },
+      ...currentQuestions,
+    ])
+    setQuestionForm({ subject: '', chapter: '', questions: '', difficulty: 'Medium', marks: '' })
+    setQuestionAttachment(null)
+  }
+
+  const handlePaperSubmit = () => {
+    if (!paperForm.subject || !paperForm.exam || !paperForm.year || !paperForm.marks || !paperForm.duration) return
+
+    setPapers((currentPapers) => [
+      {
+        id: currentPapers.length + 1,
+        subject: paperForm.subject,
+        exam: paperForm.exam,
+        year: paperForm.year,
+        marks: paperForm.marks,
+        duration: paperForm.duration,
+        attachment: paperAttachment || undefined,
+      },
+      ...currentPapers,
+    ])
+    setPaperForm({ subject: '', exam: '', year: '', marks: '', duration: '' })
+    setPaperAttachment(null)
   }
 
   const handleMessageSubmit = () => {
@@ -252,7 +392,7 @@ function TeacherPortalContent() {
       </section>
 
       <div className="mx-auto max-w-7xl px-4 py-10">
-        <div className="mb-8 grid gap-4 rounded-3xl border border-slate-200 bg-white p-2 shadow-xl lg:grid-cols-4 xl:grid-cols-8">
+        <div className="mb-8 grid gap-4 rounded-3xl border border-slate-200 bg-white p-2 shadow-xl grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-10">
           {tabs.map((tab) => {
             const Icon = tab.icon
             const active = activeTab === tab.id
@@ -261,10 +401,9 @@ function TeacherPortalContent() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center justify-center gap-2 rounded-2xl px-4 py-4 text-sm font-bold transition-all ${
-                  active
-                    ? 'bg-gradient-to-r from-slate-800 to-blue-900 text-white shadow-lg'
-                    : 'text-slate-600 hover:bg-slate-100'
+                className={`flex items-center justify-center gap-2 rounded-2xl px-3 py-4 text-xs sm:text-sm font-bold transition-all ${active
+                  ? 'bg-gradient-to-r from-slate-800 to-blue-900 text-white shadow-lg'
+                  : 'text-slate-600 hover:bg-slate-100'
                 }`}
               >
                 <Icon size={18} />
@@ -539,6 +678,12 @@ function TeacherPortalContent() {
                   type="date"
                   className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-slate-400"
                 />
+                <AttachmentPicker
+                  label="Attach document"
+                  attachment={homeworkAttachment}
+                  onFile={(e) => setHomeworkAttachment(readAttachment(e))}
+                  onClear={() => setHomeworkAttachment(null)}
+                />
                 <button
                   onClick={handleHomeworkSubmit}
                   className="inline-flex items-center gap-2 rounded-2xl bg-slate-900 px-5 py-3 font-bold text-white transition hover:bg-slate-800"
@@ -557,6 +702,12 @@ function TeacherPortalContent() {
                     <p className="font-bold text-slate-900">{item.title}</p>
                     <p className="text-sm text-slate-600">{item.subject}</p>
                     <p className="mt-2 text-xs font-semibold uppercase tracking-wide text-slate-500">Due {item.dueDate}</p>
+                    {item.attachment && (
+                      <span className="mt-2 inline-flex items-center gap-1.5 rounded-lg bg-white px-3 py-1.5 text-xs font-bold text-slate-600 shadow-sm">
+                        <Paperclip size={14} className="text-blue-600" />
+                        {item.attachment.name} ({item.attachment.size})
+                      </span>
+                    )}
                   </article>
                 ))}
               </div>
@@ -590,6 +741,12 @@ function TeacherPortalContent() {
                   rows={4}
                   className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-slate-400"
                 />
+                <AttachmentPicker
+                  label="Attach document"
+                  attachment={noteAttachment}
+                  onFile={(e) => setNoteAttachment(readAttachment(e))}
+                  onClear={() => setNoteAttachment(null)}
+                />
                 <button
                   onClick={handleNoteSubmit}
                   className="inline-flex items-center gap-2 rounded-2xl bg-slate-900 px-5 py-3 font-bold text-white transition hover:bg-slate-800"
@@ -608,6 +765,187 @@ function TeacherPortalContent() {
                     <p className="font-bold text-slate-900">{note.title}</p>
                     <p className="text-sm text-slate-600">{note.subject}</p>
                     <p className="mt-2 text-xs font-semibold uppercase tracking-wide text-slate-500">Posted {note.postedOn}</p>
+                    {note.attachment && (
+                      <span className="mt-2 inline-flex items-center gap-1.5 rounded-lg bg-white px-3 py-1.5 text-xs font-bold text-slate-600 shadow-sm">
+                        <Paperclip size={14} className="text-emerald-600" />
+                        {note.attachment.name} ({note.attachment.size})
+                      </span>
+                    )}
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {activeTab === 'questions' && (
+          <section className="grid gap-6 lg:grid-cols-2">
+            <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-xl">
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">Important Questions</p>
+              <h2 className="mt-2 text-3xl font-bold text-slate-900">Add chapter-wise questions</h2>
+
+              <div className="mt-6 space-y-4">
+                <input
+                  value={questionForm.subject}
+                  onChange={(e) => setQuestionForm({ ...questionForm, subject: e.target.value })}
+                  placeholder="Subject"
+                  className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-slate-400"
+                />
+                <input
+                  value={questionForm.chapter}
+                  onChange={(e) => setQuestionForm({ ...questionForm, chapter: e.target.value })}
+                  placeholder="Chapter name"
+                  className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-slate-400"
+                />
+                <textarea
+                  value={questionForm.questions}
+                  onChange={(e) => setQuestionForm({ ...questionForm, questions: e.target.value })}
+                  placeholder="Enter questions (one per line)"
+                  rows={4}
+                  className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-slate-400"
+                />
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <input
+                    value={questionForm.marks}
+                    onChange={(e) => setQuestionForm({ ...questionForm, marks: e.target.value })}
+                    placeholder="Marks"
+                    type="number"
+                    className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-slate-400"
+                  />
+                  <select
+                    value={questionForm.difficulty}
+                    onChange={(e) => setQuestionForm({ ...questionForm, difficulty: e.target.value })}
+                    className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-slate-400"
+                  >
+                    <option value="Easy">Easy</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Hard">Hard</option>
+                  </select>
+                </div>
+                <AttachmentPicker
+                  label="Attach question document"
+                  attachment={questionAttachment}
+                  onFile={(e) => setQuestionAttachment(readAttachment(e))}
+                  onClear={() => setQuestionAttachment(null)}
+                />
+                <button
+                  onClick={handleQuestionSubmit}
+                  className="inline-flex items-center gap-2 rounded-2xl bg-slate-900 px-5 py-3 font-bold text-white transition hover:bg-slate-800"
+                >
+                  <HelpCircle size={18} />
+                  Publish Questions
+                </button>
+              </div>
+            </div>
+
+            <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-xl">
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">Published questions</p>
+              <div className="mt-6 space-y-4">
+                {questions.map((q) => (
+                  <article key={q.id} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                    <div className="flex items-center justify-between gap-3">
+                      <div>
+                        <p className="font-bold text-slate-900">{q.chapter}</p>
+                        <p className="text-sm text-slate-600">{q.subject}</p>
+                      </div>
+                      <span className={`rounded-full px-3 py-1 text-xs font-bold ${q.difficulty === 'Hard' ? 'bg-red-100 text-red-700' : 'bg-blue-100 text-blue-700'}`}>
+                        {q.difficulty} · {q.marks} marks
+                      </span>
+                    </div>
+                    <ul className="mt-3 space-y-1">
+                      {q.questions.map((question, i) => (
+                        <li key={i} className="flex items-start gap-2 text-sm text-slate-700">
+                          <HelpCircle size={14} className="mt-0.5 shrink-0 text-amber-500" />
+                          {question}
+                        </li>
+                      ))}
+                    </ul>
+                    {q.attachment && (
+                      <span className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-white px-3 py-1.5 text-xs font-bold text-slate-600 shadow-sm">
+                        <Paperclip size={14} className="text-amber-600" />
+                        {q.attachment.name} ({q.attachment.size})
+                      </span>
+                    )}
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {activeTab === 'papers' && (
+          <section className="grid gap-6 lg:grid-cols-2">
+            <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-xl">
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">Question Papers</p>
+              <h2 className="mt-2 text-3xl font-bold text-slate-900">Upload a question paper</h2>
+
+              <div className="mt-6 space-y-4">
+                <input
+                  value={paperForm.subject}
+                  onChange={(e) => setPaperForm({ ...paperForm, subject: e.target.value })}
+                  placeholder="Subject"
+                  className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-slate-400"
+                />
+                <input
+                  value={paperForm.exam}
+                  onChange={(e) => setPaperForm({ ...paperForm, exam: e.target.value })}
+                  placeholder="Exam type (e.g. Mid-Term / Final)"
+                  className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-slate-400"
+                />
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <input
+                    value={paperForm.year}
+                    onChange={(e) => setPaperForm({ ...paperForm, year: e.target.value })}
+                    placeholder="Year"
+                    className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-slate-400"
+                  />
+                  <input
+                    value={paperForm.marks}
+                    onChange={(e) => setPaperForm({ ...paperForm, marks: e.target.value })}
+                    placeholder="Total marks"
+                    className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-slate-400"
+                  />
+                </div>
+                <input
+                  value={paperForm.duration}
+                  onChange={(e) => setPaperForm({ ...paperForm, duration: e.target.value })}
+                  placeholder="Duration (e.g. 3 Hours)"
+                  className="w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none transition focus:border-slate-400"
+                />
+                <AttachmentPicker
+                  label="Attach question paper (PDF)"
+                  attachment={paperAttachment}
+                  onFile={(e) => setPaperAttachment(readAttachment(e))}
+                  onClear={() => setPaperAttachment(null)}
+                />
+                <button
+                  onClick={handlePaperSubmit}
+                  className="inline-flex items-center gap-2 rounded-2xl bg-slate-900 px-5 py-3 font-bold text-white transition hover:bg-slate-800"
+                >
+                  <Upload size={18} />
+                  Publish Question Paper
+                </button>
+              </div>
+            </div>
+
+            <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-xl">
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">Published papers</p>
+              <div className="mt-6 space-y-4">
+                {papers.map((paper) => (
+                  <article key={paper.id} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                    <div className="flex items-center justify-between gap-3">
+                      <div>
+                        <p className="font-bold text-slate-900">{paper.exam} - {paper.subject}</p>
+                        <p className="text-sm text-slate-600">{paper.year} · {paper.marks} · {paper.duration}</p>
+                      </div>
+                      <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-bold text-blue-700">{paper.subject}</span>
+                    </div>
+                    {paper.attachment && (
+                      <span className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-white px-3 py-1.5 text-xs font-bold text-slate-600 shadow-sm">
+                        <Paperclip size={14} className="text-blue-600" />
+                        {paper.attachment.name} ({paper.attachment.size})
+                      </span>
+                    )}
                   </article>
                 ))}
               </div>

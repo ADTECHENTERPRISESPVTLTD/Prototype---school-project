@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Header from '@/components/header'
 import { ProtectedRoute } from '@/components/protected-route'
 import { useAuth } from '@/context/auth-context'
-import { BookOpen, Clock, CheckCircle, AlertCircle, Download, Award, TrendingUp, Bell, User, Megaphone, ArrowLeft, Printer, GraduationCap } from 'lucide-react'
+import { BookOpen, Clock, CheckCircle, AlertCircle, Download, Award, TrendingUp, Bell, User, Megaphone, ArrowLeft, Printer, GraduationCap, HelpCircle, FileText, ClipboardList } from 'lucide-react'
 import Link from 'next/link'
 
 function StudentPortalContent() {
@@ -27,7 +27,28 @@ function StudentPortalContent() {
     { id: 1, title: 'Math Problem Set 5', course: 'Mathematics', dueDate: '2024-02-15', status: 'pending' },
     { id: 2, title: 'Essay on Romeo & Juliet', course: 'English Literature', dueDate: '2024-02-20', status: 'submitted' },
     { id: 3, title: 'Physics Lab Report', course: 'Physics', dueDate: '2024-02-10', status: 'overdue' },
-    { id: 4, title: 'Historical Research Paper', course: 'History', dueDate: '2024-02-25', status: 'pending' },
+{ id: 4, title: 'Historical Research Paper', course: 'History', dueDate: '2024-02-25', status: 'pending' },
+  ]
+
+  const importantQuestions = [
+    { id: 1, subject: 'Mathematics', chapter: 'Calculus - Differentiation', questions: ['Derive the chain rule with examples', 'Solve maxima and minima problems', 'Application of derivatives in real life'], difficulty: 'Hard', marks: 8 },
+    { id: 2, subject: 'Physics', chapter: 'Quantum Mechanics', questions: ['Explain wave-particle duality', 'State and prove Heisenberg uncertainty principle', 'Describe photoelectric effect with equations'], difficulty: 'Hard', marks: 10 },
+    { id: 3, subject: 'Chemistry', chapter: 'Organic Chemistry', questions: ['Explain isomerism types', 'Write mechanisms of substitution reactions', 'Describe functional group identification'], difficulty: 'Medium', marks: 7 },
+    { id: 4, subject: 'English Literature', chapter: 'Romeo & Juliet', questions: ['Analyze the theme of fate vs free will', 'Character sketch of Juliet', 'Discuss the role of the Nurse'], difficulty: 'Medium', marks: 6 },
+  ]
+
+  const questionPapers = [
+    { id: 1, subject: 'Mathematics', exam: 'Mid-Term Exam', year: '2024', marks: '100 Marks', duration: '3 Hours' },
+    { id: 2, subject: 'Physics', exam: 'Final Exam', year: '2023', marks: '100 Marks', duration: '3 Hours' },
+    { id: 3, subject: 'Chemistry', exam: 'Mid-Term Exam', year: '2024', marks: '80 Marks', duration: '2.5 Hours' },
+    { id: 4, subject: 'English Literature', exam: 'Unit Test', year: '2024', marks: '40 Marks', duration: '1.5 Hours' },
+  ]
+
+  const homeworkNotes = [
+    { id: 1, type: 'Homework', subject: 'Mathematics', title: 'Practice Differentiation Problems', date: '2024-02-12', due: '2024-02-18', status: 'pending' },
+    { id: 2, type: 'Notes', subject: 'Physics', title: 'Handwritten Notes - Quantum Mechanics', date: '2024-02-10', size: '2.4 MB' },
+    { id: 3, type: 'Homework', subject: 'Chemistry', title: 'Organic Chemistry Worksheet', date: '2024-02-11', due: '2024-02-20', status: 'submitted' },
+    { id: 4, type: 'Notes', subject: 'English Literature', title: 'Summary Notes - Romeo & Juliet', date: '2024-02-08', size: '1.8 MB' },
   ]
 
   const gradeColors: Record<string, string> = {
@@ -106,8 +127,41 @@ function StudentPortalContent() {
                   : 'text-slate-600 hover:bg-white/50'
               }`}
             >
-              <Bell size={16} className="sm:w-5 sm:h-5" />
+<Bell size={16} className="sm:w-5 sm:h-5" />
               Notices
+            </button>
+            <button
+              onClick={() => setActiveTab('questions')}
+              className={`flex-1 px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-base font-bold text-center transition-all duration-300 flex items-center justify-center gap-1 sm:gap-2 rounded-xl whitespace-nowrap ${
+                activeTab === 'questions'
+                  ? 'bg-gradient-to-r from-slate-700 to-slate-800 text-white shadow-lg transform scale-105'
+                  : 'text-slate-600 hover:bg-white/50'
+              }`}
+            >
+              <HelpCircle size={16} className="sm:w-5 sm:h-5" />
+              Important Questions
+            </button>
+            <button
+              onClick={() => setActiveTab('papers')}
+              className={`flex-1 px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-base font-bold text-center transition-all duration-300 flex items-center justify-center gap-1 sm:gap-2 rounded-xl whitespace-nowrap ${
+                activeTab === 'papers'
+                  ? 'bg-gradient-to-r from-slate-700 to-slate-800 text-white shadow-lg transform scale-105'
+                  : 'text-slate-600 hover:bg-white/50'
+              }`}
+            >
+              <FileText size={16} className="sm:w-5 sm:h-5" />
+              Question Papers
+            </button>
+            <button
+              onClick={() => setActiveTab('homework')}
+              className={`flex-1 px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-base font-bold text-center transition-all duration-300 flex items-center justify-center gap-1 sm:gap-2 rounded-xl whitespace-nowrap ${
+                activeTab === 'homework'
+                  ? 'bg-gradient-to-r from-slate-700 to-slate-800 text-white shadow-lg transform scale-105'
+                  : 'text-slate-600 hover:bg-white/50'
+              }`}
+            >
+              <ClipboardList size={16} className="sm:w-5 sm:h-5" />
+              Homework & Notes
             </button>
           </div>
 
@@ -989,6 +1043,121 @@ function StudentPortalContent() {
                           <h4 className="text-2xl font-bold text-slate-900 mb-2">{notice.title}</h4>
                           <p className="text-slate-700 mb-3 leading-relaxed">{notice.content}</p>
 <p className="text-sm text-slate-600 inline-flex items-center gap-1.5"><Megaphone size={14} className="text-blue-600" /> By {notice.createdBy}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Important Questions Tab */}
+            {activeTab === 'questions' && (
+              <div className="space-y-6">
+                <h3 className="text-3xl font-bold text-slate-900 mb-6">Chapter-wise Important Questions</h3>
+                {importantQuestions.map((item) => (
+                  <div key={item.id} className="group bg-gradient-to-br from-white to-slate-50 p-8 rounded-2xl border-2 border-slate-200 hover:border-amber-400 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+                    <div className="flex justify-between items-start mb-4">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-3 mb-2">
+                          <span className="bg-gradient-to-r from-amber-500 to-orange-600 text-white px-4 py-2 rounded-lg text-xs font-bold uppercase">
+                            {item.subject}
+                          </span>
+                          <span className="text-sm font-semibold text-slate-600">{item.chapter}</span>
+                        </div>
+                        <h4 className="text-xl font-bold text-slate-900 mb-3">{item.chapter}</h4>
+                        <ul className="space-y-2">
+                          {item.questions.map((q, i) => (
+                            <li key={i} className="flex items-start gap-2 text-slate-700 leading-relaxed">
+                              <HelpCircle size={18} className="text-amber-500 mt-0.5 shrink-0" />
+                              <span>{q}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div className="flex flex-col items-end gap-2 shrink-0">
+                        <span className={`bg-gradient-to-r ${item.difficulty === 'Hard' ? 'from-red-500 to-red-600' : 'from-blue-500 to-blue-600'} text-white text-xs font-bold px-4 py-2 rounded-lg shadow-lg`}>
+                          {item.difficulty}
+                        </span>
+                        <span className="text-sm font-bold text-slate-600">{item.marks} marks</span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Question Papers Tab */}
+            {activeTab === 'papers' && (
+              <div className="space-y-6">
+                <h3 className="text-3xl font-bold text-slate-900 mb-6">Question Papers</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {questionPapers.map((paper) => (
+                    <div key={paper.id} className="group bg-gradient-to-br from-white to-slate-50 p-8 rounded-2xl border-2 border-slate-200 hover:border-blue-400 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3 mb-2">
+                            <span className="bg-gradient-to-r from-blue-500 to-cyan-600 text-white px-4 py-2 rounded-lg text-xs font-bold uppercase">
+                              {paper.subject}
+                            </span>
+                            <span className="text-sm font-semibold text-slate-600">{paper.year}</span>
+                          </div>
+                          <h4 className="text-xl font-bold text-slate-900 mb-2">{paper.exam}</h4>
+                          <p className="text-slate-600 text-sm mb-4">{paper.subject}</p>
+                          <div className="flex flex-wrap gap-3">
+                            <span className="inline-flex items-center gap-1.5 bg-slate-100 text-slate-700 px-3 py-1.5 rounded-lg text-xs font-semibold">
+                              <FileText size={14} className="text-blue-600" /> {paper.marks}
+                            </span>
+                            <span className="inline-flex items-center gap-1.5 bg-slate-100 text-slate-700 px-3 py-1.5 rounded-lg text-xs font-semibold">
+                              <Clock size={14} className="text-blue-600" /> {paper.duration}
+                            </span>
+                          </div>
+                        </div>
+                        <button className="text-slate-600 hover:text-blue-600 hover:bg-blue-50 p-3 rounded-xl transition shrink-0">
+                          <Download size={22} />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Homework & Notes Tab */}
+            {activeTab === 'homework' && (
+              <div className="space-y-6">
+                <h3 className="text-3xl font-bold text-slate-900 mb-6">Homework & Notes</h3>
+                <div className="space-y-4">
+                  {homeworkNotes.map((item) => (
+                    <div key={item.id} className="group bg-gradient-to-r from-slate-50 to-slate-100 p-6 rounded-xl border border-slate-200 hover:border-emerald-300 hover:shadow-xl transition-all duration-300">
+                      <div className="flex justify-between items-start">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3 mb-2">
+                            <span className={`bg-gradient-to-r ${item.type === 'Homework' ? 'from-orange-500 to-orange-600' : 'from-emerald-500 to-emerald-600'} text-white px-4 py-1.5 rounded-lg text-xs font-bold uppercase`}>
+                              {item.type}
+                            </span>
+                            <span className="text-sm font-semibold text-slate-600">{item.subject}</span>
+                          </div>
+                          <h4 className="text-lg font-bold text-slate-900">{item.title}</h4>
+                          <p className="text-slate-500 text-sm mt-2">
+                            {item.type === 'Homework' ? `Due: ${item.due}` : `Size: ${item.size}`}
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-4">
+                          {item.type === 'Homework' && item.status && (
+                            item.status === 'submitted' ? (
+                              <span className="flex items-center gap-2 bg-emerald-100 text-emerald-700 px-4 py-2 rounded-lg font-semibold text-sm">
+                                <CheckCircle size={18} /> Submitted
+                              </span>
+                            ) : (
+                              <span className="flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-lg font-semibold text-sm">
+                                <Clock size={18} /> Pending
+                              </span>
+                            )
+                          )}
+                          <button className="text-slate-600 hover:text-emerald-600 hover:bg-emerald-50 p-2 rounded-lg transition">
+                            <Download size={20} />
+                          </button>
                         </div>
                       </div>
                     </div>
