@@ -216,7 +216,7 @@ function PrincipalPortalContent() {
           </div>
 
           {/* Content */}
-          <div className="p-10 bg-gradient-to-b from-white to-slate-50">
+<div className="p-4 sm:p-6 lg:p-10 bg-gradient-to-b from-white to-slate-50">
             {/* Overview Tab */}
             {activeTab === 'overview' && (
               <div className="space-y-8">
@@ -366,7 +366,7 @@ function PrincipalPortalContent() {
 
                 {/* New Notice Form */}
                 {showNewNotice && (
-                  <div className="bg-gradient-to-br from-purple-50 to-blue-50 p-4 sm:p-8 rounded-2xl border-2 border-purple-200 mb-8">
+<div className="w-full max-w-full overflow-hidden bg-gradient-to-br from-purple-50 to-blue-50 p-4 sm:p-8 rounded-2xl border-2 border-purple-200 mb-8">
                     <h4 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4">Create New Notice</h4>
                     <div className="space-y-4">
                       <div>
@@ -401,10 +401,10 @@ function PrincipalPortalContent() {
                           <option value="high">High</option>
                         </select>
                       </div>
-<div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+<div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full">
                         <button
                           onClick={handleAddNotice}
-                          className="flex-1 bg-gradient-to-r from-purple-500 to-purple-600 text-white px-6 py-3 rounded-xl font-bold hover:shadow-lg transition-all flex items-center justify-center gap-2"
+                          className="flex-1 min-w-0 w-full sm:w-auto bg-gradient-to-r from-purple-500 to-purple-600 text-white px-6 py-3 rounded-xl font-bold hover:shadow-lg transition-all flex items-center justify-center gap-2"
                         >
                           <Plus size={20} />
                           Publish Notice
@@ -414,7 +414,7 @@ function PrincipalPortalContent() {
                             setShowNewNotice(false)
                             setNoticeData({ title: '', content: '', priority: 'medium' })
                           }}
-                          className="flex-1 bg-slate-300 text-slate-700 px-6 py-3 rounded-xl font-bold hover:bg-slate-400 transition-all flex items-center justify-center gap-2"
+                          className="flex-1 min-w-0 w-full sm:w-auto bg-slate-300 text-slate-700 px-6 py-3 rounded-xl font-bold hover:bg-slate-400 transition-all flex items-center justify-center gap-2"
                         >
                           <X size={20} />
                           Cancel

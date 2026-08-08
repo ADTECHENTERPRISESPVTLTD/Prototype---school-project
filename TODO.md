@@ -1,18 +1,6 @@
-# Task: Add Timetable, improve Report Card, transparent login background
+# TODO: Make "Add New Notice" form mobile responsive in Principal Portal
 
 ## Steps
-- [x] Create shared timetable data file
-- [x] Create reusable TimetableView component
-- [x] Change login page background to transparent + blur + brand colors
-- [x] Add Timetable tab to Student Portal
-- [x] Add Timetable tab to Parent Portal
-- [x] Add Timetable tab to Principal Portal
-- [x] Add Timetable tab to Teacher Portal
-- [x] Make Report Card more attractive (Student Portal)
-- [x] Verify build (tsc) — `npm run build` compiled successfully
-
-## Result
-All requested features implemented and build verified successfully.
-- Timetable section added to all 4 portals (Student, Parent, Principal, Teacher)
-- Report card in Student Portal redesigned to be more attractive
-- Login page background changed to transparent blur with website brand colors
+- [x] 1. Make the tab content wrapper responsive (`p-10` → `p-4 sm:p-6 lg:p-10`)
+- [x] 2. Add `w-full max-w-full overflow-hidden` to the New Notice form container
+- [x] 3. Ensure input fields and buttons stack cleanly with `min-w-0` and full-width on mobile
