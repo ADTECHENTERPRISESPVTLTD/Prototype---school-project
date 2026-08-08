@@ -125,17 +125,17 @@ export default function AcademicsPage() {
         <div className="max-w-7xl mx-auto">
           <h2 className="text-4xl font-bold mb-12 text-center">Our Teaching Approach</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white/10 backdrop-blur-sm border border-white/20 p-8 rounded-2xl hover:bg-white/20 transition-all">
+<div className="bg-[#0B1F3A] border border-white/20 p-8 rounded-2xl hover:bg-[#0B1F3A]/90 transition-all">
 <div className="mb-4 flex justify-center"><Target size={40} className="text-white" /></div>
               <h3 className="text-xl font-bold mb-3">Interactive Learning</h3>
               <p className="text-blue-100">Blend traditional methods with technology for engaging experiences</p>
             </div>
-            <div className="bg-white/10 backdrop-blur-sm border border-white/20 p-8 rounded-2xl hover:bg-white/20 transition-all">
+<div className="bg-[#0B1F3A] border border-white/20 p-8 rounded-2xl hover:bg-[#0B1F3A]/90 transition-all">
 <div className="mb-4 flex justify-center"><Users size={40} className="text-white" /></div>
               <h3 className="text-xl font-bold mb-3">Personalized Attention</h3>
               <p className="text-blue-100">Small classes ensure individual focus and tailored guidance</p>
             </div>
-            <div className="bg-white/10 backdrop-blur-sm border border-white/20 p-8 rounded-2xl hover:bg-white/20 transition-all">
+<div className="bg-[#0B1F3A] border border-white/20 p-8 rounded-2xl hover:bg-[#0B1F3A]/90 transition-all">
 <div className="mb-4 flex justify-center"><Star size={40} className="text-white" /></div>
               <h3 className="text-xl font-bold mb-3">Holistic Development</h3>
               <p className="text-blue-100">Character building and overall personality growth</p>
