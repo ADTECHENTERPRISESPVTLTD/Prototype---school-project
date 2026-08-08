@@ -35,25 +35,72 @@ function ParentPortalContent() {
     { id: 3, title: 'Annual Sports Day', content: 'Sports day on 25th March. Students should wear their house colors.', priority: 'low', date: '2024-02-10', createdBy: 'Sports Dept' },
   ]
 
-  const [totalFees, setTotalFees] = useState(50000)
+  const [selectedMonthToPay, setSelectedMonthToPay] = useState<any>(null)
+  const [lastTxnId, setLastTxnId] = useState('')
+  const [customAmount, setCustomAmount] = useState<string>('0')
+  const [totalFees, setTotalFees] = useState(60000)
   const [paidFees, setPaidFees] = useState(10000)
   const pendingFees = totalFees - paidFees
   const paidPercentage = (paidFees / totalFees) * 100
 
   const [paymentHistory, setPaymentHistory] = useState([
-    { id: 1, month: 'January', amount: 5000, date: '2024-01-05', status: 'Paid' },
-    { id: 2, month: 'February', amount: 5000, date: '2024-02-07', status: 'Paid' },
-    { id: 3, month: 'March', amount: 5000, date: 'Pending', status: 'Pending' },
-    { id: 4, month: 'April', amount: 5000, date: 'Pending', status: 'Pending' },
+    { id: 1, month: 'January', amount: 5000, date: '2026-01-05', status: 'Paid', txnId: 'TXN2026010501' },
+    { id: 2, month: 'February', amount: 5000, date: '2026-02-07', status: 'Paid', txnId: 'TXN2026020702' },
+    { id: 3, month: 'March', amount: 5000, date: 'Pending', status: 'Unpaid', txnId: '' },
+    { id: 4, month: 'April', amount: 5000, date: 'Pending', status: 'Unpaid', txnId: '' },
+    { id: 5, month: 'May', amount: 5000, date: 'Pending', status: 'Unpaid', txnId: '' },
+    { id: 6, month: 'June', amount: 5000, date: 'Pending', status: 'Unpaid', txnId: '' },
+    { id: 7, month: 'July', amount: 5000, date: 'Pending', status: 'Unpaid', txnId: '' },
+    { id: 8, month: 'August', amount: 5000, date: 'Pending', status: 'Unpaid', txnId: '' },
+    { id: 9, month: 'September', amount: 5000, date: 'Pending', status: 'Unpaid', txnId: '' },
+    { id: 10, month: 'October', amount: 5000, date: 'Pending', status: 'Unpaid', txnId: '' },
+    { id: 11, month: 'November', amount: 5000, date: 'Pending', status: 'Unpaid', txnId: '' },
+    { id: 12, month: 'December', amount: 5000, date: 'Pending', status: 'Unpaid', txnId: '' },
   ])
 
+  const downloadReceipt = (month: string, amount: number, customTxnId?: string) => {
+    const txnId = customTxnId || `TXN${Math.floor(1000000000 + Math.random() * 9000000000)}`
+    window.open(`/print-receipt?month=${encodeURIComponent(month)}&amount=${amount}&txnId=${encodeURIComponent(txnId)}`, '_blank')
+  }
+
   const handlePaymentSuccess = () => {
-    setPaidFees(totalFees)
-    setPaymentHistory(prev => prev.map(item => ({
-      ...item,
-      status: 'Paid',
-      date: item.date === 'Pending' ? new Date().toISOString().split('T')[0] : item.date
-    })))
+    const generatedTxnId = `TXN${Math.floor(1000000000 + Math.random() * 9000000000)}`
+    setLastTxnId(generatedTxnId)
+    const todayStr = new Date().toISOString().split('T')[0]
+    const amtPaid = Number(customAmount) || 0
+
+    if (selectedMonthToPay) {
+      setPaidFees(prev => prev + amtPaid)
+      setPaymentHistory(prev => prev.map(item => {
+        if (item.id === selectedMonthToPay.id) {
+          return {
+            ...item,
+            amount: amtPaid,
+            status: 'Paid',
+            date: todayStr,
+            txnId: generatedTxnId
+          }
+        }
+        return item
+      }))
+    } else {
+      setPaidFees(prev => prev + amtPaid)
+      let remaining = amtPaid
+      setPaymentHistory(prev => prev.map(item => {
+        if (item.status === 'Unpaid' && remaining > 0) {
+          const allocation = Math.min(item.amount, remaining)
+          remaining -= allocation
+          return {
+            ...item,
+            amount: allocation,
+            status: 'Paid',
+            date: todayStr,
+            txnId: generatedTxnId
+          }
+        }
+        return item
+      }))
+    }
   }
 
   const getPriorityColor = (priority: string) => {
@@ -363,309 +410,7 @@ function ParentPortalContent() {
                       <div className="flex flex-col sm:flex-row gap-3 pt-2 w-full">
                         <button
                           onClick={() => {
-                            const printWindow = window.open('', '_blank')
-                            if (!printWindow) return
-
-                            const studentName = child.name
-                            const className = child.class
-                            const rollNo = child.rollNo
-                            const attendance = child.attendance.toString()
-                            const percentage = child.percentage.toString()
-                            const totalObtained = courses.reduce((sum, c) => sum + (c.marks || 0), 0)
-                            const totalMax = courses.length * 100
-                            const remarks = 'Alex has consistently demonstrated academic excellence and active participation in class discussions. Keep up the high standards!'
-
-                            const tableRows = courses.map(c => `
-                              <tr>
-                                <td style="font-weight: bold; padding: 12px 10px; border: 1px solid #cbd5e1;">${c.name}</td>
-                                <td style="text-align: center; padding: 12px 10px; border: 1px solid #cbd5e1;">100</td>
-                                <td style="text-align: center; font-weight: bold; padding: 12px 10px; border: 1px solid #cbd5e1;">${c.marks}</td>
-                                <td style="text-align: center; font-weight: bold; color: #1e3a8a; padding: 12px 10px; border: 1px solid #cbd5e1;">${c.grade}</td>
-                                <td style="font-style: italic; color: #475569; padding: 12px 10px; border: 1px solid #cbd5e1;">${c.remarks}</td>
-                              </tr>
-                            `).join('')
-
-                            const htmlContent = `
-                              <html>
-                                <head>
-                                  <title>Report Card - ${studentName}</title>
-                                  <style>
-                                    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-                                    body {
-                                      font-family: 'Inter', sans-serif;
-                                      color: #1e293b;
-                                      padding: 40px;
-                                      margin: 0;
-                                      background-color: white;
-                                    }
-                                    .report-card {
-                                      border: 4px double #1e3a8a;
-                                      padding: 35px;
-                                      border-radius: 12px;
-                                      max-width: 850px;
-                                      margin: 0 auto;
-                                      position: relative;
-                                      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-                                    }
-                                    .watermark {
-                                      position: absolute;
-                                      top: 50%;
-                                      left: 50%;
-                                      transform: translate(-50%, -50%) rotate(-30deg);
-                                      font-size: 80px;
-                                      color: rgba(30, 58, 138, 0.03);
-                                      font-weight: 800;
-                                      pointer-events: none;
-                                      white-space: nowrap;
-                                      z-index: 0;
-                                    }
-                                    .header {
-                                      text-align: center;
-                                      border-bottom: 3px double #e2e8f0;
-                                      padding-bottom: 20px;
-                                      margin-bottom: 25px;
-                                    }
-                                    .school-name {
-                                      font-size: 32px;
-                                      font-weight: 800;
-                                      color: #1e3a8a;
-                                      margin: 0;
-                                      letter-spacing: 1.5px;
-                                    }
-                                    .school-subtitle {
-                                      font-size: 13px;
-                                      color: #64748b;
-                                      margin: 6px 0 0 0;
-                                      text-transform: uppercase;
-                                      letter-spacing: 2px;
-                                    }
-                                    .title {
-                                      font-size: 20px;
-                                      font-weight: 800;
-                                      margin: 20px 0 0 0;
-                                      color: #0f172a;
-                                      text-transform: uppercase;
-                                      letter-spacing: 1.5px;
-                                    }
-                                    .info-grid {
-                                      display: grid;
-                                      grid-template-cols: 1fr 1fr;
-                                      gap: 15px;
-                                      margin-bottom: 30px;
-                                      font-size: 14px;
-                                    }
-                                    .info-item {
-                                      display: flex;
-                                      border-bottom: 1px dashed #cbd5e1;
-                                      padding-bottom: 5px;
-                                    }
-                                    .info-label {
-                                      font-weight: 700;
-                                      color: #475569;
-                                      width: 140px;
-                                    }
-                                    .info-value {
-                                      color: #0f172a;
-                                      font-weight: 600;
-                                    }
-                                    table {
-                                      width: 100%;
-                                      border-collapse: collapse;
-                                      margin-bottom: 30px;
-                                      z-index: 1;
-                                      position: relative;
-                                    }
-                                    th {
-                                      background-color: #f8fafc;
-                                      color: #1e3a8a;
-                                      font-weight: 800;
-                                      text-transform: uppercase;
-                                      font-size: 12px;
-                                      letter-spacing: 0.5px;
-                                      border: 1px solid #cbd5e1;
-                                      padding: 12px 10px;
-                                      text-align: left;
-                                    }
-                                    .summary-section {
-                                      display: grid;
-                                      grid-template-cols: 1.2fr 1fr;
-                                      gap: 20px;
-                                      margin-bottom: 40px;
-                                      border: 1px solid #cbd5e1;
-                                      border-radius: 8px;
-                                      padding: 20px;
-                                      background-color: #f8fafc;
-                                    }
-                                    .summary-title {
-                                      font-weight: 800;
-                                      margin-bottom: 12px;
-                                      font-size: 13px;
-                                      color: #1e3a8a;
-                                      text-transform: uppercase;
-                                      letter-spacing: 0.5px;
-                                    }
-                                    .summary-row {
-                                      display: flex;
-                                      justify-content: space-between;
-                                      margin-bottom: 8px;
-                                      font-size: 14px;
-                                      border-bottom: 1px solid #e2e8f0;
-                                      padding-bottom: 4px;
-                                    }
-                                    .summary-row:last-child {
-                                      border-bottom: none;
-                                    }
-                                    .remarks-box {
-                                      font-style: italic;
-                                      color: #334155;
-                                      font-size: 13px;
-                                      line-height: 1.6;
-                                      background: white;
-                                      padding: 12px;
-                                      border-radius: 6px;
-                                      border: 1px solid #e2e8f0;
-                                    }
-                                    .signatures {
-                                      display: flex;
-                                      justify-content: space-between;
-                                      margin-top: 60px;
-                                      padding-top: 20px;
-                                    }
-                                    .sig-block {
-                                      text-align: center;
-                                      width: 30%;
-                                    }
-                                    .sig-line {
-                                      border-top: 1px solid #94a3b8;
-                                      margin-bottom: 8px;
-                                    }
-                                    .sig-title {
-                                      font-size: 12px;
-                                      font-weight: 600;
-                                      color: #64748b;
-                                    }
-                                    .sig-name {
-                                      font-size: 13px;
-                                      font-weight: 700;
-                                      color: #1e293b;
-                                    }
-                                    @media print {
-                                      body {
-                                        padding: 0;
-                                      }
-                                      .report-card {
-                                        border: 4px double #1e3a8a;
-                                        box-shadow: none;
-                                        page-break-inside: avoid;
-                                      }
-                                    }
-                                  </style>
-                                </head>
-                                <body>
-                                  <div class="report-card">
-                                    <div class="watermark">EDUPRO HIGH</div>
-                                    <div class="header">
-                                      <h1 class="school-name">EDUPRO HIGH SCHOOL</h1>
-                                      <p class="school-subtitle">100 Education Blvd, Science City • Tel: (555) 0199</p>
-                                      <h2 class="title">Academic Performance Report Card</h2>
-                                      <p style="margin: 6px 0 0 0; font-size: 12px; font-weight: 600; color: #475569;">ACADEMIC YEAR: 2025-2026 • TERM: MID-TERM</p>
-                                    </div>
-                                    
-                                    <div class="info-grid">
-                                      <div class="info-item">
-                                        <span class="info-label">Student Name:</span>
-                                        <span class="info-value">${studentName}</span>
-                                      </div>
-                                      <div class="info-item">
-                                        <span class="info-label">Class / Section:</span>
-                                        <span class="info-value">${className}</span>
-                                      </div>
-                                      <div class="info-item">
-                                        <span class="info-label">Roll Number:</span>
-                                        <span class="info-value">${rollNo}</span>
-                                      </div>
-                                      <div class="info-item">
-                                        <span class="info-label">Student ID:</span>
-                                        <span class="info-value">STU2025-${rollNo.padStart(3, '0')}</span>
-                                      </div>
-                                    </div>
-                                    
-                                    <table>
-                                      <thead>
-                                        <tr>
-                                          <th>Subject Name</th>
-                                          <th style="text-align: center; width: 100px;">Max Marks</th>
-                                          <th style="text-align: center; width: 120px;">Marks Obtained</th>
-                                          <th style="text-align: center; width: 80px;">Grade</th>
-                                          <th>Remarks</th>
-                                        </tr>
-                                      </thead>
-                                      <tbody>
-                                        ${tableRows}
-                                      </tbody>
-                                    </table>
-                                    
-                                    <div class="summary-section">
-                                      <div>
-                                        <div class="summary-title">Academic Summary</div>
-                                        <div class="summary-row">
-                                          <span>Total Marks Obtained:</span>
-                                          <strong>${totalObtained} / ${totalMax}</strong>
-                                        </div>
-                                        <div class="summary-row">
-                                          <span>Overall Percentage:</span>
-                                          <strong>${percentage}%</strong>
-                                        </div>
-                                        <div class="summary-row">
-                                          <span>Attendance Rate:</span>
-                                          <strong>${attendance}%</strong>
-                                        </div>
-                                        <div class="summary-row">
-                                          <span>Result Status:</span>
-                                          <strong style="color: #10b981;">PASSED (PROMOTED)</strong>
-                                        </div>
-                                      </div>
-                                      <div>
-                                        <div class="summary-title">Class Teacher Remarks</div>
-                                        <div class="remarks-box font-style: italic;">
-                                          "${remarks}"
-                                        </div>
-                                      </div>
-                                    </div>
-                                    
-                                    <div class="signatures">
-                                      <div class="sig-block">
-                                        <div class="sig-line" style="margin-top: 25px;"></div>
-                                        <div class="sig-name">Dr. Sarah Johnson</div>
-                                        <div class="sig-title">Class Teacher</div>
-                                      </div>
-                                      <div class="sig-block">
-                                        <div class="sig-line" style="margin-top: 25px;"></div>
-                                        <div class="sig-name">Dr. Arthur Pendelton</div>
-                                        <div class="sig-title">Principal</div>
-                                      </div>
-                                      <div class="sig-block">
-                                        <div class="sig-line" style="margin-top: 25px;"></div>
-                                        <div class="sig-name"></div>
-                                        <div class="sig-title">Parent Signature</div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <script>
-                                    window.onload = function() {
-                                      window.print();
-                                      setTimeout(function() {
-                                        window.close();
-                                      }, 500);
-                                    }
-                                  </script>
-                                </body>
-                              </html>
-                            `
-
-                            printWindow.document.open()
-                            printWindow.document.write(htmlContent)
-                            printWindow.document.close()
+                            window.open('/print-report', '_blank')
                           }}
                           className="flex-1 min-w-[150px] bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white px-6 py-3 rounded-xl font-bold hover:shadow-lg hover:shadow-blue-600/25 transition-all duration-300 flex items-center justify-center gap-2"
                         >
@@ -673,308 +418,7 @@ function ParentPortalContent() {
                         </button>
                         <button
                           onClick={() => {
-                            const printWindow = window.open('', '_blank')
-                            if (!printWindow) return
-
-                            const studentName = child.name
-                            const className = child.class
-                            const rollNo = child.rollNo
-                            const attendance = child.attendance.toString()
-                            const percentage = child.percentage.toString()
-                            const totalObtained = courses.reduce((sum, c) => sum + (c.marks || 0), 0)
-                            const totalMax = courses.length * 100
-                            const remarks = 'Alex has consistently demonstrated academic excellence and active participation in class discussions. Keep up the high standards!'
-
-                            const tableRows = courses.map(c => `
-                              <tr>
-                                <td style="font-weight: bold; padding: 12px 10px; border: 1px solid #cbd5e1;">${c.name}</td>
-                                <td style="text-align: center; padding: 12px 10px; border: 1px solid #cbd5e1;">100</td>
-                                <td style="text-align: center; font-weight: bold; padding: 12px 10px; border: 1px solid #cbd5e1;">${c.marks}</td>
-                                <td style="text-align: center; font-weight: bold; color: #1e3a8a; padding: 12px 10px; border: 1px solid #cbd5e1;">${c.grade}</td>
-                                <td style="font-style: italic; color: #475569; padding: 12px 10px; border: 1px solid #cbd5e1;">${c.remarks}</td>
-                              </tr>
-                            `).join('')
-
-                            const htmlContent = `
-                              <html>
-                                <head>
-                                  <title>Report Card - ${studentName}</title>
-                                  <style>
-                                    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-                                    body {
-                                      font-family: 'Inter', sans-serif;
-                                      color: #1e293b;
-                                      padding: 40px;
-                                      margin: 0;
-                                      background-color: white;
-                                    }
-                                    .report-card {
-                                      border: 4px double #1e3a8a;
-                                      padding: 35px;
-                                      border-radius: 12px;
-                                      max-width: 850px;
-                                      margin: 0 auto;
-                                      position: relative;
-                                      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-                                    }
-                                    .watermark {
-                                      position: absolute;
-                                      top: 50%;
-                                      left: 50%;
-                                      transform: translate(-50%, -50%) rotate(-30deg);
-                                      font-size: 80px;
-                                      color: rgba(30, 58, 138, 0.03);
-                                      font-weight: 800;
-                                      pointer-events: none;
-                                      white-space: nowrap;
-                                      z-index: 0;
-                                    }
-                                    .header {
-                                      text-align: center;
-                                      border-bottom: 3px double #e2e8f0;
-                                      padding-bottom: 20px;
-                                      margin-bottom: 25px;
-                                    }
-                                    .school-name {
-                                      font-size: 32px;
-                                      font-weight: 800;
-                                      color: #1e3a8a;
-                                      margin: 0;
-                                      letter-spacing: 1.5px;
-                                    }
-                                    .school-subtitle {
-                                      font-size: 13px;
-                                      color: #64748b;
-                                      margin: 6px 0 0 0;
-                                      text-transform: uppercase;
-                                      letter-spacing: 2px;
-                                    }
-                                    .title {
-                                      font-size: 20px;
-                                      font-weight: 800;
-                                      margin: 20px 0 0 0;
-                                      color: #0f172a;
-                                      text-transform: uppercase;
-                                      letter-spacing: 1.5px;
-                                    }
-                                    .info-grid {
-                                      display: grid;
-                                      grid-template-cols: 1fr 1fr;
-                                      gap: 15px;
-                                      margin-bottom: 30px;
-                                      font-size: 14px;
-                                    }
-                                    .info-item {
-                                      display: flex;
-                                      border-bottom: 1px dashed #cbd5e1;
-                                      padding-bottom: 5px;
-                                    }
-                                    .info-label {
-                                      font-weight: 700;
-                                      color: #475569;
-                                      width: 140px;
-                                    }
-                                    .info-value {
-                                      color: #0f172a;
-                                      font-weight: 600;
-                                    }
-                                    table {
-                                      width: 100%;
-                                      border-collapse: collapse;
-                                      margin-bottom: 30px;
-                                      z-index: 1;
-                                      position: relative;
-                                    }
-                                    th {
-                                      background-color: #f8fafc;
-                                      color: #1e3a8a;
-                                      font-weight: 800;
-                                      text-transform: uppercase;
-                                      font-size: 12px;
-                                      letter-spacing: 0.5px;
-                                      border: 1px solid #cbd5e1;
-                                      padding: 12px 10px;
-                                      text-align: left;
-                                    }
-                                    .summary-section {
-                                      display: grid;
-                                      grid-template-cols: 1.2fr 1fr;
-                                      gap: 20px;
-                                      margin-bottom: 40px;
-                                      border: 1px solid #cbd5e1;
-                                      border-radius: 8px;
-                                      padding: 20px;
-                                      background-color: #f8fafc;
-                                    }
-                                    .summary-title {
-                                      font-weight: 800;
-                                      margin-bottom: 12px;
-                                      font-size: 13px;
-                                      color: #1e3a8a;
-                                      text-transform: uppercase;
-                                      letter-spacing: 0.5px;
-                                    }
-                                    .summary-row {
-                                      display: flex;
-                                      justify-content: space-between;
-                                      margin-bottom: 8px;
-                                      font-size: 14px;
-                                      border-bottom: 1px solid #e2e8f0;
-                                      padding-bottom: 4px;
-                                    }
-                                    .summary-row:last-child {
-                                      border-bottom: none;
-                                    }
-                                    .remarks-box {
-                                      font-style: italic;
-                                      color: #334155;
-                                      font-size: 13px;
-                                      line-height: 1.6;
-                                      background: white;
-                                      padding: 12px;
-                                      border-radius: 6px;
-                                      border: 1px solid #e2e8f0;
-                                    }
-                                    .signatures {
-                                      display: flex;
-                                      justify-content: space-between;
-                                      margin-top: 60px;
-                                      padding-top: 20px;
-                                    }
-                                    .sig-block {
-                                      text-align: center;
-                                      width: 30%;
-                                    }
-                                    .sig-line {
-                                      border-top: 1px solid #94a3b8;
-                                      margin-bottom: 8px;
-                                    }
-                                    .sig-title {
-                                      font-size: 12px;
-                                      font-weight: 600;
-                                      color: #64748b;
-                                    }
-                                    .sig-name {
-                                      font-size: 13px;
-                                      font-weight: 700;
-                                      color: #1e293b;
-                                    }
-                                    @media print {
-                                      body {
-                                        padding: 0;
-                                      }
-                                      .report-card {
-                                        border: 4px double #1e3a8a;
-                                        box-shadow: none;
-                                        page-break-inside: avoid;
-                                      }
-                                    }
-                                  </style>
-                                </head>
-                                <body>
-                                  <div class="report-card">
-                                    <div class="watermark">EDUPRO HIGH</div>
-                                    <div class="header">
-                                      <h1 class="school-name">EDUPRO HIGH SCHOOL</h1>
-                                      <p class="school-subtitle">100 Education Blvd, Science City • Tel: (555) 0199</p>
-                                      <h2 class="title">Academic Performance Report Card</h2>
-                                      <p style="margin: 6px 0 0 0; font-size: 12px; font-weight: 600; color: #475569;">ACADEMIC YEAR: 2025-2026 • TERM: MID-TERM</p>
-                                    </div>
-                                    
-                                    <div class="info-grid">
-                                      <div class="info-item">
-                                        <span class="info-label">Student Name:</span>
-                                        <span class="info-value">${studentName}</span>
-                                      </div>
-                                      <div class="info-item">
-                                        <span class="info-label">Class / Section:</span>
-                                        <span class="info-value">${className}</span>
-                                      </div>
-                                      <div class="info-item">
-                                        <span class="info-label">Roll Number:</span>
-                                        <span class="info-value">${rollNo}</span>
-                                      </div>
-                                      <div class="info-item">
-                                        <span class="info-label">Student ID:</span>
-                                        <span class="info-value">STU2025-${rollNo.padStart(3, '0')}</span>
-                                      </div>
-                                    </div>
-                                    
-                                    <table>
-                                      <thead>
-                                        <tr>
-                                          <th>Subject Name</th>
-                                          <th style="text-align: center; width: 100px;">Max Marks</th>
-                                          <th style="text-align: center; width: 120px;">Marks Obtained</th>
-                                          <th style="text-align: center; width: 80px;">Grade</th>
-                                          <th>Remarks</th>
-                                        </tr>
-                                      </thead>
-                                      <tbody>
-                                        ${tableRows}
-                                      </tbody>
-                                    </table>
-                                    
-                                    <div class="summary-section">
-                                      <div>
-                                        <div class="summary-title">Academic Summary</div>
-                                        <div class="summary-row">
-                                          <span>Total Marks Obtained:</span>
-                                          <strong>${totalObtained} / ${totalMax}</strong>
-                                        </div>
-                                        <div class="summary-row">
-                                          <span>Overall Percentage:</span>
-                                          <strong>${percentage}%</strong>
-                                        </div>
-                                        <div class="summary-row">
-                                          <span>Attendance Rate:</span>
-                                          <strong>${attendance}%</strong>
-                                        </div>
-                                        <div class="summary-row">
-                                          <span>Result Status:</span>
-                                          <strong style="color: #10b981;">PASSED (PROMOTED)</strong>
-                                        </div>
-                                      </div>
-                                      <div>
-                                        <div class="summary-title">Class Teacher Remarks</div>
-                                        <div class="remarks-box font-style: italic;">
-                                          "${remarks}"
-                                        </div>
-                                      </div>
-                                    </div>
-                                    
-                                    <div class="signatures">
-                                      <div class="sig-block">
-                                        <div class="sig-line" style="margin-top: 25px;"></div>
-                                        <div class="sig-name">Dr. Sarah Johnson</div>
-                                        <div class="sig-title">Class Teacher</div>
-                                      </div>
-                                      <div class="sig-block">
-                                        <div class="sig-line" style="margin-top: 25px;"></div>
-                                        <div class="sig-name">Dr. Arthur Pendelton</div>
-                                        <div class="sig-title">Principal</div>
-                                      </div>
-                                      <div class="sig-block">
-                                        <div class="sig-line" style="margin-top: 25px;"></div>
-                                        <div class="sig-name"></div>
-                                        <div class="sig-title">Parent Signature</div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <script>
-                                    window.onload = function() {
-                                      window.print();
-                                      setTimeout(function() {
-                                        window.close();
-                                      }, 500);
-                                    }
-                                  </script>
-                                </body>
-                              </html>
-                            `
-                            printWindow.document.open()
-                            printWindow.document.write(htmlContent)
-                            printWindow.document.close()
+                            window.open('/print-report', '_blank')
                           }}
                           className="flex-1 min-w-[150px] bg-white hover:bg-slate-50 text-slate-700 border-2 border-slate-200 px-6 py-3 rounded-xl font-bold transition-all duration-300 flex items-center justify-center gap-2"
                         >
@@ -1029,6 +473,8 @@ function ParentPortalContent() {
                   <button
                     onClick={() => {
                       if (pendingFees > 0) {
+                        setSelectedMonthToPay(null);
+                        setCustomAmount(pendingFees.toString());
                         setPaymentStep('select');
                         setShowPaymentModal(true);
                       }
@@ -1050,22 +496,63 @@ function ParentPortalContent() {
                   <h4 className="text-2xl font-bold text-slate-900 mb-6">Payment History</h4>
                   <div className="space-y-4">
                     {paymentHistory.map((payment) => (
-                      <div key={payment.id} className="bg-gradient-to-br from-white to-slate-50 p-6 rounded-2xl border-2 border-slate-200 flex justify-between items-center hover:shadow-lg transition-all">
-                        <div>
-                          <p className="font-bold text-slate-900 text-lg">{payment.month}</p>
-                          <p className="text-sm text-slate-600">₹{payment.amount.toLocaleString()} • {payment.date}</p>
+                      <div 
+                        key={payment.id} 
+                        onClick={() => {
+                          if (payment.status === 'Unpaid') {
+                            setSelectedMonthToPay(payment)
+                            setCustomAmount(payment.amount.toString())
+                            setPaymentStep('select')
+                            setShowPaymentModal(true)
+                          }
+                        }}
+                        className={`bg-gradient-to-br from-white to-slate-50 p-5 rounded-2xl border-2 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 transition-all ${
+                          payment.status === 'Unpaid'
+                            ? 'border-red-200 hover:border-purple-300 hover:bg-purple-50/10 cursor-pointer hover:shadow-md'
+                            : 'border-slate-200 hover:shadow-sm'
+                        }`}
+                      >
+                        <div className="space-y-1">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <h5 className="font-bold text-slate-900 text-base sm:text-lg">{payment.month}</h5>
+                            {payment.status === 'Unpaid' && (
+                              <span className="text-[9px] bg-red-100 text-red-600 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">
+                                Click to Pay
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-xs sm:text-sm text-slate-600">
+                            ₹{payment.amount.toLocaleString()} 
+                            {payment.status === 'Paid' ? ` • Paid on ${payment.date}` : ` • ${payment.date}`}
+                          </p>
                         </div>
-                        <span className={`px-4 py-2 rounded-lg font-bold text-sm ${
-                          payment.status === 'Paid' 
-                            ? 'bg-emerald-100 text-emerald-700' 
-                            : 'bg-red-100 text-red-700'
-                        }`}>
-                          {payment.status}
-                        </span>
+                        <div className="flex items-center justify-between sm:justify-end gap-3 w-full sm:w-auto border-t sm:border-t-0 pt-3 sm:pt-0 border-slate-200/60 sm:border-transparent">
+                          {payment.status === 'Paid' ? (
+                            <>
+                              <span className="bg-emerald-100 text-emerald-700 px-3.5 py-1.5 rounded-lg font-bold text-xs sm:text-sm">
+                                Paid
+                              </span>
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation()
+                                  downloadReceipt(payment.month, payment.amount, payment.txnId)
+                                }}
+                                className="text-slate-500 hover:text-purple-600 hover:bg-purple-50 p-2 rounded-xl border border-slate-200 hover:border-purple-200 transition-all flex items-center gap-1.5 text-xs sm:text-sm font-semibold ml-auto sm:ml-0"
+                              >
+                                <Download size={14} /> <span>Receipt</span>
+                              </button>
+                            </>
+                          ) : (
+                            <span className="bg-red-100 text-red-700 px-3.5 py-1.5 rounded-lg font-bold text-xs sm:text-sm flex items-center gap-1 ml-auto sm:ml-0">
+                              <AlertCircle size={14} /> Unpaid
+                            </span>
+                          )}
+                        </div>
                       </div>
                     ))}
                   </div>
                 </div>
+
               </div>
             )}
 
@@ -1101,11 +588,14 @@ function ParentPortalContent() {
       {/* Payment Modal */}
       {showPaymentModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 animate-fadeIn">
-          <div className="bg-white rounded-2xl p-8 w-full max-w-md shadow-2xl relative overflow-hidden transition-all duration-300">
+          <div className="bg-white rounded-2xl p-6 sm:p-8 w-full max-w-md shadow-2xl relative overflow-hidden transition-all duration-300">
             {/* Modal Close Button for non-processing states */}
             {paymentStep !== 'processing' && (
               <button 
-                onClick={() => setShowPaymentModal(false)}
+                onClick={() => {
+                  setShowPaymentModal(false)
+                  setSelectedMonthToPay(null)
+                }}
                 className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition"
               >
                 <X size={24} />
@@ -1115,10 +605,23 @@ function ParentPortalContent() {
             {paymentStep === 'select' && (
               <div>
                 <h3 className="text-2xl font-bold text-slate-900 mb-6">Online Payment</h3>
-                <div className="bg-gradient-to-r from-purple-50 to-blue-50 p-6 rounded-xl mb-6 border-2 border-purple-200">
-                  <p className="text-sm text-slate-600 font-semibold mb-2">Amount to Pay</p>
-                  <p className="text-4xl font-bold text-slate-900">₹{pendingFees.toLocaleString()}</p>
-                  <p className="text-sm text-slate-600 mt-2">Student: {child.name} • Class: {child.class}</p>
+                <div className="bg-gradient-to-r from-purple-50 to-blue-50 p-5 rounded-2xl mb-6 border-2 border-purple-200">
+                  <label className="text-xs text-slate-500 font-bold uppercase tracking-wider mb-2 block">Amount to Pay (₹)</label>
+                  <div className="relative">
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-900 font-extrabold text-2xl">₹</span>
+                    <input
+                      type="number"
+                      value={customAmount}
+                      onChange={(e) => setCustomAmount(e.target.value)}
+                      className="w-full pl-9 pr-4 py-2 bg-white border-2 border-purple-300 rounded-xl text-slate-900 font-extrabold text-2xl focus:border-purple-500 focus:outline-none transition"
+                    />
+                  </div>
+                  <div className="mt-3 pt-3 border-t border-purple-200/60 text-xs text-slate-700 space-y-1">
+                    <p className="font-semibold text-purple-700">
+                      {selectedMonthToPay ? `Fee Category: tuition fee - ${selectedMonthToPay.month} 2026` : 'Fee Category: All Pending Term Fees'}
+                    </p>
+                    <p className="text-slate-500">Student: {child.name} • Class: {child.class}</p>
+                  </div>
                 </div>
 
                 <div className="space-y-3 mb-6">
@@ -1130,8 +633,8 @@ function ParentPortalContent() {
                   >
                     <CreditCard size={24} className="text-purple-500 flex-shrink-0" />
                     <div>
-                      <p className="font-bold text-slate-900">Credit/Debit Card</p>
-                      <p className="text-sm text-slate-600">Visa, Mastercard, RuPay</p>
+                      <p className="font-bold text-slate-900 text-sm">Credit/Debit Card</p>
+                      <p className="text-xs text-slate-500">Visa, Mastercard, RuPay</p>
                     </div>
                   </div>
                   <div 
@@ -1142,8 +645,8 @@ function ParentPortalContent() {
                   >
                     <Smartphone size={24} className="text-purple-500 flex-shrink-0" />
                     <div>
-                      <p className="font-bold text-slate-900">UPI Payment</p>
-                      <p className="text-sm text-slate-600">Google Pay, PhonePe, Paytm</p>
+                      <p className="font-bold text-slate-900 text-sm">UPI Payment</p>
+                      <p className="text-xs text-slate-500">Google Pay, PhonePe, Paytm</p>
                     </div>
                   </div>
                   <div 
@@ -1154,26 +657,29 @@ function ParentPortalContent() {
                   >
                     <Landmark size={24} className="text-purple-500 flex-shrink-0" />
                     <div>
-                      <p className="font-bold text-slate-900">Bank Transfer</p>
-                      <p className="text-sm text-slate-600">Direct NEFT/RTGS Transfer</p>
+                      <p className="font-bold text-slate-900 text-sm">Bank Transfer</p>
+                      <p className="text-xs text-slate-500">Direct NEFT/RTGS Transfer</p>
                     </div>
                   </div>
                 </div>
 
                 <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded mb-6">
-                  <p className="text-sm text-slate-700 inline-flex items-center gap-2"><ShieldCheck size={16} className="text-blue-600 flex-shrink-0" /> Secure Payment • 100% Safe • No Hidden Charges</p>
+                  <p className="text-[11px] text-slate-700 inline-flex items-center gap-2"><ShieldCheck size={16} className="text-blue-600 flex-shrink-0" /> Secure Payment • 100% Safe • No Hidden Charges</p>
                 </div>
 
-                <div className="flex gap-4">
+                <div className="flex flex-col sm:flex-row gap-3">
                   <button
-                    onClick={() => setShowPaymentModal(false)}
-                    className="flex-1 bg-slate-100 text-slate-700 px-6 py-3 rounded-xl font-bold hover:bg-slate-200 transition-all border border-slate-200"
+                    onClick={() => {
+                      setShowPaymentModal(false)
+                      setSelectedMonthToPay(null)
+                    }}
+                    className="flex-1 bg-slate-100 text-slate-700 px-6 py-3 rounded-xl font-bold hover:bg-slate-200 transition-all border border-slate-200 text-sm w-full sm:w-auto"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={() => setPaymentStep('qr')}
-                    className="flex-1 bg-gradient-to-r from-purple-500 to-purple-600 text-white px-6 py-3 rounded-xl font-bold hover:shadow-lg transition-all"
+                    className="flex-1 bg-gradient-to-r from-purple-500 to-purple-600 text-white px-6 py-3 rounded-xl font-bold hover:shadow-lg transition-all text-sm w-full sm:w-auto"
                   >
                     Proceed to Pay
                   </button>
@@ -1186,9 +692,9 @@ function ParentPortalContent() {
                 <h3 className="text-2xl font-bold text-slate-900 mb-1">Pay Here</h3>
                 <p className="text-slate-500 text-sm">Scan the QR code below using any UPI app</p>
                 
-                <div className="relative my-6 mx-auto w-64 h-64 bg-slate-950 rounded-2xl flex items-center justify-center border-4 border-slate-900 p-4 overflow-hidden shadow-2xl">
+                <div className="relative my-6 mx-auto w-56 h-56 bg-slate-950 rounded-2xl flex items-center justify-center border-4 border-slate-900 p-4 overflow-hidden shadow-2xl">
                   {/* Pulse scan line effect */}
-                  <div className="absolute inset-x-0 h-1 bg-purple-500 opacity-60 animate-pulse top-4 shadow-[0_0_10px_#a855f7]"></div>
+                  <div className="absolute inset-x-0 h-1 bg-purple-500 opacity-60 top-4 shadow-[0_0_10px_#a855f7]"></div>
                   
                   <img 
                     src="/payment-qr.png" 
@@ -1197,16 +703,18 @@ function ParentPortalContent() {
                   />
                 </div>
 
-                <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 mb-6">
-                  <p className="text-xs text-slate-500 uppercase tracking-wider font-bold">Amount to Pay</p>
-                  <p className="text-3xl font-extrabold text-slate-900">₹{pendingFees.toLocaleString()}</p>
-                  <p className="text-xs text-slate-500 mt-1">Merchant: AD Tech School Portal</p>
+                <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 mb-6">
+                  <p className="text-[10px] text-slate-400 uppercase tracking-wider font-bold">Amount to Pay</p>
+                  <p className="text-3xl font-extrabold text-slate-900">₹{Number(customAmount).toLocaleString()}</p>
+                  <p className="text-xs text-slate-500 mt-1">
+                    {selectedMonthToPay ? `Merchant Ref: Tuition Fee - ${selectedMonthToPay.month}` : 'Merchant Ref: All Pending Term Fees'}
+                  </p>
                 </div>
 
-                <div className="flex gap-4">
+                <div className="flex flex-col sm:flex-row gap-3">
                   <button
                     onClick={() => setPaymentStep('select')}
-                    className="flex-1 bg-slate-100 text-slate-700 px-6 py-3 rounded-xl font-bold hover:bg-slate-200 transition-all border border-slate-200"
+                    className="flex-1 bg-slate-100 text-slate-700 px-6 py-3 rounded-xl font-bold hover:bg-slate-200 transition-all border border-slate-200 text-sm w-full sm:w-auto"
                   >
                     Back
                   </button>
@@ -1218,7 +726,7 @@ function ParentPortalContent() {
                         setPaymentStep('success');
                       }, 2500);
                     }}
-                    className="flex-1 bg-gradient-to-r from-purple-500 to-purple-600 text-white px-6 py-3 rounded-xl font-bold hover:shadow-lg transition-all"
+                    className="flex-1 bg-gradient-to-r from-purple-500 to-purple-600 text-white px-6 py-3 rounded-xl font-bold hover:shadow-lg transition-all text-sm w-full sm:w-auto"
                   >
                     I Have Paid
                   </button>
@@ -1246,14 +754,14 @@ function ParentPortalContent() {
                   Thank you. Your fee payment has been successfully recorded.
                 </p>
                 
-                <div className="w-full bg-slate-50 border border-slate-200 rounded-xl p-5 mb-6 text-left space-y-2 text-sm text-slate-700">
+                <div className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-5 mb-6 text-left space-y-2 text-sm text-slate-700">
                   <div className="flex justify-between">
                     <span className="font-semibold text-slate-500">Transaction ID:</span> 
-                    <span className="font-mono font-bold text-slate-900">TXN{Math.floor(1000000000 + Math.random() * 9000000000)}</span>
+                    <span className="font-mono font-bold text-slate-900">{lastTxnId}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="font-semibold text-slate-500">Paid Amount:</span> 
-                    <span className="font-extrabold text-emerald-600">₹{pendingFees.toLocaleString()}.00</span>
+                    <span className="font-extrabold text-emerald-600">₹{Number(customAmount).toLocaleString()}.00</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="font-semibold text-slate-500">Payment Mode:</span> 
@@ -1265,15 +773,28 @@ function ParentPortalContent() {
                   </div>
                 </div>
 
-                <button
-                  onClick={() => {
-                    setShowPaymentModal(false);
-                    setPaymentStep('select');
-                  }}
-                  className="w-full bg-gradient-to-r from-emerald-50 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white py-3 rounded-xl font-bold hover:shadow-lg transition-all"
-                >
-                  Close & Return
-                </button>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <button
+                    onClick={() => {
+                      const monthName = selectedMonthToPay ? selectedMonthToPay.month : 'Outstanding Term Fees'
+                      const amountVal = Number(customAmount) || 0
+                      downloadReceipt(monthName, amountVal, lastTxnId)
+                    }}
+                    className="flex-1 bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white py-3 rounded-xl font-bold hover:shadow-lg transition-all flex items-center justify-center gap-2 text-sm w-full sm:w-auto"
+                  >
+                    <Download size={16} /> Receipt
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowPaymentModal(false);
+                      setPaymentStep('select');
+                      setSelectedMonthToPay(null);
+                    }}
+                    className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 py-3 rounded-xl font-bold border border-slate-200 transition-all text-sm w-full sm:w-auto"
+                  >
+                    Close
+                  </button>
+                </div>
               </div>
             )}
           </div>
