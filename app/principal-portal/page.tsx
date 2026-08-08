@@ -4,8 +4,10 @@ import { useState } from 'react'
 import Header from '@/components/header'
 import { ProtectedRoute } from '@/components/protected-route'
 import { useAuth } from '@/context/auth-context'
-import { Users, BookOpen, TrendingUp, Award, AlertCircle, BarChart3, Edit2, Save, X, Filter, Bell, Plus, Trash2, ArrowLeft } from 'lucide-react'
+import { Users, BookOpen, TrendingUp, Award, AlertCircle, BarChart3, Edit2, Save, X, Filter, Bell, Plus, Trash2, ArrowLeft, CalendarRange } from 'lucide-react'
 import Link from 'next/link'
+import TimetableView from '@/components/timetable-view'
+import { schoolTimetable } from '@/lib/timetable-data'
 
 function PrincipalPortalContent() {
   const { user } = useAuth()
@@ -189,7 +191,7 @@ function PrincipalPortalContent() {
               <BookOpen size={20} />
               Departments
             </button>
-            <button
+<button
               onClick={() => setActiveTab('notices')}
               className={`flex-1 min-w-fit px-6 py-4 font-bold text-center transition-all duration-300 flex items-center justify-center gap-2 rounded-xl ${
                 activeTab === 'notices'
@@ -199,6 +201,17 @@ function PrincipalPortalContent() {
             >
               <Bell size={20} />
               Notices
+            </button>
+            <button
+              onClick={() => setActiveTab('timetable')}
+              className={`flex-1 min-w-fit px-6 py-4 font-bold text-center transition-all duration-300 flex items-center justify-center gap-2 rounded-xl ${
+                activeTab === 'timetable'
+                  ? 'bg-gradient-to-r from-slate-900 to-blue-600 text-white shadow-lg transform scale-105'
+                  : 'text-slate-600 hover:bg-white/50'
+              }`}
+            >
+              <CalendarRange size={20} />
+              Timetable
             </button>
           </div>
 
@@ -436,8 +449,17 @@ function PrincipalPortalContent() {
                       </div>
                     </div>
                   ))}
-                </div>
+</div>
               </div>
+            )}
+
+            {/* Timetable Tab */}
+            {activeTab === 'timetable' && (
+              <TimetableView
+                entries={schoolTimetable}
+                title="School-wide Timetable"
+                subtitle="Weekly schedule overview across all classes • Academic Year 2025-2026"
+              />
             )}
           </div>
         </div>

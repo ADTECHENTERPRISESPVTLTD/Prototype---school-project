@@ -4,8 +4,10 @@ import { useState } from 'react'
 import Header from '@/components/header'
 import { ProtectedRoute } from '@/components/protected-route'
 import { useAuth } from '@/context/auth-context'
-import { BookOpen, TrendingUp, AlertCircle, CheckCircle, Clock, CreditCard, AlertTriangle, Bell, X, Megaphone, ShieldCheck, Smartphone, Landmark, ArrowLeft, Check, Loader2, Printer, Download, GraduationCap } from 'lucide-react'
+import { BookOpen, TrendingUp, AlertCircle, CheckCircle, Clock, CreditCard, AlertTriangle, Bell, X, Megaphone, ShieldCheck, Smartphone, Landmark, ArrowLeft, Check, Loader2, Printer, Download, GraduationCap, CalendarRange } from 'lucide-react'
 import Link from 'next/link'
+import TimetableView from '@/components/timetable-view'
+import { classTimetable } from '@/lib/timetable-data'
 
 function ParentPortalContent() {
   const { user } = useAuth()
@@ -196,6 +198,17 @@ function ParentPortalContent() {
               <Bell size={16} className="sm:w-5 sm:h-5" />
               Notices
             </button>
+            <button
+              onClick={() => setActiveTab('timetable')}
+              className={`px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-base font-bold text-center transition-all duration-300 flex items-center justify-center gap-1 sm:gap-2 rounded-xl whitespace-nowrap ${
+                activeTab === 'timetable'
+                  ? 'bg-gradient-to-r from-slate-700 to-slate-800 text-white shadow-lg transform scale-105'
+                  : 'text-slate-600 hover:bg-white/50'
+              }`}
+            >
+              <CalendarRange size={16} className="sm:w-5 sm:h-5" />
+              Timetable
+            </button>
           </div>
 
           {/* Content */}
@@ -238,9 +251,9 @@ function ParentPortalContent() {
             {/* Report Card Tab */}
             {activeTab === 'reportcard' && (
               <div className="space-y-8 animate-fadeIn">
-                <div className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-lg relative max-w-4xl mx-auto">
+                <div className="bg-gradient-to-br from-white via-slate-50 to-violet-50 rounded-[28px] border border-violet-200/70 overflow-hidden shadow-[0_30px_80px_rgba(15,23,42,0.12)] relative max-w-4xl mx-auto">
                   {/* School Header */}
-                  <div className="bg-slate-900 text-white p-6 sm:p-8 flex flex-col md:flex-row justify-between items-center gap-4 relative overflow-hidden">
+                  <div className="bg-gradient-to-r from-indigo-950 via-violet-900 to-slate-900 text-white p-6 sm:p-8 flex flex-col md:flex-row justify-between items-center gap-4 relative overflow-hidden">
                     <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-900/50 via-transparent to-transparent"></div>
                     <div className="flex items-center gap-4 relative z-10">
                       <div className="bg-blue-600/20 p-3.5 rounded-2xl border border-blue-500/30">
@@ -248,7 +261,7 @@ function ParentPortalContent() {
                       </div>
                       <div>
                         <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">EDUPRO HIGH SCHOOL</h2>
-                        <p className="text-slate-400 text-xs sm:text-sm tracking-widest uppercase mt-0.5">Academic Performance Report Card</p>
+                        <p className="text-fuchsia-200/90 text-xs sm:text-sm tracking-widest uppercase mt-0.5">Academic Performance Report Card</p>
                       </div>
                     </div>
                     <div className="text-center md:text-right relative z-10">
@@ -258,7 +271,7 @@ function ParentPortalContent() {
                   </div>
 
                   {/* Student Details Info Bar */}
-                  <div className="bg-slate-50 border-b border-slate-200 p-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-sm">
+                  <div className="bg-gradient-to-r from-slate-50 via-violet-50 to-cyan-50 border-b border-violet-100 p-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-sm">
                     <div>
                       <p className="text-slate-500 font-bold uppercase tracking-wider text-[10px] mb-1">Student Name</p>
                       <p className="font-extrabold text-slate-800 text-base">{child.name}</p>
@@ -556,7 +569,7 @@ function ParentPortalContent() {
               </div>
             )}
 
-            {/* Notices Tab */}
+{/* Notices Tab */}
             {activeTab === 'notices' && (
               <div className="space-y-6">
                 <h3 className="text-3xl font-bold text-slate-900 mb-6">School Notices & Announcements</h3>
@@ -580,6 +593,15 @@ function ParentPortalContent() {
                   ))}
                 </div>
               </div>
+            )}
+
+            {/* Timetable Tab */}
+            {activeTab === 'timetable' && (
+              <TimetableView
+                entries={classTimetable}
+                title="Child's Weekly Timetable"
+                subtitle={`Class ${child.class} • ${child.name} • Academic Year 2025-2026`}
+              />
             )}
           </div>
         </div>

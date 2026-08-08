@@ -83,25 +83,37 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 flex items-center justify-center px-4 py-12">
-      {/* Animated Background */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-20 left-10 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse opacity-20"></div>
-        <div className="absolute -bottom-8 right-10 w-80 h-80 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse opacity-20" style={{ animationDelay: '2s' }}></div>
+    <div className="min-h-screen relative overflow-hidden flex items-center justify-center px-4 py-12">
+      {/* Background image with blur and overlay */}
+      <div
+        className="absolute inset-0 scale-105 blur-[2px] brightness-75"
+        style={{
+          backgroundImage: "url('/school-building.png')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      />
+      <div className="absolute inset-0 bg-slate-950/35 backdrop-blur-[12px]"></div>
+      <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.16),rgba(255,255,255,0.02))]"></div>
+
+      {/* Decorative glow */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-16 left-8 w-80 h-80 rounded-full bg-white/10 blur-3xl"></div>
+        <div className="absolute bottom-10 right-8 w-96 h-96 rounded-full bg-cyan-400/10 blur-3xl"></div>
       </div>
 
       <div className="relative w-full max-w-md">
         {/* Card */}
-        <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
+        <div className="bg-white/85 backdrop-blur-[24px] rounded-[24px] shadow-[0_25px_80px_rgba(2,6,23,0.15)] overflow-hidden border border-blue-200/50">
           {/* Header */}
-          <div className="bg-gradient-to-r from-blue-600 to-cyan-600 px-8 py-8 text-white">
+          <div className="bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 px-8 py-8 text-white">
             <div className="flex items-center gap-3 mb-4">
-              <div className="bg-white/20 p-3 rounded-lg">
-                <BookOpen size={28} />
+              <div className="bg-gradient-to-br from-blue-400 to-cyan-300 p-3 rounded-lg">
+                <BookOpen size={28} className="text-slate-900" />
               </div>
               <div>
                 <h1 className="text-3xl font-bold">EduPro</h1>
-                <p className="text-blue-100 text-sm">Admin Portal</p>
+                <p className="text-blue-300 text-sm">Admin Portal</p>
               </div>
             </div>
             <p className="text-blue-100">Sign in to your account</p>
@@ -112,7 +124,7 @@ export default function LoginPage() {
             <div className="mb-8">
               <label className="block text-slate-700 font-bold text-sm mb-4">Select Your Role</label>
               <div className="grid grid-cols-2 gap-3">
-{roles.map((role) => {
+                {roles.map((role) => {
                   const Icon = role.Icon
                   return (
                     <button
@@ -120,8 +132,8 @@ export default function LoginPage() {
                       onClick={() => setSelectedRole(role.value)}
                       className={`p-4 rounded-lg border-2 transition-all duration-200 text-center ${
                         selectedRole === role.value
-                          ? 'border-blue-600 bg-blue-50'
-                          : 'border-slate-200 bg-white hover:border-slate-300'
+                          ? 'border-blue-600 bg-blue-50 shadow-md'
+                          : 'border-slate-200/70 bg-white/80 hover:border-blue-400'
                       }`}
                     >
                       <Icon size={32} className="mx-auto mb-2 text-blue-600" />
@@ -174,7 +186,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 text-white py-2.5 rounded-lg font-bold hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed mt-6"
+                className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white py-2.5 rounded-lg font-bold hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed mt-6"
               >
                 {isLoading ? 'Signing in...' : 'Sign In'}
               </button>
@@ -193,7 +205,7 @@ export default function LoginPage() {
             <button
               onClick={handleDemoLogin}
               disabled={isLoading}
-              className="w-full bg-slate-100 text-slate-700 py-2.5 rounded-lg font-bold hover:bg-slate-200 transition-all border border-slate-300 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-gradient-to-r from-slate-100 to-slate-200 text-slate-700 py-2.5 rounded-lg font-bold hover:from-slate-200 hover:to-slate-300 transition-all border border-slate-300 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? 'Logging in...' : 'Demo Login'}
             </button>
@@ -214,7 +226,7 @@ export default function LoginPage() {
 
         {/* Back to Home */}
         <div className="text-center mt-6">
-<Link href="/" className="inline-flex items-center gap-2 text-white hover:text-blue-200 text-sm font-medium">
+          <Link href="/" className="inline-flex items-center gap-2 text-white hover:text-blue-200 text-sm font-medium">
             <ArrowLeft size={16} />
             Back to Home
           </Link>

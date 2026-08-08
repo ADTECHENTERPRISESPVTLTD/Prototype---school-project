@@ -11,7 +11,7 @@ import {
   ClipboardCheck,
   FileText,
   HelpCircle,
-  MessageCircle,
+MessageCircle,
   NotebookPen,
   Paperclip,
   Send,
@@ -20,7 +20,10 @@ import {
   Users,
   Clock3,
   X,
+  CalendarRange,
 } from 'lucide-react'
+import TimetableView from '@/components/timetable-view'
+import { teacherTimetable } from '@/lib/timetable-data'
 
 type PortalTab =
   | 'dashboard'
@@ -33,6 +36,7 @@ type PortalTab =
   | 'papers'
   | 'communication'
   | 'statistics'
+  | 'timetable'
 
 type Student = {
   id: number
@@ -228,6 +232,7 @@ function TeacherPortalContent() {
     { id: 'papers', label: 'Question Papers', icon: FileText },
     { id: 'communication', label: 'Parent Communication', icon: MessageCircle },
     { id: 'statistics', label: 'Statistics', icon: TrendingUp },
+    { id: 'timetable', label: 'Timetable', icon: CalendarRange },
   ]
 
   const updateAttendance = (studentId: number) => {
@@ -997,6 +1002,16 @@ function TeacherPortalContent() {
                 ))}
               </div>
             </div>
+          </section>
+        )}
+
+        {activeTab === 'timetable' && (
+          <section className="rounded-3xl border border-slate-200 bg-white p-8 shadow-xl">
+            <TimetableView
+              entries={teacherTimetable}
+              title="My Teaching Schedule"
+              subtitle="Your weekly classes, laboratories and free periods • Academic Year 2025-2026"
+            />
           </section>
         )}
 

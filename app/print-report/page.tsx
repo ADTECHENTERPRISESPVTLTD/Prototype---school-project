@@ -39,7 +39,7 @@ export default function PrintReportPage() {
   }, [])
 
   return (
-    <main className="min-h-screen bg-slate-100 py-8 px-4">
+    <main className="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(192,132,252,0.15),_transparent_25%),radial-gradient(circle_at_bottom_right,_rgba(34,211,238,0.16),_transparent_30%),linear-gradient(135deg,_#f8fafc_0%,_#eef2ff_100%)] py-8 px-4">
       {/* Navigation bar hidden during print */}
       <div className="max-w-4xl mx-auto mb-6 flex justify-between items-center print:hidden">
         <button
@@ -56,7 +56,7 @@ export default function PrintReportPage() {
         </button>
       </div>
 
-      <div className="max-w-4xl mx-auto bg-white border-4 border-double border-slate-300 p-8 sm:p-12 rounded-3xl shadow-xl relative overflow-hidden print:border-none print:shadow-none print:p-0 print:mx-0 print:w-full">
+      <div className="max-w-4xl mx-auto bg-white/95 border border-violet-200 p-8 sm:p-12 rounded-[30px] shadow-[0_25px_80px_rgba(15,23,42,0.12)] relative overflow-hidden print:border-none print:shadow-none print:p-0 print:mx-0 print:w-full">
         {/* Watermark Logo */}
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 -rotate-12 text-[120px] font-extrabold text-slate-50 opacity-40 select-none pointer-events-none tracking-widest z-0 print:text-slate-100/60 print:opacity-30">
           EDUPRO
@@ -64,19 +64,19 @@ export default function PrintReportPage() {
 
         <div className="relative z-10 space-y-8">
           {/* Header */}
-          <div className="text-center border-b-4 border-double border-slate-200 pb-6">
+          <div className="text-center border-b border-violet-200 pb-6">
             <div className="flex justify-center mb-3">
-              <div className="bg-blue-900 text-white p-3 rounded-2xl">
+              <div className="bg-gradient-to-br from-violet-700 to-cyan-600 text-white p-3 rounded-2xl shadow-lg">
                 <GraduationCap size={40} />
               </div>
             </div>
             <h2 className="text-3xl sm:text-4xl font-black text-blue-950 tracking-tight uppercase">EDUPRO HIGH SCHOOL</h2>
             <p className="text-slate-500 text-xs sm:text-sm tracking-wider uppercase mt-1">123 Education Lane, Science City, SC 50001</p>
-            <h3 className="text-purple-600 text-base sm:text-lg uppercase tracking-widest font-black mt-4 border-t border-slate-150 pt-3">Academic Performance Report Card</h3>
+            <h3 className="text-violet-700 text-base sm:text-lg uppercase tracking-widest font-black mt-4 border-t border-violet-100 pt-3">Academic Performance Report Card</h3>
           </div>
 
           {/* Student Info */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 bg-slate-50 border border-slate-200/80 p-5 rounded-2xl text-xs sm:text-sm">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 bg-gradient-to-r from-slate-50 via-violet-50 to-cyan-50 border border-violet-100 p-5 rounded-2xl text-xs sm:text-sm">
             <div>
               <h4 className="text-slate-400 font-bold uppercase tracking-wider text-[9px] mb-1">Student Name</h4>
               <p className="font-extrabold text-slate-800 text-base">{child.name}</p>

@@ -4,8 +4,10 @@ import { useState } from 'react'
 import Header from '@/components/header'
 import { ProtectedRoute } from '@/components/protected-route'
 import { useAuth } from '@/context/auth-context'
-import { BookOpen, Clock, CheckCircle, AlertCircle, Download, Award, TrendingUp, Bell, User, Megaphone, ArrowLeft, Printer, GraduationCap, HelpCircle, FileText, ClipboardList, NotebookPen } from 'lucide-react'
+import { BookOpen, Clock, CheckCircle, AlertCircle, Download, Award, TrendingUp, Bell, User, Megaphone, ArrowLeft, Printer, GraduationCap, HelpCircle, FileText, ClipboardList, NotebookPen, CalendarRange } from 'lucide-react'
 import Link from 'next/link'
+import TimetableView from '@/components/timetable-view'
+import { classTimetable } from '@/lib/timetable-data'
 
 function StudentPortalContent() {
   const [activeTab, setActiveTab] = useState('courses')
@@ -176,8 +178,19 @@ function StudentPortalContent() {
                   : 'text-slate-600 hover:bg-white/50'
               }`}
             >
-              <NotebookPen size={16} className="sm:w-5 sm:h-5" />
+<NotebookPen size={16} className="sm:w-5 sm:h-5" />
               Notes
+            </button>
+            <button
+              onClick={() => setActiveTab('timetable')}
+              className={`flex-1 px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-base font-bold text-center transition-all duration-300 flex items-center justify-center gap-1 sm:gap-2 rounded-xl whitespace-nowrap ${
+                activeTab === 'timetable'
+                  ? 'bg-gradient-to-r from-slate-700 to-slate-800 text-white shadow-lg transform scale-105'
+                  : 'text-slate-600 hover:bg-white/50'
+              }`}
+            >
+              <CalendarRange size={16} className="sm:w-5 sm:h-5" />
+              Timetable
             </button>
           </div>
 
@@ -251,29 +264,41 @@ function StudentPortalContent() {
               </div>
             )}
 
-            {activeTab === 'grades' && (
-              <div className="space-y-8 animate-fadeIn">
-                <div className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-lg relative max-w-4xl mx-auto">
+{activeTab === 'grades' && (
+              <div className="space-y-8 animate-fade-in">
+<div className="bg-gradient-to-br from-white via-slate-50 to-violet-50 rounded-[28px] border border-violet-200/70 overflow-hidden shadow-[0_30px_80px_rgba(15,23,42,0.12)] relative max-w-4xl mx-auto">
+                  {/* Decorative top border */}
+                  <div className="h-2 w-full bg-gradient-to-r from-violet-600 via-fuchsia-600 to-cyan-500"></div>
+
                   {/* School Header */}
-                  <div className="bg-slate-900 text-white p-6 sm:p-8 flex flex-col md:flex-row justify-between items-center gap-4 relative overflow-hidden">
-                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-900/50 via-transparent to-transparent"></div>
+                  <div className="bg-gradient-to-r from-indigo-950 via-violet-900 to-slate-900 text-white p-6 sm:p-8 flex flex-col md:flex-row justify-between items-center gap-4 relative overflow-hidden">
+                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-500/40 via-transparent to-transparent"></div>
+                    <div className="absolute -bottom-10 -left-10 w-48 h-48 bg-cyan-500/10 rounded-full blur-2xl"></div>
+                    <GraduationCap className="absolute right-6 top-4 w-24 h-24 text-white/5 animate-float-slow" />
                     <div className="flex items-center gap-4 relative z-10">
-                      <div className="bg-blue-600/20 p-3.5 rounded-2xl border border-blue-500/30">
-                        <GraduationCap className="w-8 h-8 text-blue-400" />
+                      <div className="bg-white/10 p-3.5 rounded-2xl border border-white/20 backdrop-blur shadow-lg shadow-blue-900/30">
+                        <GraduationCap className="w-8 h-8 text-cyan-300" />
                       </div>
                       <div>
-                        <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">EDUPRO HIGH SCHOOL</h2>
-                        <p className="text-slate-400 text-xs sm:text-sm tracking-widest uppercase mt-0.5">Academic Performance Report Card</p>
+                        <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight flex items-center gap-2">
+                          EDUPRO HIGH SCHOOL
+                          <span className="bg-emerald-400 text-emerald-950 text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase tracking-wider shadow">A+ Institute</span>
+                        </h2>
+                        <p className="text-fuchsia-200/90 text-xs sm:text-sm tracking-widest uppercase mt-0.5">Academic Performance Report Card</p>
                       </div>
                     </div>
                     <div className="text-center md:text-right relative z-10">
-                      <p className="text-sm font-bold text-blue-400">Academic Year: 2025-2026</p>
-                      <p className="text-xs text-slate-400 mt-0.5">Term: Mid-Term Examination</p>
+                      <p className="text-sm font-bold text-cyan-300">Academic Year: 2025-2026</p>
+                      <p className="text-xs text-slate-300 mt-0.5">Term: Mid-Term Examination</p>
+                      <div className="mt-2 inline-flex items-center gap-1.5 bg-white/10 backdrop-blur px-3 py-1.5 rounded-full border border-white/20">
+                        <Award size={14} className="text-amber-400" />
+                        <span className="text-xs font-bold text-amber-300">Rank: #2 / 45</span>
+                      </div>
                     </div>
                   </div>
 
                   {/* Student Details Info Bar */}
-                  <div className="bg-slate-50 border-b border-slate-200 p-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-sm">
+                  <div className="relative bg-gradient-to-r from-slate-50 via-violet-50 to-cyan-50 border-b border-violet-100 p-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-sm">
                     <div>
                       <p className="text-slate-500 font-bold uppercase tracking-wider text-[10px] mb-1">Student Name</p>
                       <p className="font-extrabold text-slate-800 text-base">Alex Johnson</p>
@@ -304,15 +329,30 @@ function StudentPortalContent() {
                           <th className="py-4 text-left font-bold text-slate-500 uppercase tracking-wider text-xs pl-6">Remarks</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-slate-100">
-                        {courses.map((subj, idx) => (
-                          <tr key={idx} className="hover:bg-slate-50/50 transition-colors">
-                            <td className="py-4 font-bold text-slate-900">{subj.name}</td>
+<tbody className="divide-y divide-slate-100">
+{courses.map((subj, idx) => (
+                          <tr key={idx} className={`transition-colors ${idx % 2 === 0 ? 'bg-blue-50/20 hover:bg-blue-50/40' : 'bg-white hover:bg-slate-50/50'}`}>
+                            <td className="py-4 font-bold text-slate-900">
+                              <div className="flex items-center gap-3">
+                                <span className={`w-8 h-8 rounded-lg bg-gradient-to-br ${idx === 0 ? 'from-blue-500 to-indigo-600' : idx === 1 ? 'from-cyan-500 to-blue-600' : idx === 2 ? 'from-emerald-500 to-teal-600' : 'from-purple-500 to-fuchsia-600'} text-white flex items-center justify-center text-xs font-bold shadow-sm`}>
+                                  {subj.name.charAt(0)}
+                                </span>
+                                {subj.name}
+                              </div>
+                            </td>
                             <td className="py-4 text-center text-slate-600 font-semibold">100</td>
                             <td className="py-4 text-center">
-                              <span className="inline-flex items-center justify-center font-bold text-slate-900 bg-slate-100 px-3 py-1 rounded-full text-sm">
-                                {subj.marks}
-                              </span>
+                              <div className="flex items-center justify-center gap-2">
+                                <div className="w-20 bg-slate-200 rounded-full h-2">
+                                  <div
+                                    className={`bg-gradient-to-r ${gradeColors[subj.grade]} h-2 rounded-full`}
+                                    style={{ width: `${subj.marks}%` }}
+                                  ></div>
+                                </div>
+                                <span className="inline-flex items-center justify-center font-bold text-slate-900 bg-slate-100 px-2.5 py-1 rounded-full text-sm">
+                                  {subj.marks}
+                                </span>
+                              </div>
                             </td>
                             <td className="py-4 text-center">
                               <span className={`inline-flex items-center justify-center font-extrabold text-white text-xs px-2.5 py-1 rounded-md shadow-sm bg-gradient-to-r ${gradeColors[subj.grade]}`}>
@@ -371,32 +411,32 @@ function StudentPortalContent() {
                     <div className="space-y-4">
                       <h3 className="font-bold text-slate-800 text-sm uppercase tracking-wider">Performance Metrics</h3>
                       <div className="grid grid-cols-1 min-[450px]:grid-cols-2 gap-3 sm:gap-4">
-                        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-4 shadow-sm">
-                          <p className="text-slate-500 font-bold uppercase tracking-wider text-[9px] sm:text-[10px] mb-1 leading-normal">Cumulative Percentage</p>
+                        <div className="bg-gradient-to-br from-blue-500 to-indigo-600 text-white border border-blue-400 rounded-2xl p-3 sm:p-4 shadow-md shadow-blue-500/20">
+                          <p className="text-blue-100 font-bold uppercase tracking-wider text-[9px] sm:text-[10px] mb-1 leading-normal">Cumulative Percentage</p>
                           <div className="flex items-baseline gap-1 flex-wrap">
-                            <span className="text-xl sm:text-2xl font-extrabold text-blue-600">96.25%</span>
-                            <span className="text-slate-400 text-xs font-semibold">/ 100%</span>
+                            <span className="text-xl sm:text-2xl font-extrabold">96.25%</span>
+                            <span className="text-blue-200 text-xs font-semibold">/ 100%</span>
                           </div>
                         </div>
-                        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-4 shadow-sm">
-                          <p className="text-slate-500 font-bold uppercase tracking-wider text-[9px] sm:text-[10px] mb-1 leading-normal">Attendance Rate</p>
+                        <div className="bg-gradient-to-br from-emerald-500 to-teal-600 text-white border border-emerald-400 rounded-2xl p-3 sm:p-4 shadow-md shadow-emerald-500/20">
+                          <p className="text-emerald-100 font-bold uppercase tracking-wider text-[9px] sm:text-[10px] mb-1 leading-normal">Attendance Rate</p>
                           <div className="flex items-baseline gap-1 flex-wrap">
-                            <span className="text-xl sm:text-2xl font-extrabold text-emerald-600">94%</span>
-                            <span className="text-slate-400 text-xs font-semibold">/ 100%</span>
+                            <span className="text-xl sm:text-2xl font-extrabold">94%</span>
+                            <span className="text-emerald-200 text-xs font-semibold">/ 100%</span>
                           </div>
                         </div>
-                        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-4 shadow-sm">
-                          <p className="text-slate-500 font-bold uppercase tracking-wider text-[9px] sm:text-[10px] mb-1 leading-normal">Total Score</p>
+                        <div className="bg-gradient-to-br from-purple-500 to-fuchsia-600 text-white border border-purple-400 rounded-2xl p-3 sm:p-4 shadow-md shadow-purple-500/20">
+                          <p className="text-purple-100 font-bold uppercase tracking-wider text-[9px] sm:text-[10px] mb-1 leading-normal">Total Score</p>
                           <div className="flex items-baseline gap-1 flex-wrap">
-                            <span className="text-xl sm:text-2xl font-extrabold text-slate-800">
+                            <span className="text-xl sm:text-2xl font-extrabold">
                               {courses.reduce((sum, c) => sum + (c.marks || 0), 0)}
                             </span>
-                            <span className="text-slate-400 text-xs font-semibold">/ {courses.length * 100}</span>
+                            <span className="text-purple-200 text-xs font-semibold">/ {courses.length * 100}</span>
                           </div>
                         </div>
-                        <div className="bg-white border border-slate-200 rounded-2xl p-3 sm:p-4 shadow-sm flex flex-col justify-center">
-                          <p className="text-slate-500 font-bold uppercase tracking-wider text-[9px] sm:text-[10px] mb-1 leading-normal">Result Status</p>
-                          <span className="text-xs sm:text-base font-extrabold text-emerald-600 flex items-center gap-1 mt-0.5">
+                        <div className="bg-gradient-to-br from-amber-500 to-orange-600 text-white border border-amber-400 rounded-2xl p-3 sm:p-4 shadow-md shadow-amber-500/20 flex flex-col justify-center">
+                          <p className="text-amber-100 font-bold uppercase tracking-wider text-[9px] sm:text-[10px] mb-1 leading-normal">Result Status</p>
+                          <span className="text-xs sm:text-base font-extrabold flex items-center gap-1 mt-0.5">
                             <CheckCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> Passed
                           </span>
                         </div>
@@ -575,6 +615,15 @@ function StudentPortalContent() {
                   ))}
                 </div>
               </div>
+            )}
+
+{/* Timetable Tab */}
+            {activeTab === 'timetable' && (
+              <TimetableView
+                entries={classTimetable}
+                title="My Weekly Timetable"
+                subtitle="Class 10A • Academic Year 2025-2026"
+              />
             )}
 
             {/* Notes Tab */}
