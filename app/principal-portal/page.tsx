@@ -353,11 +353,11 @@ function PrincipalPortalContent() {
             {/* Notices Tab */}
             {activeTab === 'notices' && (
               <div className="space-y-6">
-                <div className="flex justify-between items-center mb-8">
-                  <h3 className="text-3xl font-bold text-slate-900">Notices & Announcements</h3>
+<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+                  <h3 className="text-2xl sm:text-3xl font-bold text-slate-900">Notices & Announcements</h3>
                   <button
                     onClick={() => setShowNewNotice(true)}
-                    className="bg-gradient-to-r from-purple-500 to-purple-600 text-white px-6 py-3 rounded-xl font-bold hover:shadow-lg transition-all flex items-center gap-2"
+                    className="bg-gradient-to-r from-purple-500 to-purple-600 text-white px-6 py-3 rounded-xl font-bold hover:shadow-lg transition-all flex items-center justify-center gap-2 w-full sm:w-auto"
                   >
                     <Plus size={20} />
                     New Notice
@@ -366,8 +366,8 @@ function PrincipalPortalContent() {
 
                 {/* New Notice Form */}
                 {showNewNotice && (
-                  <div className="bg-gradient-to-br from-purple-50 to-blue-50 p-8 rounded-2xl border-2 border-purple-200 mb-8">
-                    <h4 className="text-2xl font-bold text-slate-900 mb-4">Create New Notice</h4>
+                  <div className="bg-gradient-to-br from-purple-50 to-blue-50 p-4 sm:p-8 rounded-2xl border-2 border-purple-200 mb-8">
+                    <h4 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4">Create New Notice</h4>
                     <div className="space-y-4">
                       <div>
                         <label className="block text-sm font-bold text-slate-700 mb-2">Title</label>
@@ -401,7 +401,7 @@ function PrincipalPortalContent() {
                           <option value="high">High</option>
                         </select>
                       </div>
-                      <div className="flex gap-4">
+<div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                         <button
                           onClick={handleAddNotice}
                           className="flex-1 bg-gradient-to-r from-purple-500 to-purple-600 text-white px-6 py-3 rounded-xl font-bold hover:shadow-lg transition-all flex items-center justify-center gap-2"
@@ -424,25 +424,25 @@ function PrincipalPortalContent() {
                   </div>
                 )}
 
-                {/* Notices List */}
+{/* Notices List */}
                 <div className="space-y-4">
                   {notices.map((notice) => (
-                    <div key={notice.id} className="group bg-gradient-to-br from-white to-slate-50 p-8 rounded-2xl border-2 border-slate-200 hover:border-purple-300 hover:shadow-2xl transition-all duration-300">
-                      <div className="flex justify-between items-start mb-4">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-3 mb-2">
+                    <div key={notice.id} className="group bg-gradient-to-br from-white to-slate-50 p-4 sm:p-8 rounded-2xl border-2 border-slate-200 hover:border-purple-300 hover:shadow-2xl transition-all duration-300">
+                      <div className="flex justify-between items-start gap-3 mb-4">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-2">
                             <span className={`bg-gradient-to-r ${getPriorityColor(notice.priority)} text-white px-4 py-2 rounded-lg text-xs font-bold uppercase`}>
                               {notice.priority}
                             </span>
                             <span className="text-sm font-semibold text-slate-600">{notice.date}</span>
                           </div>
-                          <h4 className="text-2xl font-bold text-slate-900 mb-2">{notice.title}</h4>
-                          <p className="text-slate-700 mb-3 leading-relaxed">{notice.content}</p>
+                          <h4 className="text-xl sm:text-2xl font-bold text-slate-900 mb-2 break-words">{notice.title}</h4>
+                          <p className="text-slate-700 mb-3 leading-relaxed break-words">{notice.content}</p>
 <p className="text-sm text-slate-600 inline-flex items-center gap-1.5"><Edit2 size={14} className="text-slate-500" /> By {notice.createdBy}</p>
                         </div>
                         <button
                           onClick={() => handleDeleteNotice(notice.id)}
-                          className="text-red-500 hover:bg-red-50 p-3 rounded-lg transition"
+                          className="text-red-500 hover:bg-red-50 p-3 rounded-lg transition shrink-0"
                         >
                           <Trash2 size={20} />
                         </button>
