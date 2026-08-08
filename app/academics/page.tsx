@@ -125,20 +125,38 @@ export default function AcademicsPage() {
         <div className="max-w-7xl mx-auto">
           <h2 className="text-4xl font-bold mb-12 text-center">Our Teaching Approach</h2>
 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white border border-white/40 p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-              <div className="mb-4 flex justify-center"><Target size={40} className="text-blue-600" /></div>
-              <h3 className="text-xl font-bold mb-3 text-slate-900">Interactive Learning</h3>
-              <p className="text-slate-600">Blend traditional methods with technology for engaging experiences</p>
+            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 border border-white/20 p-8 shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-blue-900/50">
+              <div className="absolute -top-10 -right-10 w-32 h-32 bg-cyan-400/20 rounded-full blur-2xl group-hover:bg-cyan-400/40 transition-all"></div>
+              <div className="absolute -bottom-12 -left-10 w-32 h-32 bg-blue-500/20 rounded-full blur-2xl"></div>
+              <div className="relative">
+                <div className="mb-5 inline-flex justify-center items-center w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-600 shadow-lg shadow-cyan-500/40 group-hover:scale-110 transition-transform duration-300">
+                  <Target size={32} className="text-white" />
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-white">Interactive Learning</h3>
+                <p className="text-blue-100/90 leading-relaxed">Blend traditional methods with technology for engaging experiences</p>
+              </div>
             </div>
-            <div className="bg-white border border-white/40 p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-              <div className="mb-4 flex justify-center"><Users size={40} className="text-blue-600" /></div>
-              <h3 className="text-xl font-bold mb-3 text-slate-900">Personalized Attention</h3>
-              <p className="text-slate-600">Small classes ensure individual focus and tailored guidance</p>
+            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 border border-white/20 p-8 shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-blue-900/50">
+              <div className="absolute -top-10 -right-10 w-32 h-32 bg-cyan-400/20 rounded-full blur-2xl group-hover:bg-cyan-400/40 transition-all"></div>
+              <div className="absolute -bottom-12 -left-10 w-32 h-32 bg-blue-500/20 rounded-full blur-2xl"></div>
+              <div className="relative">
+                <div className="mb-5 inline-flex justify-center items-center w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-600 shadow-lg shadow-cyan-500/40 group-hover:scale-110 transition-transform duration-300">
+                  <Users size={32} className="text-white" />
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-white">Personalized Attention</h3>
+                <p className="text-blue-100/90 leading-relaxed">Small classes ensure individual focus and tailored guidance</p>
+              </div>
             </div>
-            <div className="bg-white border border-white/40 p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-              <div className="mb-4 flex justify-center"><Star size={40} className="text-blue-600" /></div>
-              <h3 className="text-xl font-bold mb-3 text-slate-900">Holistic Development</h3>
-              <p className="text-slate-600">Character building and overall personality growth</p>
+            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 border border-white/20 p-8 shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-blue-900/50">
+              <div className="absolute -top-10 -right-10 w-32 h-32 bg-cyan-400/20 rounded-full blur-2xl group-hover:bg-cyan-400/40 transition-all"></div>
+              <div className="absolute -bottom-12 -left-10 w-32 h-32 bg-blue-500/20 rounded-full blur-2xl"></div>
+              <div className="relative">
+                <div className="mb-5 inline-flex justify-center items-center w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-600 shadow-lg shadow-cyan-500/40 group-hover:scale-110 transition-transform duration-300">
+                  <Star size={32} className="text-white" />
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-white">Holistic Development</h3>
+                <p className="text-blue-100/90 leading-relaxed">Character building and overall personality growth</p>
+              </div>
             </div>
           </div>
         </div>
