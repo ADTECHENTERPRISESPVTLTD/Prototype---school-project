@@ -124,39 +124,36 @@ export default function AcademicsPage() {
       <section className="py-20 px-4 bg-gradient-to-r from-blue-600 to-cyan-600 text-white">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-4xl font-bold mb-12 text-center">Our Teaching Approach</h2>
-<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 border border-white/20 p-8 shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-blue-900/50">
-              <div className="absolute -top-10 -right-10 w-32 h-32 bg-cyan-400/20 rounded-full blur-2xl group-hover:bg-cyan-400/40 transition-all"></div>
-              <div className="absolute -bottom-12 -left-10 w-32 h-32 bg-blue-500/20 rounded-full blur-2xl"></div>
-              <div className="relative">
-                <div className="mb-5 inline-flex justify-center items-center w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-600 shadow-lg shadow-cyan-500/40 group-hover:scale-110 transition-transform duration-300">
-                  <Target size={32} className="text-white" />
+<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="group relative bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 border border-white/10 p-6 rounded-2xl shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-500"></div>
+              <div className="relative flex items-center gap-4 mb-3">
+                <div className="w-14 h-14 shrink-0 rounded-xl bg-gradient-to-br from-blue-400 to-cyan-300 flex items-center justify-center">
+                  <Target size={26} className="text-slate-900" />
                 </div>
-                <h3 className="text-xl font-bold mb-3 text-white">Interactive Learning</h3>
-                <p className="text-blue-100/90 leading-relaxed">Blend traditional methods with technology for engaging experiences</p>
+                <h3 className="text-lg font-bold text-white leading-tight">Interactive Learning</h3>
               </div>
+              <p className="relative text-blue-100/80 text-sm leading-relaxed">Blend traditional methods with technology for engaging experiences</p>
             </div>
-            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 border border-white/20 p-8 shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-blue-900/50">
-              <div className="absolute -top-10 -right-10 w-32 h-32 bg-cyan-400/20 rounded-full blur-2xl group-hover:bg-cyan-400/40 transition-all"></div>
-              <div className="absolute -bottom-12 -left-10 w-32 h-32 bg-blue-500/20 rounded-full blur-2xl"></div>
-              <div className="relative">
-                <div className="mb-5 inline-flex justify-center items-center w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-600 shadow-lg shadow-cyan-500/40 group-hover:scale-110 transition-transform duration-300">
-                  <Users size={32} className="text-white" />
+            <div className="group relative bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 border border-white/10 p-6 rounded-2xl shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-500"></div>
+              <div className="relative flex items-center gap-4 mb-3">
+                <div className="w-14 h-14 shrink-0 rounded-xl bg-gradient-to-br from-blue-400 to-cyan-300 flex items-center justify-center">
+                  <Users size={26} className="text-slate-900" />
                 </div>
-                <h3 className="text-xl font-bold mb-3 text-white">Personalized Attention</h3>
-                <p className="text-blue-100/90 leading-relaxed">Small classes ensure individual focus and tailored guidance</p>
+                <h3 className="text-lg font-bold text-white leading-tight">Personalized Attention</h3>
               </div>
+              <p className="relative text-blue-100/80 text-sm leading-relaxed">Small classes ensure individual focus and tailored guidance</p>
             </div>
-            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 border border-white/20 p-8 shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-blue-900/50">
-              <div className="absolute -top-10 -right-10 w-32 h-32 bg-cyan-400/20 rounded-full blur-2xl group-hover:bg-cyan-400/40 transition-all"></div>
-              <div className="absolute -bottom-12 -left-10 w-32 h-32 bg-blue-500/20 rounded-full blur-2xl"></div>
-              <div className="relative">
-                <div className="mb-5 inline-flex justify-center items-center w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-600 shadow-lg shadow-cyan-500/40 group-hover:scale-110 transition-transform duration-300">
-                  <Star size={32} className="text-white" />
+            <div className="group relative bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 border border-white/10 p-6 rounded-2xl shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-500"></div>
+              <div className="relative flex items-center gap-4 mb-3">
+                <div className="w-14 h-14 shrink-0 rounded-xl bg-gradient-to-br from-blue-400 to-cyan-300 flex items-center justify-center">
+                  <Star size={26} className="text-slate-900" />
                 </div>
-                <h3 className="text-xl font-bold mb-3 text-white">Holistic Development</h3>
-                <p className="text-blue-100/90 leading-relaxed">Character building and overall personality growth</p>
+                <h3 className="text-lg font-bold text-white leading-tight">Holistic Development</h3>
               </div>
+              <p className="relative text-blue-100/80 text-sm leading-relaxed">Character building and overall personality growth</p>
             </div>
           </div>
         </div>
