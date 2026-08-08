@@ -124,21 +124,21 @@ export default function AcademicsPage() {
       <section className="py-20 px-4 bg-gradient-to-r from-blue-600 to-cyan-600 text-white">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-4xl font-bold mb-12 text-center">Our Teaching Approach</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-<div className="bg-[#0B1F3A] border border-white/20 p-8 rounded-2xl hover:bg-[#0B1F3A]/90 transition-all">
-<div className="mb-4 flex justify-center"><Target size={40} className="text-white" /></div>
-              <h3 className="text-xl font-bold mb-3">Interactive Learning</h3>
-              <p className="text-blue-100">Blend traditional methods with technology for engaging experiences</p>
+<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-white border border-white/40 p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+              <div className="mb-4 flex justify-center"><Target size={40} className="text-blue-600" /></div>
+              <h3 className="text-xl font-bold mb-3 text-slate-900">Interactive Learning</h3>
+              <p className="text-slate-600">Blend traditional methods with technology for engaging experiences</p>
             </div>
-<div className="bg-[#0B1F3A] border border-white/20 p-8 rounded-2xl hover:bg-[#0B1F3A]/90 transition-all">
-<div className="mb-4 flex justify-center"><Users size={40} className="text-white" /></div>
-              <h3 className="text-xl font-bold mb-3">Personalized Attention</h3>
-              <p className="text-blue-100">Small classes ensure individual focus and tailored guidance</p>
+            <div className="bg-white border border-white/40 p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+              <div className="mb-4 flex justify-center"><Users size={40} className="text-blue-600" /></div>
+              <h3 className="text-xl font-bold mb-3 text-slate-900">Personalized Attention</h3>
+              <p className="text-slate-600">Small classes ensure individual focus and tailored guidance</p>
             </div>
-<div className="bg-[#0B1F3A] border border-white/20 p-8 rounded-2xl hover:bg-[#0B1F3A]/90 transition-all">
-<div className="mb-4 flex justify-center"><Star size={40} className="text-white" /></div>
-              <h3 className="text-xl font-bold mb-3">Holistic Development</h3>
-              <p className="text-blue-100">Character building and overall personality growth</p>
+            <div className="bg-white border border-white/40 p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+              <div className="mb-4 flex justify-center"><Star size={40} className="text-blue-600" /></div>
+              <h3 className="text-xl font-bold mb-3 text-slate-900">Holistic Development</h3>
+              <p className="text-slate-600">Character building and overall personality growth</p>
             </div>
           </div>
         </div>
