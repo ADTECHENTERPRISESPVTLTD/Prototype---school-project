@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Header from '@/components/header'
 import { ProtectedRoute } from '@/components/protected-route'
 import { useAuth } from '@/context/auth-context'
-import { Users, BookOpen, TrendingUp, Award, AlertCircle, BarChart3, Edit2, Save, X, Filter, Bell, Plus, Trash2, ArrowLeft, CalendarRange } from 'lucide-react'
+import { Users, BookOpen, TrendingUp, Award, AlertCircle, BarChart3, Edit2, Save, X, Filter, Bell, Plus, Trash2, ArrowLeft, CalendarRange, DollarSign } from 'lucide-react'
 import Link from 'next/link'
 import TimetableView from '@/components/timetable-view'
 import { schoolTimetable } from '@/lib/timetable-data'
@@ -69,6 +69,14 @@ function PrincipalPortalContent() {
     { label: 'Faculty Members', value: '125+', icon: BookOpen, color: 'from-purple-500 to-purple-600' },
     { label: 'Pass Rate', value: '98%', icon: Award, color: 'from-emerald-500 to-emerald-600' },
     { label: 'Average Percentage', value: '95.2%', icon: TrendingUp, color: 'from-orange-500 to-orange-600' },
+  ]
+
+  const revenueOverview = [
+    { label: "Today's Revenue", value: '₹18,500', icon: DollarSign, color: 'from-blue-500 to-cyan-500' },
+    { label: '1 Month Revenue', value: '₹4,82,000', icon: CalendarRange, color: 'from-emerald-500 to-green-500' },
+    { label: '3 Month Revenue', value: '₹13,95,000', icon: TrendingUp, color: 'from-violet-500 to-purple-500' },
+    { label: '6 Month Revenue', value: '₹27,40,000', icon: CalendarRange, color: 'from-orange-500 to-amber-500' },
+    { label: '1 Year Revenue', value: '₹55,80,000', icon: TrendingUp, color: 'from-pink-500 to-rose-500' },
   ]
 
   const departments = [
@@ -220,6 +228,34 @@ function PrincipalPortalContent() {
             {/* Overview Tab */}
             {activeTab === 'overview' && (
               <div className="space-y-8">
+                <section>
+                  <div className="mb-5 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+                    <div>
+                      <h3 className="text-2xl font-bold text-slate-900">Revenue Overview</h3>
+                      <p className="mt-1 text-sm text-slate-600">School-wide fee collection summary.</p>
+                    </div>
+                    <p className="text-sm font-medium text-slate-500">Updated today</p>
+                  </div>
+                  <div className="flex h-80 items-end gap-3 rounded-2xl border-2 border-slate-200 bg-white p-5 pt-8 shadow-sm sm:gap-6">
+                    {(() => {
+                      const maximumRevenue = Math.max(...revenueOverview.map((item) => Number(item.value.replace(/[^0-9]/g, ''))), 1)
+                      return revenueOverview.map(({ label, value }) => {
+                        const amount = Number(value.replace(/[^0-9]/g, ''))
+                        return (
+                          <div key={label} className="flex h-full flex-1 flex-col items-center justify-end gap-2 text-center">
+                            <span className="text-xs font-bold text-slate-700 sm:text-sm">{value}</span>
+                            <div
+                              className="w-full max-w-20 rounded-t-lg bg-gradient-to-t from-blue-600 to-cyan-400 transition-all"
+                              style={{ height: `${Math.max((amount / maximumRevenue) * 100, 6)}%` }}
+                              title={`${label}: ${value}`}
+                            />
+                            <span className="min-h-10 text-xs font-semibold leading-4 text-slate-600 sm:text-sm">{label}</span>
+                          </div>
+                        )
+                      })
+                    })()}
+                  </div>
+                </section>
                 <h3 className="text-2xl font-bold text-slate-900">Class Performance Overview</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {classData.map((cls, idx) => (
